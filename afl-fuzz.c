@@ -20,7 +20,7 @@
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 #define MESSAGES_TO_STDOUT
 
 #define _GNU_SOURCE
@@ -70,11 +70,11 @@
 /* A toggle to export some variables when building as a library. Not very
    useful for the general public. */
 
-#ifdef AFL_LIB
+#ifdef FOT_LIB
 #  define EXP_ST
 #else
 #  define EXP_ST static
-#endif /* ^AFL_LIB */
+#endif /* ^FOT_LIB */
 
 /* Lots of globals, but mostly for the status UI and other things where it
    really makes no sense to haul them around as function parameters. */
@@ -405,9 +405,9 @@ static void bind_to_free_cpu(void) {
 
   if (cpu_core_count < 2) return;
 
-  if (getenv("AFL_NO_AFFINITY")) {
+  if (getenv("FOT_NO_AFFINITY")) {
 
-    WARNF("Not binding to a CPU core (AFL_NO_AFFINITY set).");
+    WARNF("Not binding to a CPU core (FOT_NO_AFFINITY set).");
     return;
 
   }
@@ -484,7 +484,7 @@ static void bind_to_free_cpu(void) {
          "Uh-oh, looks like all %u CPU cores on your system are allocated to\n"
          "    other instances of afl-fuzz (or similar CPU-locked tasks). Starting\n"
          "    another fuzzer on this machine is probably a bad plan, but if you are\n"
-         "    absolutely sure, you can set AFL_NO_AFFINITY and try again.\n",
+         "    absolutely sure, you can set FOT_NO_AFFINITY and try again.\n",
          cpu_core_count);
 
     FATAL("No more free CPU cores");
@@ -1377,7 +1377,7 @@ EXP_ST void setup_shm(void) {
 static void setup_post(void) {
 
   void* dh;
-  u8* fn = getenv("AFL_POST_LIBRARY");
+  u8* fn = getenv("FOT_POST_LIBRARY");
   u32 tlen = 6;
 
   if (!fn) return;
@@ -2154,7 +2154,7 @@ EXP_ST void init_forkserver(char** argv) {
 
            "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
            "      break afl-fuzz performance optimizations when running platform-specific\n"
-           "      targets. To fix this, set AFL_NO_FORKSRV=1 in the environment.\n\n"
+           "      targets. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
 
@@ -2188,7 +2188,7 @@ EXP_ST void init_forkserver(char** argv) {
 
            "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
            "      break afl-fuzz performance optimizations when running platform-specific\n"
-           "      targets. To fix this, set AFL_NO_FORKSRV=1 in the environment.\n\n"
+           "      targets. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
 
@@ -2244,7 +2244,7 @@ EXP_ST void init_forkserver(char** argv) {
          "      fail, poke <lcamtuf@coredump.cx> for troubleshooting tips.\n",
          getenv(DEFER_ENV_VAR) ? "three" : "two",
          getenv(DEFER_ENV_VAR) ?
-         "    - You are using deferred forkserver, but __AFL_INIT() is never\n"
+         "    - You are using deferred forkserver, but __FOT_INIT() is never\n"
          "      reached before the program terminates.\n\n" : "",
          DMS(mem_limit << 20), mem_limit - 1);
 
@@ -2698,7 +2698,7 @@ static void perform_dry_run(char** argv) {
 
   struct queue_entry* q = queue;
   u32 cal_failures = 0;
-  u8* skip_crashes = getenv("AFL_SKIP_CRASHES");
+  u8* skip_crashes = getenv("FOT_SKIP_CRASHES");
 
   while (q) {
 
@@ -2818,7 +2818,7 @@ static void perform_dry_run(char** argv) {
   
                "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
                "      break afl-fuzz performance optimizations when running platform-specific\n"
-               "      binaries. To fix this, set AFL_NO_FORKSRV=1 in the environment.\n\n"
+               "      binaries. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
 
@@ -2840,7 +2840,7 @@ static void perform_dry_run(char** argv) {
   
                "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
                "      break afl-fuzz performance optimizations when running platform-specific\n"
-               "      binaries. To fix this, set AFL_NO_FORKSRV=1 in the environment.\n\n"
+               "      binaries. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
 
@@ -3949,12 +3949,12 @@ static void show_stats(void) {
  
   }
 
-  /* Honor AFL_EXIT_WHEN_DONE and AFL_BENCH_UNTIL_CRASH. */
+  /* Honor FOT_EXIT_WHEN_DONE and FOT_BENCH_UNTIL_CRASH. */
 
   if (!dumb_mode && cycles_wo_finds > 100 && !pending_not_fuzzed &&
-      getenv("AFL_EXIT_WHEN_DONE")) stop_soon = 2;
+      getenv("FOT_EXIT_WHEN_DONE")) stop_soon = 2;
 
-  if (total_crashes && getenv("AFL_BENCH_UNTIL_CRASH")) stop_soon = 2;
+  if (total_crashes && getenv("FOT_BENCH_UNTIL_CRASH")) stop_soon = 2;
 
   /* If we're not on TTY, bail out. */
 
@@ -4436,7 +4436,7 @@ static void show_init_stats(void) {
   /* In dumb mode, re-running every timing out test case with a generous time
      limit is very expensive, so let's select a more conservative default. */
 
-  if (dumb_mode && !getenv("AFL_HANG_TMOUT"))
+  if (dumb_mode && !getenv("FOT_HANG_TMOUT"))
     hang_tmout = MIN(EXEC_TIMEOUT, exec_tmout * 2 + 100);
 
   OKF("All set and ready to roll!");
@@ -6855,7 +6855,7 @@ EXP_ST void check_binary(u8* fname) {
 
   }
 
-  if (getenv("AFL_SKIP_BIN_CHECK")) return;
+  if (getenv("FOT_SKIP_BIN_CHECK")) return;
 
   /* Check for blatant user errors. */
 
@@ -6944,9 +6944,9 @@ EXP_ST void check_binary(u8* fname) {
     setenv(PERSIST_ENV_VAR, "1", 1);
     persistent_mode = 1;
 
-  } else if (getenv("AFL_PERSISTENT")) {
+  } else if (getenv("FOT_PERSISTENT")) {
 
-    WARNF("AFL_PERSISTENT is no longer supported and may misbehave!");
+    WARNF("FOT_PERSISTENT is no longer supported and may misbehave!");
 
   }
 
@@ -6956,9 +6956,9 @@ EXP_ST void check_binary(u8* fname) {
     setenv(DEFER_ENV_VAR, "1", 1);
     deferred_mode = 1;
 
-  } else if (getenv("AFL_DEFER_FORKSRV")) {
+  } else if (getenv("FOT_DEFER_FORKSRV")) {
 
-    WARNF("AFL_DEFER_FORKSRV is no longer supported and may misbehave!");
+    WARNF("FOT_DEFER_FORKSRV is no longer supported and may misbehave!");
 
   }
 
@@ -7003,8 +7003,8 @@ static void check_if_tty(void) {
 
   struct winsize ws;
 
-  if (getenv("AFL_NO_UI")) {
-    OKF("Disabling the UI because AFL_NO_UI is set.");
+  if (getenv("FOT_NO_UI")) {
+    OKF("Disabling the UI because FOT_NO_UI is set.");
     not_on_tty = 1;
     return;
   }
@@ -7243,7 +7243,7 @@ static void check_crash_handling(void) {
        "    launchctl unload -w ${SL}/LaunchAgents/${PL}.plist\n"
        "    sudo launchctl unload -w ${SL}/LaunchDaemons/${PL}.Root.plist\n");
 
-  if (!getenv("AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES"))
+  if (!getenv("FOT_I_DONT_CARE_ABOUT_MISSING_CRASHES"))
     FATAL("Crash reporter detected");
 
 #else
@@ -7271,7 +7271,7 @@ static void check_crash_handling(void) {
 
          "    echo core >/proc/sys/kernel/core_pattern\n");
 
-    if (!getenv("AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES"))
+    if (!getenv("FOT_I_DONT_CARE_ABOUT_MISSING_CRASHES"))
       FATAL("Pipe at the beginning of 'core_pattern'");
 
   }
@@ -7291,7 +7291,7 @@ static void check_cpu_governor(void) {
   u8 tmp[128];
   u64 min = 0, max = 0;
 
-  if (getenv("AFL_SKIP_CPUFREQ")) return;
+  if (getenv("FOT_SKIP_CPUFREQ")) return;
 
   f = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "r");
   if (!f) return;
@@ -7330,7 +7330,7 @@ static void check_cpu_governor(void) {
        "    echo performance | tee cpu*/cpufreq/scaling_governor\n\n"
 
        "    You can later go back to the original state by replacing 'performance' with\n"
-       "    'ondemand'. If you don't want to change the settings, set AFL_SKIP_CPUFREQ\n"
+       "    'ondemand'. If you don't want to change the settings, set FOT_SKIP_CPUFREQ\n"
        "    to make afl-fuzz skip this check - but expect some performance drop.\n",
        min / 1024, max / 1024);
 
@@ -7616,7 +7616,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   /* Now we need to actually find the QEMU binary to put in argv[0]. */
 
-  tmp = getenv("AFL_PATH");
+  tmp = getenv("FOT_PATH");
 
   if (tmp) {
 
@@ -7659,7 +7659,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
   SAYF("\n" cLRD "[-] " cRST
        "Oops, unable to find the 'afl-qemu-trace' binary. The binary must be built\n"
        "    separately by following the instructions in qemu_mode/README.qemu. If you\n"
-       "    already have the binary installed, you may need to specify AFL_PATH in the\n"
+       "    already have the binary installed, you may need to specify FOT_PATH in the\n"
        "    environment.\n\n"
 
        "    Of course, even without QEMU, afl-fuzz can still work with binaries that are\n"
@@ -7699,7 +7699,7 @@ static void save_cmdline(u32 argc, char** argv) {
 }
 
 
-#ifndef AFL_LIB
+#ifndef FOT_LIB
 
 /* Main entry point */
 
@@ -7710,7 +7710,7 @@ int main(int argc, char** argv) {
   u32 sync_interval_cnt = 0, seek_to;
   u8  *extras_dir = 0;
   u8  mem_limit_given = 0;
-  u8  exit_1 = !!getenv("AFL_BENCH_JUST_ONE");
+  u8  exit_1 = !!getenv("FOT_BENCH_JUST_ONE");
   char** use_argv;
 
   struct timeval tv;
@@ -7872,7 +7872,7 @@ int main(int argc, char** argv) {
       case 'n': /* dumb mode */
 
         if (dumb_mode) FATAL("Multiple -n options not supported");
-        if (getenv("AFL_DUMB_FORKSRV")) dumb_mode = 2; else dumb_mode = 1;
+        if (getenv("FOT_DUMB_FORKSRV")) dumb_mode = 2; else dumb_mode = 1;
 
         break;
 
@@ -7914,27 +7914,27 @@ int main(int argc, char** argv) {
 
   }
 
-  if (getenv("AFL_NO_FORKSRV"))    no_forkserver    = 1;
-  if (getenv("AFL_NO_CPU_RED"))    no_cpu_meter_red = 1;
-  if (getenv("AFL_NO_ARITH"))      no_arith         = 1;
-  if (getenv("AFL_SHUFFLE_QUEUE")) shuffle_queue    = 1;
-  if (getenv("AFL_FAST_CAL"))      fast_cal         = 1;
+  if (getenv("FOT_NO_FORKSRV"))    no_forkserver    = 1;
+  if (getenv("FOT_NO_CPU_RED"))    no_cpu_meter_red = 1;
+  if (getenv("FOT_NO_ARITH"))      no_arith         = 1;
+  if (getenv("FOT_SHUFFLE_QUEUE")) shuffle_queue    = 1;
+  if (getenv("FOT_FAST_CAL"))      fast_cal         = 1;
 
-  if (getenv("AFL_HANG_TMOUT")) {
-    hang_tmout = atoi(getenv("AFL_HANG_TMOUT"));
-    if (!hang_tmout) FATAL("Invalid value of AFL_HANG_TMOUT");
+  if (getenv("FOT_HANG_TMOUT")) {
+    hang_tmout = atoi(getenv("FOT_HANG_TMOUT"));
+    if (!hang_tmout) FATAL("Invalid value of FOT_HANG_TMOUT");
   }
 
   if (dumb_mode == 2 && no_forkserver)
-    FATAL("AFL_DUMB_FORKSRV and AFL_NO_FORKSRV are mutually exclusive");
+    FATAL("FOT_DUMB_FORKSRV and FOT_NO_FORKSRV are mutually exclusive");
 
-  if (getenv("AFL_PRELOAD")) {
-    setenv("LD_PRELOAD", getenv("AFL_PRELOAD"), 1);
-    setenv("DYLD_INSERT_LIBRARIES", getenv("AFL_PRELOAD"), 1);
+  if (getenv("FOT_PRELOAD")) {
+    setenv("LD_PRELOAD", getenv("FOT_PRELOAD"), 1);
+    setenv("DYLD_INSERT_LIBRARIES", getenv("FOT_PRELOAD"), 1);
   }
 
-  if (getenv("AFL_LD_PRELOAD"))
-    FATAL("Use AFL_PRELOAD instead of AFL_LD_PRELOAD");
+  if (getenv("FOT_LD_PRELOAD"))
+    FATAL("Use FOT_PRELOAD instead of FOT_LD_PRELOAD");
 
   save_cmdline(argc, argv);
 
@@ -8036,7 +8036,7 @@ int main(int argc, char** argv) {
 
       prev_queued = queued_paths;
 
-      if (sync_id && queue_cycle == 1 && getenv("AFL_IMPORT_FIRST"))
+      if (sync_id && queue_cycle == 1 && getenv("FOT_IMPORT_FIRST"))
         sync_fuzzers(use_argv);
 
     }
@@ -8094,4 +8094,4 @@ stop_fuzzing:
 
 }
 
-#endif /* !AFL_LIB */
+#endif /* !FOT_LIB */

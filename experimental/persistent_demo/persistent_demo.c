@@ -36,12 +36,12 @@ int main(int argc, char** argv) {
   char buf[100]; /* Example-only buffer, you'd replace it with other global or
                     local variables appropriate for your use case. */
 
-  /* The number passed to __AFL_LOOP() controls the maximum number of
+  /* The number passed to __FOT_LOOP() controls the maximum number of
      iterations before the loop exits and the program is allowed to
      terminate normally. This limits the impact of accidental memory leaks
      and similar hiccups. */
 
-  while (__AFL_LOOP(1000)) {
+  while (__FOT_LOOP(1000)) {
 
     /*** PLACEHOLDER CODE ***/
 

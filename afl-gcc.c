@@ -20,18 +20,18 @@
 
    The wrapper needs to know the path to afl-as (renamed to 'as'). The default
    is /usr/local/lib/afl/. A convenient way to specify alternative directories
-   would be to set AFL_PATH.
+   would be to set FOT_PATH.
 
-   If AFL_HARDEN is set, the wrapper will compile the target app with various
+   If FOT_HARDEN is set, the wrapper will compile the target app with various
    hardening options that may help detect memory management issues more
-   reliably. You can also specify AFL_USE_ASAN to enable ASAN.
+   reliably. You can also specify FOT_USE_ASAN to enable ASAN.
 
    If you want to call a non-default compiler as a next step of the chain,
-   specify its location via AFL_CC or AFL_CXX.
+   specify its location via FOT_CC or FOT_CXX.
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 
 #include "config.h"
 #include "types.h"
@@ -50,12 +50,12 @@ static u8   be_quiet,               /* Quiet mode                        */
             clang_mode;             /* Invoked as afl-clang*?            */
 
 
-/* Try to find our "fake" GNU assembler in AFL_PATH or at the location derived
+/* Try to find our "fake" GNU assembler in FOT_PATH or at the location derived
    from argv[0]. If that fails, abort. */
 
 static void find_as(u8* argv0) {
 
-  u8 *afl_path = getenv("AFL_PATH");
+  u8 *afl_path = getenv("FOT_PATH");
   u8 *slash, *tmp;
 
   if (afl_path) {
@@ -95,12 +95,12 @@ static void find_as(u8* argv0) {
 
   }
 
-  if (!access(AFL_PATH "/as", X_OK)) {
-    as_path = AFL_PATH;
+  if (!access(FOT_PATH "/as", X_OK)) {
+    as_path = FOT_PATH;
     return;
   }
 
-  FATAL("Unable to find AFL wrapper binary for 'as'. Please set AFL_PATH");
+  FATAL("Unable to find AFL wrapper binary for 'as'. Please set FOT_PATH");
  
 }
 
@@ -128,10 +128,10 @@ static void edit_params(u32 argc, char** argv) {
     setenv(CLANG_ENV_VAR, "1", 1);
 
     if (!strcmp(name, "afl-clang++")) {
-      u8* alt_cxx = getenv("AFL_CXX");
+      u8* alt_cxx = getenv("FOT_CXX");
       cc_params[0] = alt_cxx ? alt_cxx : (u8*)"clang++";
     } else {
-      u8* alt_cc = getenv("AFL_CC");
+      u8* alt_cc = getenv("FOT_CC");
       cc_params[0] = alt_cc ? alt_cc : (u8*)"clang";
     }
 
@@ -145,31 +145,31 @@ static void edit_params(u32 argc, char** argv) {
 
 #ifdef __APPLE__
 
-    if (!strcmp(name, "afl-g++")) cc_params[0] = getenv("AFL_CXX");
-    else if (!strcmp(name, "afl-gcj")) cc_params[0] = getenv("AFL_GCJ");
-    else cc_params[0] = getenv("AFL_CC");
+    if (!strcmp(name, "afl-g++")) cc_params[0] = getenv("FOT_CXX");
+    else if (!strcmp(name, "afl-gcj")) cc_params[0] = getenv("FOT_GCJ");
+    else cc_params[0] = getenv("FOT_CC");
 
     if (!cc_params[0]) {
 
       SAYF("\n" cLRD "[-] " cRST
            "On Apple systems, 'gcc' is usually just a wrapper for clang. Please use the\n"
            "    'afl-clang' utility instead of 'afl-gcc'. If you really have GCC installed,\n"
-           "    set AFL_CC or AFL_CXX to specify the correct path to that compiler.\n");
+           "    set FOT_CC or FOT_CXX to specify the correct path to that compiler.\n");
 
-      FATAL("AFL_CC or AFL_CXX required on MacOS X");
+      FATAL("FOT_CC or FOT_CXX required on MacOS X");
 
     }
 
 #else
 
     if (!strcmp(name, "afl-g++")) {
-      u8* alt_cxx = getenv("AFL_CXX");
+      u8* alt_cxx = getenv("FOT_CXX");
       cc_params[0] = alt_cxx ? alt_cxx : (u8*)"g++";
     } else if (!strcmp(name, "afl-gcj")) {
-      u8* alt_cc = getenv("AFL_GCJ");
+      u8* alt_cc = getenv("FOT_GCJ");
       cc_params[0] = alt_cc ? alt_cc : (u8*)"gcj";
     } else {
-      u8* alt_cc = getenv("AFL_CC");
+      u8* alt_cc = getenv("FOT_CC");
       cc_params[0] = alt_cc ? alt_cc : (u8*)"gcc";
     }
 
@@ -212,7 +212,7 @@ static void edit_params(u32 argc, char** argv) {
   if (clang_mode)
     cc_params[cc_par_cnt++] = "-no-integrated-as";
 
-  if (getenv("AFL_HARDEN")) {
+  if (getenv("FOT_HARDEN")) {
 
     cc_params[cc_par_cnt++] = "-fstack-protector-all";
 
@@ -225,26 +225,26 @@ static void edit_params(u32 argc, char** argv) {
 
     /* Pass this on to afl-as to adjust map density. */
 
-    setenv("AFL_USE_ASAN", "1", 1);
+    setenv("FOT_USE_ASAN", "1", 1);
 
-  } else if (getenv("AFL_USE_ASAN")) {
+  } else if (getenv("FOT_USE_ASAN")) {
 
-    if (getenv("AFL_USE_MSAN"))
+    if (getenv("FOT_USE_MSAN"))
       FATAL("ASAN and MSAN are mutually exclusive");
 
-    if (getenv("AFL_HARDEN"))
-      FATAL("ASAN and AFL_HARDEN are mutually exclusive");
+    if (getenv("FOT_HARDEN"))
+      FATAL("ASAN and FOT_HARDEN are mutually exclusive");
 
     cc_params[cc_par_cnt++] = "-U_FORTIFY_SOURCE";
     cc_params[cc_par_cnt++] = "-fsanitize=address";
 
-  } else if (getenv("AFL_USE_MSAN")) {
+  } else if (getenv("FOT_USE_MSAN")) {
 
-    if (getenv("AFL_USE_ASAN"))
+    if (getenv("FOT_USE_ASAN"))
       FATAL("ASAN and MSAN are mutually exclusive");
 
-    if (getenv("AFL_HARDEN"))
-      FATAL("MSAN and AFL_HARDEN are mutually exclusive");
+    if (getenv("FOT_HARDEN"))
+      FATAL("MSAN and FOT_HARDEN are mutually exclusive");
 
     cc_params[cc_par_cnt++] = "-U_FORTIFY_SOURCE";
     cc_params[cc_par_cnt++] = "-fsanitize=memory";
@@ -252,7 +252,7 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
-  if (!getenv("AFL_DONT_OPTIMIZE")) {
+  if (!getenv("FOT_DONT_OPTIMIZE")) {
 
 #if defined(__FreeBSD__) && defined(__x86_64__)
 
@@ -275,12 +275,12 @@ static void edit_params(u32 argc, char** argv) {
     /* Two indicators that you're building for fuzzing; one of them is
        AFL-specific, the other is shared with libfuzzer. */
 
-    cc_params[cc_par_cnt++] = "-D__AFL_COMPILER=1";
+    cc_params[cc_par_cnt++] = "-D__FOT_COMPILER=1";
     cc_params[cc_par_cnt++] = "-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1";
 
   }
 
-  if (getenv("AFL_NO_BUILTIN")) {
+  if (getenv("FOT_NO_BUILTIN")) {
 
     cc_params[cc_par_cnt++] = "-fno-builtin-strcmp";
     cc_params[cc_par_cnt++] = "-fno-builtin-strncmp";
@@ -301,7 +301,7 @@ static void edit_params(u32 argc, char** argv) {
 
 int main(int argc, char** argv) {
 
-  if (isatty(2) && !getenv("AFL_QUIET")) {
+  if (isatty(2) && !getenv("FOT_QUIET")) {
 
     SAYF(cCYA "afl-cc " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
@@ -317,8 +317,8 @@ int main(int argc, char** argv) {
          "  CC=%s/afl-gcc ./configure\n"
          "  CXX=%s/afl-g++ ./configure\n\n"
 
-         "You can specify custom next-stage toolchain via AFL_CC, AFL_CXX, and AFL_AS.\n"
-         "Setting AFL_HARDEN enables hardening optimizations in the compiled code.\n\n",
+         "You can specify custom next-stage toolchain via FOT_CC, FOT_CXX, and FOT_AS.\n"
+         "Setting FOT_HARDEN enables hardening optimizations in the compiled code.\n\n",
          BIN_PATH, BIN_PATH);
 
     exit(1);

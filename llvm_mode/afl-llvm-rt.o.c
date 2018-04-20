@@ -80,7 +80,7 @@ static void __afl_map_shm(void) {
 
     if (__afl_area_ptr == (void *)-1) _exit(1);
 
-    /* Write something into the bitmap so that even with low AFL_INST_RATIO,
+    /* Write something into the bitmap so that even with low FOT_INST_RATIO,
        our parent doesn't give up on us. */
 
     __afl_area_ptr[0] = 1;
@@ -180,7 +180,7 @@ int __afl_persistent_loop(unsigned int max_cnt) {
 
   if (first_pass) {
 
-    /* Make sure that every iteration of __AFL_LOOP() starts with a clean slate.
+    /* Make sure that every iteration of __FOT_LOOP() starts with a clean slate.
        On subsequent calls, the parent will take care of that, but on the first
        iteration, it's our job to erase any trace of whatever happened
        before the loop. */
@@ -211,7 +211,7 @@ int __afl_persistent_loop(unsigned int max_cnt) {
 
     } else {
 
-      /* When exiting __AFL_LOOP(), make sure that the subsequent code that
+      /* When exiting __FOT_LOOP(), make sure that the subsequent code that
          follows the loop is not traced. We do that by pivoting back to the
          dummy output region. */
 
@@ -280,11 +280,11 @@ void __sanitizer_cov_trace_pc_guard_init(uint32_t* start, uint32_t* stop) {
 
   if (start == stop || *start) return;
 
-  x = getenv("AFL_INST_RATIO");
+  x = getenv("FOT_INST_RATIO");
   if (x) inst_ratio = atoi(x);
 
   if (!inst_ratio || inst_ratio > 100) {
-    fprintf(stderr, "[-] ERROR: Invalid AFL_INST_RATIO (must be 1-100).\n");
+    fprintf(stderr, "[-] ERROR: Invalid FOT_INST_RATIO (must be 1-100).\n");
     abort();
   }
 

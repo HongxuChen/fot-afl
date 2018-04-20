@@ -34,7 +34,7 @@
    honestly know what you're doing =)
 
    With that out of the way: the postprocessor library is passed to afl-fuzz
-   via AFL_POST_LIBRARY. The library must be compiled with:
+   via FOT_POST_LIBRARY. The library must be compiled with:
 
      gcc -shared -Wall -O3 post_library.so.c -o post_library.so
 

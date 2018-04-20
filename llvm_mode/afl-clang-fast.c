@@ -21,7 +21,7 @@
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 
 #include "../config.h"
 #include "../types.h"
@@ -42,7 +42,7 @@ static u32  cc_par_cnt = 1;         /* Param count, including argv0      */
 
 static void find_obj(u8* argv0) {
 
-  u8 *afl_path = getenv("AFL_PATH");
+  u8 *afl_path = getenv("FOT_PATH");
   u8 *slash, *tmp;
 
   if (afl_path) {
@@ -82,12 +82,12 @@ static void find_obj(u8* argv0) {
 
   }
 
-  if (!access(AFL_PATH "/afl-llvm-rt.o", R_OK)) {
-    obj_path = AFL_PATH;
+  if (!access(FOT_PATH "/afl-llvm-rt.o", R_OK)) {
+    obj_path = FOT_PATH;
     return;
   }
 
-  FATAL("Unable to find 'afl-llvm-rt.o' or 'afl-llvm-pass.so'. Please set AFL_PATH");
+  FATAL("Unable to find 'afl-llvm-rt.o' or 'afl-llvm-pass.so'. Please set FOT_PATH");
  
 }
 
@@ -105,10 +105,10 @@ static void edit_params(u32 argc, char** argv) {
   if (!name) name = argv[0]; else name++;
 
   if (!strcmp(name, "afl-clang-fast++")) {
-    u8* alt_cxx = getenv("AFL_CXX");
+    u8* alt_cxx = getenv("FOT_CXX");
     cc_params[0] = alt_cxx ? alt_cxx : (u8*)"clang++";
   } else {
-    u8* alt_cc = getenv("AFL_CC");
+    u8* alt_cc = getenv("FOT_CC");
     cc_params[0] = alt_cc ? alt_cc : (u8*)"clang";
   }
 
@@ -161,7 +161,7 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
-  if (getenv("AFL_HARDEN")) {
+  if (getenv("FOT_HARDEN")) {
 
     cc_params[cc_par_cnt++] = "-fstack-protector-all";
 
@@ -172,24 +172,24 @@ static void edit_params(u32 argc, char** argv) {
 
   if (!asan_set) {
 
-    if (getenv("AFL_USE_ASAN")) {
+    if (getenv("FOT_USE_ASAN")) {
 
-      if (getenv("AFL_USE_MSAN"))
+      if (getenv("FOT_USE_MSAN"))
         FATAL("ASAN and MSAN are mutually exclusive");
 
-      if (getenv("AFL_HARDEN"))
-        FATAL("ASAN and AFL_HARDEN are mutually exclusive");
+      if (getenv("FOT_HARDEN"))
+        FATAL("ASAN and FOT_HARDEN are mutually exclusive");
 
       cc_params[cc_par_cnt++] = "-U_FORTIFY_SOURCE";
       cc_params[cc_par_cnt++] = "-fsanitize=address";
 
-    } else if (getenv("AFL_USE_MSAN")) {
+    } else if (getenv("FOT_USE_MSAN")) {
 
-      if (getenv("AFL_USE_ASAN"))
+      if (getenv("FOT_USE_ASAN"))
         FATAL("ASAN and MSAN are mutually exclusive");
 
-      if (getenv("AFL_HARDEN"))
-        FATAL("MSAN and AFL_HARDEN are mutually exclusive");
+      if (getenv("FOT_HARDEN"))
+        FATAL("MSAN and FOT_HARDEN are mutually exclusive");
 
       cc_params[cc_par_cnt++] = "-U_FORTIFY_SOURCE";
       cc_params[cc_par_cnt++] = "-fsanitize=memory";
@@ -200,12 +200,12 @@ static void edit_params(u32 argc, char** argv) {
 
 #ifdef USE_TRACE_PC
 
-  if (getenv("AFL_INST_RATIO"))
-    FATAL("AFL_INST_RATIO not available at compile time with 'trace-pc'.");
+  if (getenv("FOT_INST_RATIO"))
+    FATAL("FOT_INST_RATIO not available at compile time with 'trace-pc'.");
 
 #endif /* USE_TRACE_PC */
 
-  if (!getenv("AFL_DONT_OPTIMIZE")) {
+  if (!getenv("FOT_DONT_OPTIMIZE")) {
 
     cc_params[cc_par_cnt++] = "-g";
     cc_params[cc_par_cnt++] = "-O3";
@@ -213,7 +213,7 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
-  if (getenv("AFL_NO_BUILTIN")) {
+  if (getenv("FOT_NO_BUILTIN")) {
 
     cc_params[cc_par_cnt++] = "-fno-builtin-strcmp";
     cc_params[cc_par_cnt++] = "-fno-builtin-strncmp";
@@ -223,8 +223,8 @@ static void edit_params(u32 argc, char** argv) {
 
   }
 
-  cc_params[cc_par_cnt++] = "-D__AFL_HAVE_MANUAL_CONTROL=1";
-  cc_params[cc_par_cnt++] = "-D__AFL_COMPILER=1";
+  cc_params[cc_par_cnt++] = "-D__FOT_HAVE_MANUAL_CONTROL=1";
+  cc_params[cc_par_cnt++] = "-D__FOT_COMPILER=1";
   cc_params[cc_par_cnt++] = "-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1";
 
   /* When the user tries to use persistent or deferred forkserver modes by
@@ -247,7 +247,7 @@ static void edit_params(u32 argc, char** argv) {
 
    */
 
-  cc_params[cc_par_cnt++] = "-D__AFL_LOOP(_A)="
+  cc_params[cc_par_cnt++] = "-D__FOT_LOOP(_A)="
     "({ static volatile char *_B __attribute__((used)); "
     " _B = (char*)\"" PERSIST_SIG "\"; "
 #ifdef __APPLE__
@@ -259,7 +259,7 @@ static void edit_params(u32 argc, char** argv) {
 #endif /* ^__APPLE__ */
     "_L(_A); })";
 
-  cc_params[cc_par_cnt++] = "-D__AFL_INIT()="
+  cc_params[cc_par_cnt++] = "-D__FOT_INIT()="
     "do { static volatile char *_A __attribute__((used)); "
     " _A = (char*)\"" DEFER_SIG "\"; "
 #ifdef __APPLE__
@@ -313,7 +313,7 @@ static void edit_params(u32 argc, char** argv) {
 
 int main(int argc, char** argv) {
 
-  if (isatty(2) && !getenv("AFL_QUIET")) {
+  if (isatty(2) && !getenv("FOT_QUIET")) {
 
 #ifdef USE_TRACE_PC
     SAYF(cCYA "afl-clang-fast [tpcg] " cBRI VERSION  cRST " by <lszekeres@google.com>\n");
@@ -336,8 +336,8 @@ int main(int argc, char** argv) {
          "In contrast to the traditional afl-clang tool, this version is implemented as\n"
          "an LLVM pass and tends to offer improved performance with slow programs.\n\n"
 
-         "You can specify custom next-stage toolchain via AFL_CC and AFL_CXX. Setting\n"
-         "AFL_HARDEN enables hardening optimizations in the compiled code.\n\n",
+         "You can specify custom next-stage toolchain via FOT_CC and FOT_CXX. Setting\n"
+         "FOT_HARDEN enables hardening optimizations in the compiled code.\n\n",
          BIN_PATH, BIN_PATH);
 
     exit(1);

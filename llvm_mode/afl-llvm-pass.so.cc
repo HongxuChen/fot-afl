@@ -22,7 +22,7 @@
 
  */
 
-#define AFL_LLVM_PASS
+#define FOT_LLVM_PASS
 
 #include "../config.h"
 #include "../debug.h"
@@ -74,7 +74,7 @@ bool AFLCoverage::runOnModule(Module &M) {
 
   char be_quiet = 0;
 
-  if (isatty(2) && !getenv("AFL_QUIET")) {
+  if (isatty(2) && !getenv("FOT_QUIET")) {
 
     SAYF(cCYA "afl-llvm-pass " cBRI VERSION cRST " by <lszekeres@google.com>\n");
 
@@ -82,14 +82,14 @@ bool AFLCoverage::runOnModule(Module &M) {
 
   /* Decide instrumentation ratio */
 
-  char* inst_ratio_str = getenv("AFL_INST_RATIO");
+  char* inst_ratio_str = getenv("FOT_INST_RATIO");
   unsigned int inst_ratio = 100;
 
   if (inst_ratio_str) {
 
     if (sscanf(inst_ratio_str, "%u", &inst_ratio) != 1 || !inst_ratio ||
         inst_ratio > 100)
-      FATAL("Bad value of AFL_INST_RATIO (must be between 1 and 100)");
+      FATAL("Bad value of FOT_INST_RATIO (must be between 1 and 100)");
 
   }
 
@@ -114,11 +114,11 @@ bool AFLCoverage::runOnModule(Module &M) {
       BasicBlock::iterator IP = BB.getFirstInsertionPt();
       IRBuilder<> IRB(&(*IP));
 
-      if (AFL_R(100) >= inst_ratio) continue;
+      if (FOT_R(100) >= inst_ratio) continue;
 
       /* Make up cur_loc */
 
-      unsigned int cur_loc = AFL_R(MAP_SIZE);
+      unsigned int cur_loc = FOT_R(MAP_SIZE);
 
       ConstantInt *CurLoc = ConstantInt::get(Int32Ty, cur_loc);
 
@@ -159,8 +159,8 @@ bool AFLCoverage::runOnModule(Module &M) {
 
     if (!inst_blocks) WARNF("No instrumentation targets found.");
     else OKF("Instrumented %u locations (%s mode, ratio %u%%).",
-             inst_blocks, getenv("AFL_HARDEN") ? "hardened" :
-             ((getenv("AFL_USE_ASAN") || getenv("AFL_USE_MSAN")) ?
+             inst_blocks, getenv("FOT_HARDEN") ? "hardened" :
+             ((getenv("FOT_USE_ASAN") || getenv("FOT_USE_MSAN")) ?
               "ASAN/MSAN" : "non-hardened"), inst_ratio);
 
   }

@@ -69,7 +69,7 @@
 #define PTR_C(_p) (((u32*)(_p))[-1])
 #define PTR_L(_p) (((u32*)(_p))[-2])
 
-/* Configurable stuff (use AFL_LD_* to set): */
+/* Configurable stuff (use FOT_LD_* to set): */
 
 static u32 max_mem = MAX_ALLOC;         /* Max heap usage to permit         */
 static u8  alloc_verbose,               /* Additional debug messages        */
@@ -252,17 +252,17 @@ void* realloc(void* ptr, size_t len) {
 
 __attribute__((constructor)) void __dislocator_init(void) {
 
-  u8* tmp = getenv("AFL_LD_LIMIT_MB");
+  u8* tmp = getenv("FOT_LD_LIMIT_MB");
 
   if (tmp) {
 
     max_mem = atoi(tmp) * 1024 * 1024;
-    if (!max_mem) FATAL("Bad value for AFL_LD_LIMIT_MB");
+    if (!max_mem) FATAL("Bad value for FOT_LD_LIMIT_MB");
 
   }
 
-  alloc_verbose = !!getenv("AFL_LD_VERBOSE");
-  hard_fail = !!getenv("AFL_LD_HARD_FAIL");
-  no_calloc_over = !!getenv("AFL_LD_NO_CALLOC_OVER");
+  alloc_verbose = !!getenv("FOT_LD_VERBOSE");
+  hard_fail = !!getenv("FOT_LD_HARD_FAIL");
+  no_calloc_over = !!getenv("FOT_LD_NO_CALLOC_OVER");
 
 }

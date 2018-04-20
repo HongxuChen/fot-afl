@@ -25,7 +25,7 @@
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 #define _GNU_SOURCE
 
 #include <stdio.h>

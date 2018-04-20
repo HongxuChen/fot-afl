@@ -19,7 +19,7 @@
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 
 #include "config.h"
 #include "types.h"
@@ -725,9 +725,9 @@ static void set_up_environment(void) {
                          "allocator_may_return_null=1:"
                          "msan_track_origins=0", 0);
 
-  if (getenv("AFL_PRELOAD")) {
-    setenv("LD_PRELOAD", getenv("AFL_PRELOAD"), 1);
-    setenv("DYLD_INSERT_LIBRARIES", getenv("AFL_PRELOAD"), 1);
+  if (getenv("FOT_PRELOAD")) {
+    setenv("LD_PRELOAD", getenv("FOT_PRELOAD"), 1);
+    setenv("DYLD_INSERT_LIBRARIES", getenv("FOT_PRELOAD"), 1);
   }
 
 }
@@ -905,7 +905,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
   new_argv[2] = target_path;
   new_argv[1] = "--";
 
-  tmp = getenv("AFL_PATH");
+  tmp = getenv("FOT_PATH");
 
   if (tmp) {
 
@@ -1111,7 +1111,7 @@ int main(int argc, char** argv) {
   else
     use_argv = argv + optind;
 
-  exact_mode = !!getenv("AFL_TMIN_EXACT");
+  exact_mode = !!getenv("FOT_TMIN_EXACT");
 
   SAYF("\n");
 

@@ -21,7 +21,7 @@
 
  */
 
-#define AFL_MAIN
+#define FOT_MAIN
 
 #include "config.h"
 #include "types.h"
@@ -166,8 +166,8 @@ static u32 write_results(void) {
   s32 fd;
   u32 i, ret = 0;
 
-  u8  cco = !!getenv("AFL_CMIN_CRASHES_ONLY"),
-      caa = !!getenv("AFL_CMIN_ALLOW_ANY");
+  u8  cco = !!getenv("FOT_CMIN_CRASHES_ONLY"),
+      caa = !!getenv("FOT_CMIN_ALLOW_ANY");
 
   if (!strncmp(out_file, "/dev/", 5)) {
 
@@ -378,9 +378,9 @@ static void set_up_environment(void) {
                          "allocator_may_return_null=1:"
                          "msan_track_origins=0", 0);
 
-  if (getenv("AFL_PRELOAD")) {
-    setenv("LD_PRELOAD", getenv("AFL_PRELOAD"), 1);
-    setenv("DYLD_INSERT_LIBRARIES", getenv("AFL_PRELOAD"), 1);
+  if (getenv("FOT_PRELOAD")) {
+    setenv("LD_PRELOAD", getenv("FOT_PRELOAD"), 1);
+    setenv("DYLD_INSERT_LIBRARIES", getenv("FOT_PRELOAD"), 1);
   }
 
 }
@@ -570,7 +570,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   /* Now we need to actually find qemu for argv[0]. */
 
-  tmp = getenv("AFL_PATH");
+  tmp = getenv("FOT_PATH");
 
   if (tmp) {
 

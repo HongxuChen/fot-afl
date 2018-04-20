@@ -297,7 +297,7 @@ char* strcasestr(const char* haystack, const char* needle) {
 
 __attribute__((constructor)) void __tokencap_init(void) {
 
-  u8* fn = getenv("AFL_TOKEN_FILE");
+  u8* fn = getenv("FOT_TOKEN_FILE");
   if (fn) __tokencap_out_file = fopen(fn, "a");
   if (!__tokencap_out_file) __tokencap_out_file = stderr;
 
