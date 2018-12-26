@@ -13,7 +13,7 @@
      int tb_exit;
      uint8_t *tb_ptr = itb->tc_ptr;
  
-+    AFL_QEMU_CPU_SNIPPET2;
++    FOT_QEMU_CPU_SNIPPET2;
 +
      qemu_log_mask_and_addr(CPU_LOG_EXEC, itb->pc,
                             "Trace %p [%d: " TARGET_FMT_lx "] %s\n",
@@ -22,7 +22,7 @@
              if (!tb) {
                  /* if no translated code available, then translate it now */
                  tb = tb_gen_code(cpu, pc, cs_base, flags, 0);
-+                AFL_QEMU_CPU_SNIPPET1;
++                FOT_QEMU_CPU_SNIPPET1;
              }
  
              mmap_unlock();

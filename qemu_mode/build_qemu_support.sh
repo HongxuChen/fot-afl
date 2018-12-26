@@ -28,7 +28,7 @@ QEMU_URL="http://download.qemu-project.org/qemu-${VERSION}.tar.xz"
 QEMU_SHA384="68216c935487bc8c0596ac309e1e3ee75c2c4ce898aab796faa321db5740609ced365fedda025678d072d09ac8928105"
 
 echo "================================================="
-echo "AFL binary-only instrumentation QEMU build script"
+echo "FOT binary-only instrumentation QEMU build script"
 echo "================================================="
 echo
 
@@ -50,7 +50,7 @@ fi
 
 if [ ! -f "../afl-showmap" ]; then
 
-  echo "[-] Error: ../afl-showmap not found - compile AFL first!"
+  echo "[-] Error: ../afl-showmap not found - compile FOT first!"
   exit 1
 
 fi
@@ -168,7 +168,7 @@ if [ "$ORIG_CPU_TARGET" = "" ]; then
 
   gcc test-instr.c -o test-instr || exit 1
 
-  unset AFL_INST_RATIO
+  unset FOT_INST_RATIO
 
   echo 0 | ./afl-showmap -m none -Q -q -o .test-instr0 ./test-instr || exit 1
   echo 1 | ./afl-showmap -m none -Q -q -o .test-instr1 ./test-instr || exit 1

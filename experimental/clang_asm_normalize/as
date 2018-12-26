@@ -19,32 +19,32 @@
 #
 # Usage:
 #
-# export AFL_REAL_PATH=/path/to/directory/with/afl-as/
-# AFL_PATH=/path/to/this/directory/ make clean all
+# export FOT_REAL_PATH=/path/to/directory/with/afl-as/
+# FOT_PATH=/path/to/this/directory/ make clean all
 
 if [ "$#" -lt "2" ]; then
   echo "[-] Error: this utility can't be called directly." 1>&2
   exit 1
 fi
 
-if [ "$AFL_REAL_PATH" = "" ]; then
-  echo "[-] Error: AFL_REAL_PATH not set!" 1>&2
+if [ "$FOT_REAL_PATH" = "" ]; then
+  echo "[-] Error: FOT_REAL_PATH not set!" 1>&2
   exit 1
 fi
 
-if [ ! -x "$AFL_REAL_PATH/afl-as" ]; then
-  echo "[-] Error: AFL_REAL_PATH does not contain the 'afl-as' binary." 1>&2
+if [ ! -x "$FOT_REAL_PATH/afl-as" ]; then
+  echo "[-] Error: FOT_REAL_PATH does not contain the 'afl-as' binary." 1>&2
   exit 1
 fi
 
-unset __AFL_AS_CMDLINE __AFL_FNAME
+unset __FOT_AS_CMDLINE __FOT_FNAME
 
 while [ ! "$#" = "0" ]; do
 
   if [ "$#" = "1" ]; then
-    __AFL_FNAME="$1"
+    __FOT_FNAME="$1"
   else
-    __AFL_AS_CMDLINE="${__AFL_AS_CMDLINE} $1"
+    __FOT_AS_CMDLINE="${__FOT_AS_CMDLINE} $1"
   fi
 
   shift
@@ -57,7 +57,7 @@ TMPFILE=`mktemp $TMPDIR/.afl-XXXXXXXXXX.s`
 
 test "$TMPFILE" = "" && exit 1
 
-clang -cc1as -filetype asm -output-asm-variant 0 "${__AFL_FNAME}" >"$TMPFILE"
+clang -cc1as -filetype asm -output-asm-variant 0 "${__FOT_FNAME}" >"$TMPFILE"
 
 ERR="$?"
 
@@ -66,7 +66,7 @@ if [ ! "$ERR" = "0" ]; then
   exit $ERR
 fi
 
-"$AFL_REAL_PATH/afl-as" ${__AFL_AS_CMDLINE} "$TMPFILE"
+"$FOT_REAL_PATH/afl-as" ${__FOT_AS_CMDLINE} "$TMPFILE"
 
 ERR="$?"
 

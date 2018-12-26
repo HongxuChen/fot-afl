@@ -72,7 +72,7 @@ in equally complex software still seems fairly unlikely, and hasn't been
 demonstrated in practice so far.
 
 But I digress; ultimately, attribution is hard, and glorying the fundamental
-concepts behind AFL is probably a waste of time. The devil is very much in the
+concepts behind FOT is probably a waste of time. The devil is very much in the
 often-overlooked details, which brings us to...
 
 2) Design goals for afl-fuzz
@@ -120,7 +120,7 @@ several itches that seemed impossible to scratch with other tools:
    be guessed by the operator ahead of the time. This can do more harm than 
    good.
 
-   AFL is designed to avoid this as much as possible. The three knobs you
+   FOT is designed to avoid this as much as possible. The three knobs you
    can play with are the output file, the memory limit, and the ability to
    override the default, auto-calibrated timeout. The rest is just supposed to
    work. When it doesn't, user-friendly error messages outline the probable
@@ -132,12 +132,12 @@ several itches that seemed impossible to scratch with other tools:
    power (most of which is wasted on tasks not directly related to the code
    we actually want to test).
 
-   AFL tries to scratch this itch by allowing users to use more lightweight
+   FOT tries to scratch this itch by allowing users to use more lightweight
    targets (e.g., standalone image parsing libraries) to create small
    corpora of interesting test cases that can be fed into a manual testing
    process or a UI harness later on.
 
-As mentioned in technical_details.txt, AFL does all this not by systematically
+As mentioned in technical_details.txt, FOT does all this not by systematically
 applying a single overarching CS concept, but by experimenting with a variety
 of small, complementary methods that were shown to reliably yields results
 better than chance. The use of instrumentation is a part of that toolkit, but is

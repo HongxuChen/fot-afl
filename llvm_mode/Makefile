@@ -76,7 +76,7 @@ endif
 	@echo "[*] Checking for working '$(CC)'..."
 	@which $(CC) >/dev/null 2>&1 || ( echo "[-] Oops, can't find '$(CC)'. Make sure that it's in your \$$PATH (or set \$$CC and \$$CXX)."; exit 1 )
 	@echo "[*] Checking for '../afl-showmap'..."
-	@test -f ../afl-showmap || ( echo "[-] Oops, can't find '../afl-showmap'. Be sure to compile AFL first."; exit 1 )
+	@test -f ../afl-showmap || ( echo "[-] Oops, can't find '../afl-showmap'. Be sure to compile FOT first."; exit 1 )
 	@echo "[+] All set and ready to build."
 
 ../afl-clang-fast: afl-clang-fast.c | test_deps

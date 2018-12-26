@@ -38,7 +38,7 @@ _EOF_
 
 fi
 
-if [ "$AFL_ALLOW_TMP" = "" ]; then
+if [ "$FOT_ALLOW_TMP" = "" ]; then
 
   echo "$1" | grep -qE '^(/var)?/tmp/'
   T1="$?"

@@ -62,10 +62,10 @@ practice, this means two things:
     apps).
 
   - Standard C libraries and other stuff that is wasteful to instrument
-    should be linked dynamically - otherwise, AFL will have no way to avoid
+    should be linked dynamically - otherwise, FOT will have no way to avoid
     peeking into them.
 
-Setting AFL_INST_LIBS=1 can be used to circumvent the .text detection logic
+Setting FOT_INST_LIBS=1 can be used to circumvent the .text detection logic
 and instrument every basic block encountered.
 
 4) Benchmarking

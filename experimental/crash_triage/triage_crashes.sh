@@ -39,7 +39,7 @@ BIN="$2"
 shift
 shift
 
-if [ "$AFL_ALLOW_TMP" = "" ]; then
+if [ "$FOT_ALLOW_TMP" = "" ]; then
 
   echo "$DIR" | grep -qE '^(/var)?/tmp/'
   T1="$?"

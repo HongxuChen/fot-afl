@@ -55,7 +55,7 @@ Version 2.50b (2017-08-19):
 
   - Added a mention of afl-kit and Pythia.
 
-  - Added AFL_FAST_CAL.
+  - Added FOT_FAST_CAL.
 
   - In-place resume now preserves .synced. Suggested by Jakub Wilk.
 
@@ -63,7 +63,7 @@ Version 2.50b (2017-08-19):
 Version 2.49b (2017-07-18):
 ---------------------------
 
-  - Added AFL_TMIN_EXACT to allow path constraint for crash minimization.
+  - Added FOT_TMIN_EXACT to allow path constraint for crash minimization.
 
   - Added dates for releases (retroactively for all of 2017).
 
@@ -71,7 +71,7 @@ Version 2.49b (2017-07-18):
 Version 2.48b (2017-07-17):
 ---------------------------
 
-  - Added AFL_ALLOW_TMP to permit some scripts to run in /tmp.
+  - Added FOT_ALLOW_TMP to permit some scripts to run in /tmp.
 
   - Fixed cwd handling in afl-analyze (similar to the quirk in afl-tmin).
 
@@ -87,7 +87,7 @@ Version 2.47b (2017-07-14):
 Version 2.46b (2017-07-10):
 ---------------------------
 
-  - libdislocator now supports AFL_LD_NO_CALLOC_OVER for folks who do not
+  - libdislocator now supports FOT_LD_NO_CALLOC_OVER for folks who do not
     want to abort on calloc() overflows.
 
   - Made a minor fix to libtokencap. Reported by Daniel Stender.
@@ -124,7 +124,7 @@ Version 2.44b (2017-06-28):
 Version 2.43b (2017-06-16):
 ---------------------------
 
-  - Added AFL_NO_ARITH to aid in the fuzzing of text-based formats.
+  - Added FOT_NO_ARITH to aid in the fuzzing of text-based formats.
     Requested by Jakub Wilk.
 
 ---------------------------
@@ -228,7 +228,7 @@ Version 2.34b:
 
   - Added a note about afl-tmin to technical_details.txt.
 
-  - Added support for AFL_NO_UI, as suggested by Leo Barnes.
+  - Added support for FOT_NO_UI, as suggested by Leo Barnes.
 
 --------------
 Version 2.33b:
@@ -243,7 +243,7 @@ Version 2.33b:
 Version 2.32b:
 --------------
 
-  - Added a check for AFL_HARDEN combined with AFL_USE_*SAN. Suggested by
+  - Added a check for FOT_HARDEN combined with FOT_USE_*SAN. Suggested by
     Hanno Boeck.
 
   - Made several other cosmetic adjustments to cycle timing in the wake of the
@@ -254,7 +254,7 @@ Version 2.31b:
 --------------
 
   - Changed havoc cycle counts for a marked performance boost, especially
-    with -S / -d. See the discussion of FidgetyAFL in:
+    with -S / -d. See the discussion of FidgetyFOT in:
 
     https://groups.google.com/forum/#!topic/afl-users/fOPeb62FZUg
 
@@ -316,7 +316,7 @@ Version 2.26b:
 
   - Added support for DYLD_INSERT_LIBRARIES.
 
-  - Renamed AFL_LD_PRELOAD to AFL_PRELOAD.
+  - Renamed FOT_LD_PRELOAD to FOT_PRELOAD.
 
 --------------
 Version 2.25b:
@@ -330,7 +330,7 @@ Version 2.24b:
 --------------
 
   - Added libdislocator.so, an experimental, abusive allocator. Try
-    it out with AFL_LD_PRELOAD=/path/to/libdislocator.so when running
+    it out with FOT_LD_PRELOAD=/path/to/libdislocator.so when running
     afl-fuzz.
 
 --------------
@@ -351,7 +351,7 @@ Version 2.22b:
     There is no automated check for this, since some distros may implicitly
     set FORTIFY_SOURCE outside of the compiler's argv[].
 
-  - Populated the support for AFL_LD_PRELOAD to all companion tools.
+  - Populated the support for FOT_LD_PRELOAD to all companion tools.
 
   - Made a change to the handling of ./afl-clang-fast -v. Spotted by
     Jan Kneschke.
@@ -400,7 +400,7 @@ Version 2.18b:
 Version 2.17b:
 --------------
 
-  - Killed the error-prone and manual -Z option. On Linux, AFL will now
+  - Killed the error-prone and manual -Z option. On Linux, FOT will now
     automatically bind to the first free core (or complain if there are no
     free cores left).
 
@@ -506,12 +506,12 @@ Version 2.06b:
   - Worked around LLVM persistent mode hiccups with -shared code.
     Contributed by Christian Holler.
 
-  - Added __AFL_COMPILER as a convenient way to detect that something is
+  - Added __FOT_COMPILER as a convenient way to detect that something is
     built under afl-gcc / afl-clang / afl-clang-fast and enable custom
     optimizations in your code. Suggested by Pedro Corte-Real.
 
   - Upstreamed several minor changes developed by Franjo Ivancic to
-    allow AFL to be built as a library. This is fairly use-specific and
+    allow FOT to be built as a library. This is fairly use-specific and
     may have relatively little appeal to general audiences.
 
 --------------
@@ -547,10 +547,10 @@ Version 2.03b:
 
   - Force-disabled symbolization for ASAN, as suggested by Christian Holler.
 
-  - AFL_NOX86 renamed to AFL_NO_X86 for consistency.
+  - FOT_NOX86 renamed to FOT_NO_X86 for consistency.
 
-  - Added AFL_LD_PRELOAD to allow LD_PRELOAD to be set for targets without
-    affecting AFL itself. Suggested by Daniel Godas-Lopez.
+  - Added FOT_LD_PRELOAD to allow LD_PRELOAD to be set for targets without
+    affecting FOT itself. Suggested by Daniel Godas-Lopez.
 
 --------------
 Version 2.02b:
@@ -605,7 +605,7 @@ Version 1.97b:
 --------------
 
   - Added afl-analyze, a nifty tool to analyze the structure of a file
-    based on the feedback from AFL instrumentation. This is kinda experimental,
+    based on the feedback from FOT instrumentation. This is kinda experimental,
     so field reports welcome.
 
   - Added a mention of afl-cygwin.
@@ -622,7 +622,7 @@ Version 1.96b:
 
   - Fixed several typos, spotted by Jakub Wilk.
 
-  - Added support for AFL_SHUFFLE_QUEUE, based on discussions with
+  - Added support for FOT_SHUFFLE_QUEUE, based on discussions with
     Christian Holler.
 
 --------------
@@ -631,7 +631,7 @@ Version 1.95b:
 
   - Fixed a harmless bug when handling -B. Spotted by Jacek Wielemborek.
 
-  - Made the exit message a bit more accurate when AFL_EXIT_WHEN_DONE is set.
+  - Made the exit message a bit more accurate when FOT_EXIT_WHEN_DONE is set.
 
   - Added some error-checking for old-style forkserver syntax. Suggested by
     Ben Nagy.
@@ -639,8 +639,8 @@ Version 1.95b:
   - Switched from exit() to _exit() in injected code to avoid snafus with
     destructors in C++ code. Spotted by sunblate.
 
-  - Made a change to avoid spuriously setting __AFL_SHM_ID when 
-    AFL_DUMB_FORKSRV is set in conjunction with -n. Spotted by Jakub Wilk.
+  - Made a change to avoid spuriously setting __FOT_SHM_ID when 
+    FOT_DUMB_FORKSRV is set in conjunction with -n. Spotted by Jakub Wilk.
 
 --------------
 Version 1.94b:
@@ -700,7 +700,7 @@ Version 1.89b:
 Version 1.88b:
 --------------
 
-  - Made AFL_EXIT_WHEN_DONE work in non-tty mode. Issue spotted by
+  - Made FOT_EXIT_WHEN_DONE work in non-tty mode. Issue spotted by
     Jacek Wielemborek.
 
 --------------
@@ -717,7 +717,7 @@ Version 1.87b:
 Version 1.86b:
 --------------
 
-  - Added support for AFL_SKIP_CRASHES, which is a very hackish solution to
+  - Added support for FOT_SKIP_CRASHES, which is a very hackish solution to
     the problem of resuming sessions with intermittently crashing inputs.
 
   - Removed the hard-fail terminal size check, replaced with a dynamic
@@ -768,7 +768,7 @@ Version 1.82b:
 
   - Updated the documentation to explain persistent mode a bit better.
 
-  - Tweaked AFL_PERSISTENT to force AFL_NO_VAR_CHECK.
+  - Tweaked FOT_PERSISTENT to force FOT_NO_VAR_CHECK.
 
 --------------
 Version 1.81b:
@@ -790,7 +790,7 @@ Version 1.80b:
   - Made afl-cmin tolerant of whitespaces in filenames. Suggested by 
     Jonathan Neuschafer and Ketil Froyn.
 
-  - Added support for AFL_EXIT_WHEN_DONE, as suggested by Michael Rash.
+  - Added support for FOT_EXIT_WHEN_DONE, as suggested by Michael Rash.
 
 --------------
 Version 1.79b:
@@ -846,7 +846,7 @@ Version 1.75b:
   - Improved argv_fuzzing to allow it to emit empty args. Spotted by Jakub
     Wilk.
 
-  - afl-clang-fast now defines __AFL_HAVE_MANUAL_INIT. Suggested by Jakub Wilk.
+  - afl-clang-fast now defines __FOT_HAVE_MANUAL_INIT. Suggested by Jakub Wilk.
 
   - Fixed a libtool-related bug with afl-clang-fast that would make some
     ./configure invocations generate incorrect output. Spotted by Jakub Wilk.
@@ -874,7 +874,7 @@ Version 1.74b:
     to (no attributes).
 
   - Added EP_EnabledOnOptLevel0 to llvm_mode, so that the instrumentation is
-    inserted even when AFL_DONT_OPTIMIZE=1 is set.
+    inserted even when FOT_DONT_OPTIMIZE=1 is set.
 
   - Switched qemu_mode to use the newly-released QEMU 2.3.0, which contains
     a couple of minor bugfixes.
@@ -884,7 +884,7 @@ Version 1.73b:
 --------------
 
   - Fixed a pretty stupid bug in effector maps that could sometimes cause
-    AFL to fuzz slightly more than necessary; and in very rare circumstances,
+    FOT to fuzz slightly more than necessary; and in very rare circumstances,
     could lead to SEGV if eff_map is aligned with page boundary and followed
     by an unmapped page. Spotted by Jonathan Gray.
 
@@ -901,7 +901,7 @@ Version 1.72b:
 Version 1.71b:
 --------------
 
-  - Fixed a bug with installed copies of AFL trying to use QEMU mode. Spotted
+  - Fixed a bug with installed copies of FOT trying to use QEMU mode. Spotted
     by G.M. Lime.
 
   - Added last path / crash / hang times to fuzzer_stats, suggested by
@@ -917,7 +917,7 @@ Version 1.70b:
     a session if -t is not given. This prevents timeout creep in continuous
     fuzzing.
 
-  - Added improved error messages for failed handshake when AFL_DEFER_FORKSRV
+  - Added improved error messages for failed handshake when FOT_DEFER_FORKSRV
     is set.
 
   - Made a slight improvement to llvm_mode/Makefile based on feedback from
@@ -1003,7 +1003,7 @@ Version 1.62b:
 
   - Improved the handling of -x in afl-clang-fast,
 
-  - Improved the handling of low AFL_INST_RATIO settings for QEMU and
+  - Improved the handling of low FOT_INST_RATIO settings for QEMU and
     LLVM modes.
 
   - Fixed the llvm-config bug for good (thanks to Tobias Ospelt).
@@ -1128,7 +1128,7 @@ Version 1.51b:
 
   - Cleaned up typos, thanks to Jakub Wilk.
 
-  - Fixed a bug in AFL_DUMB_FORKSRV.
+  - Fixed a bug in FOT_DUMB_FORKSRV.
 
 --------------
 Version 1.50b:
@@ -1210,7 +1210,7 @@ Version 1.44b:
     with afl-cmin (accounting for the short-lived releases tagged 1.42 and
     1.43b) - sorry.
 
-  - Removed AFL_ALLOW_CRASHES in favor of the -C mode in said tool.
+  - Removed FOT_ALLOW_CRASHES in favor of the -C mode in said tool.
 
   - Said goodbye to Hello Kitty, as requested by Padraig Brady.
 
@@ -1218,7 +1218,7 @@ Version 1.44b:
 Version 1.41b:
 --------------
 
-  - Added AFL_ALLOW_CRASHES=1 to afl-cmin. Allows crashing inputs in the
+  - Added FOT_ALLOW_CRASHES=1 to afl-cmin. Allows crashing inputs in the
     output corpus. Changed the default behavior to disallow it.
 
   - Made the afl-cmin output dir default to 0700, not 0755, to be consistent
@@ -1348,7 +1348,7 @@ Version 1.34b:
 Version 1.33b:
 --------------
 
-  - Added support for AFL_INST_RATIO and AFL_INST_LIBS in the QEMU mode.
+  - Added support for FOT_INST_RATIO and FOT_INST_LIBS in the QEMU mode.
 
   - Fixed a stack allocation crash in QEMU mode (bug in QEMU, fixed with
     an extra patch applied to the downloaded release).
@@ -1483,7 +1483,7 @@ Version 1.22b:
   - Made changes to afl-cmin and other scripts to accommodate the new
     semantics.
 
-  - Officially retired AFL_EDGES_ONLY.
+  - Officially retired FOT_EDGES_ONLY.
 
   - Fixed another typo in afl-tmin, courtesy of Jakub Wilk.
 
@@ -1505,11 +1505,11 @@ Version 1.21b:
 Version 1.20b:
 --------------
 
-  - Added AFL_DUMB_FORKSRV, as requested by Jakub Wilk. This works only
+  - Added FOT_DUMB_FORKSRV, as requested by Jakub Wilk. This works only
     in -n mode and allows afl-fuzz to run with "dummy" fork servers that
     don't output any instrumentation, but follow the same protocol.
 
-  - Renamed AFL_SKIP_CHECKS to AFL_SKIP_BIN_CHECK to make it at least
+  - Renamed FOT_SKIP_CHECKS to FOT_SKIP_BIN_CHECK to make it at least
     somewhat descriptive.
 
   - Switched to using clang as the default assembler on MacOS X to work
@@ -1565,7 +1565,7 @@ Version 1.16b:
 Version 1.15b:
 --------------
 
-  - Added support for AFL_NO_VAR_CHECK to speed up resumption and inhibit
+  - Added support for FOT_NO_VAR_CHECK to speed up resumption and inhibit
     variable path warnings for some programs.
 
   - Made the trimmer run even for variable paths, since there is no special
@@ -1581,7 +1581,7 @@ Version 1.14b:
 
   - Added a (partial) dictionary for JavaScript.
 
-  - Added AFL_NO_CPU_RED, as suggested by Jakub Wilk.
+  - Added FOT_NO_CPU_RED, as suggested by Jakub Wilk.
 
   - Tweaked the havoc scaling logic added in 1.12b.
 
@@ -1604,7 +1604,7 @@ Version 1.12b:
   - Added havoc cycle scaling to help with slow binaries in -d mode. Based on
     a thread with Sami Liedes.
 
-  - Added AFL_SYNC_FIRST for afl-fuzz. This is useful for those who obsess
+  - Added FOT_SYNC_FIRST for afl-fuzz. This is useful for those who obsess
     over stats, no special purpose otherwise.
 
   - Switched to more robust box drawing codes, suggested by Jakub Wilk.
@@ -1787,7 +1787,7 @@ Version 0.95b:
 
   - Cleaned up the OSX ReportCrash code. Thanks to Tobias Ospelt for help.
 
-  - Added some extra tips for AFL_NO_FORKSERVER on OSX.
+  - Added some extra tips for FOT_NO_FORKSERVER on OSX.
 
   - Refreshed the INSTALL file.
 
@@ -1884,13 +1884,13 @@ Version 0.88b:
 Version 0.87b:
 --------------
 
-  - Added support for MSAN, via AFL_USE_MSAN, same gotchas as for ASAN.
+  - Added support for MSAN, via FOT_USE_MSAN, same gotchas as for ASAN.
 
 --------------
 Version 0.86b:
 --------------
 
-  - Added AFL_NO_FORKSRV, allowing the forkserver to be bypassed. Suggested
+  - Added FOT_NO_FORKSRV, allowing the forkserver to be bypassed. Suggested
     by Ryan Govostes.
 
   - Simplified afl-showmap.c to make use of the no-forkserver mode.
@@ -1951,9 +1951,9 @@ Version 0.80b:
 
   - Added a check for $PATH-induced loops. Problem noticed by Kartik Agaram.
 
-  - Added AFL_KEEP_ASSEMBLY for easier troubleshooting.
+  - Added FOT_KEEP_ASSEMBLY for easier troubleshooting.
 
-  - Added an override for AFL_USE_ASAN if set at afl compile time. Requested by
+  - Added an override for FOT_USE_ASAN if set at afl compile time. Requested by
     Hanno Boeck.
 
 --------------
@@ -1990,7 +1990,7 @@ Version 0.78b:
 Version 0.77b:
 --------------
 
-  - Added AFL_SKIP_CHECKS to bypass binary checks when really warranted.
+  - Added FOT_SKIP_CHECKS to bypass binary checks when really warranted.
     Feature requested by Jakub Wilk.
 
   - Fixed a couple of typos.
@@ -2303,7 +2303,7 @@ Version 0.50b:
   - Revamped various bits of the documentation, especially around perf_tips.txt;
     based on the feedback from Alexander Cherepanov.
 
-  - Added AFL_INST_RATIO to afl-as. The only case where this comes handy is
+  - Added FOT_INST_RATIO to afl-as. The only case where this comes handy is
     ffmpeg, at least as far as I can tell. (Trivia: the current version of 
     ffmpeg ./configure also ignores CC and --cc, probably unintentionally).
 
@@ -2311,7 +2311,7 @@ Version 0.50b:
 
   - Implemented a visual warning for excessive or insufficient bitmap density.
 
-  - Changed afl-gcc to add -O3 by default; use AFL_DONT_OPTIMIZE if you don't
+  - Changed afl-gcc to add -O3 by default; use FOT_DONT_OPTIMIZE if you don't
     like that. Big speed gain for ffmpeg, so seems like a good idea.
 
   - Made a regression fix to afl-as to ignore .LBB labels in gcc mode.
@@ -2324,7 +2324,7 @@ Version 0.49b:
 
   - Added support for clang!
 
-  - Changed AFL_HARDEN to *not* include ASAN by default. Use AFL_USE_ASAN if
+  - Changed FOT_HARDEN to *not* include ASAN by default. Use FOT_USE_ASAN if
     needed. The reasons for this are in notes_for_asan.txt.
 
   - Switched from configure auto-detection to isatty() to keep afl-as and
@@ -2406,7 +2406,7 @@ Version 0.45b:
 Version 0.44b:
 --------------
 
-  - Added support for AFL_CC and AFL_CXX, based on a patch from Ben Laurie.
+  - Added support for FOT_CC and FOT_CXX, based on a patch from Ben Laurie.
 
   - Replaced afl-fuzz -S -D with -M for simplicity.
 
@@ -2446,7 +2446,7 @@ Version 0.42b:
 
   - Made several improvements to error messages.
 
-  - Added AFL_QUIET to silence afl-gcc and afl-as when using wonky build
+  - Added FOT_QUIET to silence afl-gcc and afl-as when using wonky build
     systems. Reported by Hanno Boeck.
 
   - Improved check for 64-bit compilation, plus several sanity checks

@@ -25,11 +25,11 @@ Because of this, fuzzing with ASAN is recommended only in four scenarios:
     - Limit the memory available to process using cgroups on Linux (see
       experimental/asan_cgroups).
 
-To compile with ASAN, set AFL_USE_ASAN=1 before calling 'make clean all'. The
+To compile with ASAN, set FOT_USE_ASAN=1 before calling 'make clean all'. The
 afl-gcc / afl-clang wrappers will pick that up and add the appropriate flags.
 Note that ASAN is incompatible with -static, so be mindful of that.
 
-(You can also use AFL_USE_MSAN=1 to enable MSAN instead.)
+(You can also use FOT_USE_MSAN=1 to enable MSAN instead.)
 
 There is also the option of generating a corpus using a non-ASAN binary, and
 then feeding it to an ASAN-instrumented one to check for bugs. This is faster,

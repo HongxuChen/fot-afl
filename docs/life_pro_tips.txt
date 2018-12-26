@@ -1,9 +1,9 @@
 # ===================
-# AFL "Life Pro Tips"
+# FOT "Life Pro Tips"
 # ===================
 #
 # Bite-sized advice for those who understand the basics, but can't be bothered
-# to read or memorize every other piece of documentation for AFL.
+# to read or memorize every other piece of documentation for FOT.
 #
 
 %
@@ -13,7 +13,7 @@ See dictionaries/README.dictionaries to learn how.
 
 %
 
-You can get the most out of your hardware by parallelizing AFL jobs.
+You can get the most out of your hardware by parallelizing FOT jobs.
 See docs/parallel_fuzzing.txt for step-by-step tips.
 
 %
@@ -33,12 +33,12 @@ Run the bundled afl-plot utility to generate browser-friendly graphs.
 
 %
 
-Need to monitor AFL jobs programmatically? Check out the fuzzer_stats file
-in the AFL output dir or try afl-whatsup.
+Need to monitor FOT jobs programmatically? Check out the fuzzer_stats file
+in the FOT output dir or try afl-whatsup.
 
 %
 
-Puzzled by something showing up in red or purple in the AFL UI?
+Puzzled by something showing up in red or purple in the FOT UI?
 It could be important - consult docs/status_screen.txt right away!
 
 %
@@ -52,7 +52,7 @@ Using clang? Check out llvm_mode/ for a faster alternative to afl-gcc!
 
 %
 
-Did you know that AFL can fuzz closed-source or cross-platform binaries?
+Did you know that FOT can fuzz closed-source or cross-platform binaries?
 Check out qemu_mode/README.qemu for more.
 
 %
@@ -62,7 +62,7 @@ Try the bundled afl-tmin tool - and get small repro files fast!
 
 %
 
-Not sure if a crash is exploitable? AFL can help you figure it out. Specify
+Not sure if a crash is exploitable? FOT can help you figure it out. Specify
 -C to enable the peruvian were-rabbit mode. See section #10 in README for more.
 
 %
@@ -72,13 +72,13 @@ Find essential survival tips at http://lcamtuf.coredump.cx/prep/.
 
 %
 
-AFL-generated corpora can be used to power other testing processes.
+FOT-generated corpora can be used to power other testing processes.
 See section #2 in README for inspiration - it tends to pay off!
 
 %
 
 Want to automatically spot non-crashing memory handling bugs?
-Try running an AFL-generated corpus through ASAN, MSAN, or Valgrind.
+Try running an FOT-generated corpus through ASAN, MSAN, or Valgrind.
 
 %
 
@@ -88,7 +88,7 @@ See section #5 in README (or docs/perf_tips.txt) for pro tips.
 %
 
 You can improve the odds of automatically spotting stack corruption issues.
-Specify AFL_HARDEN=1 in the environment to enable hardening flags.
+Specify FOT_HARDEN=1 in the environment to enable hardening flags.
 
 %
 
@@ -102,12 +102,12 @@ sanity-checking assert() / abort() statements to effortlessly catch logic bugs.
 
 %
 
-Hey kid... pssst... want to figure out how AFL really works?
+Hey kid... pssst... want to figure out how FOT really works?
 Check out docs/technical_details.txt for all the gory details in one place!
 
 %
 
-There's a ton of third-party helper tools designed to work with AFL!
+There's a ton of third-party helper tools designed to work with FOT!
 Be sure to check out docs/sister_projects.txt before writing your own.
 
 %

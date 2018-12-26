@@ -3,14 +3,14 @@ Sister projects
 ===============
 
   This doc lists some of the projects that are inspired by, derived from,
-  designed for, or meant to integrate with AFL. See README for the general
+  designed for, or meant to integrate with FOT. See README for the general
   instruction manual.
 
 -------------------------------------------
 Support for other languages / environments:
 -------------------------------------------
 
-Python AFL (Jakub Wilk)
+Python FOT (Jakub Wilk)
 -----------------------
 
   Allows fuzz-testing of Python programs. Uses custom instrumentation and its
@@ -21,26 +21,26 @@ Python AFL (Jakub Wilk)
 Go-fuzz (Dmitry Vyukov)
 -----------------------
 
-  AFL-inspired guided fuzzing approach for Go targets:
+  FOT-inspired guided fuzzing approach for Go targets:
 
   https://github.com/dvyukov/go-fuzz
 
 afl.rs (Keegan McAllister)
 --------------------------
 
-  Allows Rust features to be easily fuzzed with AFL (using the LLVM mode).
+  Allows Rust features to be easily fuzzed with FOT (using the LLVM mode).
 
   https://github.com/kmcallister/afl.rs
 
 OCaml support (KC Sivaramakrishnan)
 -----------------------------------
 
-  Adds AFL-compatible instrumentation to OCaml programs.
+  Adds FOT-compatible instrumentation to OCaml programs.
 
   https://github.com/ocamllabs/opam-repo-dev/pull/23
   http://canopy.mirage.io/Posts/Fuzzing
 
-AFL for GCJ Java and other GCC frontends (-)
+FOT for GCJ Java and other GCC frontends (-)
 --------------------------------------------
 
   GCC Java programs are actually supported out of the box - simply rename
@@ -52,7 +52,7 @@ AFL for GCJ Java and other GCC frontends (-)
   face similar problems. See https://gcc.gnu.org/frontends.html for a list of
   options.
 
-AFL-style in-process fuzzer for LLVM (Kostya Serebryany)
+FOT-style in-process fuzzer for LLVM (Kostya Serebryany)
 --------------------------------------------------------
 
   Provides an evolutionary instrumentation-guided fuzzing harness that allows
@@ -62,23 +62,23 @@ AFL-style in-process fuzzer for LLVM (Kostya Serebryany)
 
   http://llvm.org/docs/LibFuzzer.html
 
-AFL fixup shim (Ben Nagy)
+FOT fixup shim (Ben Nagy)
 -------------------------
 
-  Allows AFL_POST_LIBRARY postprocessors to be written in arbitrary languages
+  Allows FOT_POST_LIBRARY postprocessors to be written in arbitrary languages
   that don't have C / .so bindings. Includes examples in Go.
 
   https://github.com/bnagy/aflfix
 
-TriforceAFL (Tim Newsham and Jesse Hertz)
+TriforceFOT (Tim Newsham and Jesse Hertz)
 -----------------------------------------
 
-  Leverages QEMU full system emulation mode to allow AFL to target operating
+  Leverages QEMU full system emulation mode to allow FOT to target operating
   systems and other alien worlds:
 
   https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2016/june/project-triforce-run-afl-on-everything/
 
-WinAFL (Ivan Fratric)
+WinFOT (Ivan Fratric)
 ---------------------
 
   As the name implies, allows you to fuzz Windows binaries (using DynamoRio).
@@ -97,7 +97,7 @@ Preeny (Yan Shoshitaishvili)
 ----------------------------
 
   Provides a fairly simple way to convince dynamically linked network-centric
-  programs to read from a file or not fork. Not AFL-specific, but described as
+  programs to read from a file or not fork. Not FOT-specific, but described as
   useful by many users. Some assembly required.
 
   https://github.com/zardus/preeny
@@ -109,13 +109,13 @@ Distributed fuzzing and related automation:
 roving (Richo Healey)
 ---------------------
 
-  A client-server architecture for effortlessly orchestrating AFL runs across
+  A client-server architecture for effortlessly orchestrating FOT runs across
   a fleet of machines. You don't want to use this on systems that face the
   Internet or live in other untrusted environments.
 
   https://github.com/richo/roving
 
-Distfuzz-AFL (Martijn Bogaard)
+Distfuzz-FOT (Martijn Bogaard)
 ------------------------------
 
   Simplifies the management of afl-fuzz instances on remote machines. The
@@ -124,21 +124,21 @@ Distfuzz-AFL (Martijn Bogaard)
 
   https://github.com/MartijnB/disfuzz-afl
 
-AFLDFF (quantumvm)
+FOTDFF (quantumvm)
 ------------------
 
-  A nice GUI for managing AFL jobs.
+  A nice GUI for managing FOT jobs.
 
-  https://github.com/quantumvm/AFLDFF
+  https://github.com/quantumvm/FOTDFF
 
 afl-launch (Ben Nagy)
 ---------------------
 
-  Batch AFL launcher utility with a simple CLI.
+  Batch FOT launcher utility with a simple CLI.
 
   https://github.com/bnagy/afl-launch
 
-AFL Utils (rc0r)
+FOT Utils (rc0r)
 ----------------
 
   Simplifies the triage of discovered crashes, start parallel instances, etc.
@@ -152,14 +152,14 @@ AFL Utils (rc0r)
 afl-fuzzing-scripts (Tobias Ospelt)
 -----------------------------------
 
-  Simplifies starting up multiple parallel AFL jobs.
+  Simplifies starting up multiple parallel FOT jobs.
 
   https://github.com/floyd-fuh/afl-fuzzing-scripts/
 
 afl-sid (Jacek Wielemborek)
 ---------------------------
 
-  Allows users to more conveniently build and deploy AFL via Docker.
+  Allows users to more conveniently build and deploy FOT via Docker.
 
   https://github.com/d33tah/afl-sid
 
@@ -170,7 +170,7 @@ afl-sid (Jacek Wielemborek)
 afl-monitor (Paul S. Ziegler)
 -----------------------------
 
-  Provides more detailed and versatile statistics about your running AFL jobs.
+  Provides more detailed and versatile statistics about your running FOT jobs.
 
   https://github.com/reflare/afl-monitor
 
@@ -188,7 +188,7 @@ afl-crash-analyzer (Tobias Ospelt)
 Crashwalk (Ben Nagy)
 --------------------
 
-  AFL-aware tool to annotate and sort through crashing test cases.
+  FOT-aware tool to annotate and sort through crashing test cases.
 
   https://github.com/bnagy/crashwalk
 
@@ -216,7 +216,7 @@ RecidiVM (Jakub Wilk)
 aflize (Jacek Wielemborek)
 --------------------------
 
-  Automatically build AFL-enabled versions of Debian packages.
+  Automatically build FOT-enabled versions of Debian packages.
 
   https://github.com/d33tah/aflize
 
@@ -243,7 +243,7 @@ Narrow-purpose or experimental:
 Cygwin support (Ali Rizvi-Santiago)
 -----------------------------------
 
-  Pretty self-explanatory. As per the author, this "mostly" ports AFL to
+  Pretty self-explanatory. As per the author, this "mostly" ports FOT to
   Windows. Field reports welcome!
 
   https://github.com/arizvisa/afl-cygwin
@@ -265,7 +265,7 @@ Static binary-only instrumentation (Aleksandar Nikolich)
 
   https://github.com/vrtadmin/moflow/tree/master/afl-dyninst
 
-AFL PIN (Parker Thompson)
+FOT PIN (Parker Thompson)
 -------------------------
 
   Early-stage Intel PIN instrumentation support (from before we settled on
@@ -273,16 +273,16 @@ AFL PIN (Parker Thompson)
 
   https://github.com/mothran/aflpin
 
-AFL-style instrumentation in llvm (Kostya Serebryany)
+FOT-style instrumentation in llvm (Kostya Serebryany)
 -----------------------------------------------------
 
-  Allows AFL-equivalent instrumentation to be injected at compiler level.
-  This is currently not supported by AFL as-is, but may be useful in other
+  Allows FOT-equivalent instrumentation to be injected at compiler level.
+  This is currently not supported by FOT as-is, but may be useful in other
   projects.
 
   https://code.google.com/p/address-sanitizer/wiki/AsanCoverage#Coverage_counters
 
-AFL JS (Han Choongwoo)
+FOT JS (Han Choongwoo)
 ----------------------
 
   One-off optimizations to speed up the fuzzing of JavaScriptCore (now likely
@@ -290,10 +290,10 @@ AFL JS (Han Choongwoo)
 
   https://github.com/tunz/afl-fuzz-js
 
-AFL harness for fwknop (Michael Rash)
+FOT harness for fwknop (Michael Rash)
 -------------------------------------
 
-  An example of a fairly involved integration with AFL.
+  An example of a fairly involved integration with FOT.
 
   https://github.com/mrash/fwknop/tree/master/test/afl
 
@@ -329,12 +329,12 @@ Kernel fuzzing (Dmitry Vyukov)
 
   https://github.com/google/syzkaller/wiki/Found-Bugs
   https://github.com/dvyukov/linux/commit/33787098ffaaa83b8a7ccf519913ac5fd6125931
-  http://events.linuxfoundation.org/sites/events/files/slides/AFL%20filesystem%20fuzzing%2C%20Vault%202016_0.pdf
+  http://events.linuxfoundation.org/sites/events/files/slides/FOT%20filesystem%20fuzzing%2C%20Vault%202016_0.pdf
 
 Android support (ele7enxxh)
 ---------------------------
 
-  Based on a somewhat dated version of AFL:
+  Based on a somewhat dated version of FOT:
 
   https://github.com/ele7enxxh/android-afl
 
@@ -348,7 +348,7 @@ CGI wrapper (floyd)
 Fuzzing difficulty estimation (Marcel Boehme)
 ---------------------------------------------
 
-  A fork of AFL that tries to quantify the likelihood of finding additional
+  A fork of FOT that tries to quantify the likelihood of finding additional
   paths or crashes at any point in a fuzzing job.
 
   https://github.com/mboehme/pythia

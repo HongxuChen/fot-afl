@@ -4,7 +4,7 @@ Technical "whitepaper" for afl-fuzz
 
   This document provides a quick overview of the guts of American Fuzzy Lop.
   See README for the general instruction manual; and for a discussion of
-  motivations and design goals behind AFL, see historical_notes.txt.
+  motivations and design goals behind FOT, see historical_notes.txt.
 
 0) Design statement
 -------------------
@@ -178,7 +178,7 @@ input queue with afl-fuzz:
     Blind fuzzing L | 228     | 265     | 2.23     | First 4 B of -c mode diff
      Block coverage | 855     | 1,130   | 1.57     | Almost-valid RCS diff
       Edge coverage | 1,452   | 2,070   | 2.18     | One-chunk -c mode diff
-          AFL model | 1,765   | 2,597   | 4.99     | Four-chunk -c mode diff
+          FOT model | 1,765   | 2,597   | 4.99     | Four-chunk -c mode diff
 
 The first entry for blind fuzzing ("S") corresponds to executing just a single
 round of testing; the second set of figures ("L") shows the fuzzer running in a
@@ -199,7 +199,7 @@ the sessions were seeded with a valid unified diff:
       Blind fuzzing | 1,101   | 1,409   | 1.60     | 0
      Block coverage | 1,255   | 1,649   | 1.48     | 0
       Edge coverage | 1,259   | 1,734   | 1.72     | 0
-          AFL model | 1,452   | 2,040   | 3.16     | 1
+          FOT model | 1,452   | 2,040   | 3.16     | 1
 
 At noted earlier on, some of the prior work on genetic fuzzing relied on
 maintaining a single test case and evolving it to maximize coverage. At least
@@ -213,7 +213,7 @@ The progressive state exploration approach outlined above means that some of
 the test cases synthesized later on in the game may have edge coverage that
 is a strict superset of the coverage provided by their ancestors.
 
-To optimize the fuzzing effort, AFL periodically re-evaluates the queue using a
+To optimize the fuzzing effort, FOT periodically re-evaluates the queue using a
 fast algorithm that selects a smaller subset of test cases that still cover
 every tuple seen so far, and whose characteristics make them particularly
 favorable to the tool.
@@ -345,7 +345,7 @@ The relative yields and execve() costs of all these strategies have been
 investigated and are discussed in the aforementioned blog post.
 
 For the reasons discussed in historical_notes.txt (chiefly, performance,
-simplicity, and reliability), AFL generally does not try to reason about the
+simplicity, and reliability), FOT generally does not try to reason about the
 relationship between specific mutations and program states; the fuzzing steps
 are nominally blind, and are guided only by the evolutionary design of the
 input queue.
@@ -390,7 +390,7 @@ the grammar of highly verbose and complex languages such as JavaScript, SQL,
 or XML; several examples of generated SQL statements are given in the blog
 post mentioned above.
 
-Interestingly, the AFL instrumentation also allows the fuzzer to automatically
+Interestingly, the FOT instrumentation also allows the fuzzer to automatically
 isolate syntax tokens already present in an input file. It can do so by looking
 for run of bytes that, when flipped, produce a consistent change to the
 program's execution path; this is suggestive of an underlying atomic comparison
@@ -514,7 +514,7 @@ used for compiler-instrumented code, effectively spawning copies of an
 already-initialized process paused at _start.
 
 First-time translation of a new basic block also incurs substantial latency. To
-eliminate this problem, the AFL fork server is extended by providing a channel
+eliminate this problem, the FOT fork server is extended by providing a channel
 between the running emulator and the parent process. The channel is used
 to notify the parent about the addresses of any newly-encountered blocks and to
 add them to the translation cache that will be replicated for future child

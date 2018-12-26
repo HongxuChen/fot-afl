@@ -1,5 +1,5 @@
 #
-# AFL dictionary for HTML parsers (tags only)
+# FOT dictionary for HTML parsers (tags only)
 # -------------------------------------------
 #
 # A basic collection of HTML tags likely to matter to HTML parsers. Does *not*

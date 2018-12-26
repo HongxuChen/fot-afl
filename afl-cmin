@@ -49,7 +49,7 @@ MEM_LIMIT=100
 TIMEOUT=none
 
 unset IN_DIR OUT_DIR STDIN_FILE EXTRA_PAR MEM_LIMIT_GIVEN \
-  AFL_CMIN_CRASHES_ONLY AFL_CMIN_ALLOW_ANY QEMU_MODE
+  FOT_CMIN_CRASHES_ONLY FOT_CMIN_ALLOW_ANY QEMU_MODE
 
 while getopts "+i:o:f:m:t:eQC" opt; do
 
@@ -76,7 +76,7 @@ while getopts "+i:o:f:m:t:eQC" opt; do
          EXTRA_PAR="$EXTRA_PAR -e"
          ;;
     "C")
-         export AFL_CMIN_CRASHES_ONLY=1
+         export FOT_CMIN_CRASHES_ONLY=1
          ;;
     "Q")
          EXTRA_PAR="$EXTRA_PAR -Q"
@@ -126,7 +126,7 @@ fi
 # Do a sanity check to discourage the use of /tmp, since we can't really
 # handle this safely from a shell script.
 
-if [ "$AFL_ALLOW_TMP" = "" ]; then
+if [ "$FOT_ALLOW_TMP" = "" ]; then
 
   echo "$IN_DIR" | grep -qE '^(/var)?/tmp/'
   T1="$?"
@@ -196,9 +196,9 @@ if [ ! -f "$TARGET_BIN" -o ! -x "$TARGET_BIN" ]; then
 
 fi
 
-if [ "$AFL_SKIP_BIN_CHECK" = "" -a "$QEMU_MODE" = "" ]; then
+if [ "$FOT_SKIP_BIN_CHECK" = "" -a "$QEMU_MODE" = "" ]; then
 
-  if ! grep -qF "__AFL_SHM_ID" "$TARGET_BIN"; then
+  if ! grep -qF "__FOT_SHM_ID" "$TARGET_BIN"; then
     echo "[-] Error: binary '$TARGET_BIN' doesn't appear to be instrumented." 1>&2
     exit 1
   fi
@@ -229,14 +229,14 @@ if [ ! "$STDIN_FILE" = "" ]; then
   touch "$STDIN_FILE" || exit 1
 fi
 
-if [ "$AFL_PATH" = "" ]; then
+if [ "$FOT_PATH" = "" ]; then
   SHOWMAP="${0%/afl-cmin}/afl-showmap"
 else
-  SHOWMAP="$AFL_PATH/afl-showmap"
+  SHOWMAP="$FOT_PATH/afl-showmap"
 fi
 
 if [ ! -x "$SHOWMAP" ]; then
-  echo "[-] Error: can't find 'afl-showmap' - please set AFL_PATH." 1>&2
+  echo "[-] Error: can't find 'afl-showmap' - please set FOT_PATH." 1>&2
   rm -rf "$TRACE_DIR"
   exit 1
 fi
@@ -274,12 +274,12 @@ echo "[*] Testing the target binary..."
 
 if [ "$STDIN_FILE" = "" ]; then
 
-  AFL_CMIN_ALLOW_ANY=1 "$SHOWMAP" -m "$MEM_LIMIT" -t "$TIMEOUT" -o "$TRACE_DIR/.run_test" -Z $EXTRA_PAR -- "$@" <"$IN_DIR/$FIRST_FILE"
+  FOT_CMIN_ALLOW_ANY=1 "$SHOWMAP" -m "$MEM_LIMIT" -t "$TIMEOUT" -o "$TRACE_DIR/.run_test" -Z $EXTRA_PAR -- "$@" <"$IN_DIR/$FIRST_FILE"
 
 else
 
   cp "$IN_DIR/$FIRST_FILE" "$STDIN_FILE"
-  AFL_CMIN_ALLOW_ANY=1 "$SHOWMAP" -m "$MEM_LIMIT" -t "$TIMEOUT" -o "$TRACE_DIR/.run_test" -Z $EXTRA_PAR -A "$STDIN_FILE" -- "$@" </dev/null
+  FOT_CMIN_ALLOW_ANY=1 "$SHOWMAP" -m "$MEM_LIMIT" -t "$TIMEOUT" -o "$TRACE_DIR/.run_test" -Z $EXTRA_PAR -A "$STDIN_FILE" -- "$@" </dev/null
 
 fi
 
@@ -292,7 +292,7 @@ if [ "$FIRST_COUNT" -gt "0" ]; then
 else
 
   echo "[-] Error: no instrumentation output detected (perhaps crash or timeout)." 1>&2
-  test "$AFL_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
+  test "$FOT_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
   exit 1
 
 fi
@@ -399,7 +399,7 @@ sort -k1,1 -s -u "$TRACE_DIR/.candidate_list" | \
 
 if [ ! -s "$TRACE_DIR/.candidate_script" ]; then
   echo "[-] Error: no traces obtained from test cases, check syntax!" 1>&2
-  test "$AFL_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
+  test "$FOT_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
   exit 1
 fi
 
@@ -456,6 +456,6 @@ fi
 echo "[+] Narrowed down to $OUT_COUNT files, saved in '$OUT_DIR'."
 echo
 
-test "$AFL_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
+test "$FOT_KEEP_TRACES" = "" && rm -rf "$TRACE_DIR"
 
 exit 0

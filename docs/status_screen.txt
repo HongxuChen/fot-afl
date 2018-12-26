@@ -144,7 +144,7 @@ Be wary of extremes:
 
     Because high bitmap density makes it harder for the fuzzer to reliably
     discern new program states, I recommend recompiling the binary with
-    AFL_INST_RATIO=10 or so and trying again (see env_variables.txt).
+    FOT_INST_RATIO=10 or so and trying again (see env_variables.txt).
 
     The fuzzer will flag high percentages in red. Chances are, you will never
     see that unless you're fuzzing extremely hairy software (say, v8, perl,
@@ -304,14 +304,14 @@ That last bit is actually fairly interesting: it measures the consistency of
 observed traces. If a program always behaves the same for the same input data,
 it will earn a score of 100%. When the value is lower but still shown in purple,
 the fuzzing process is unlikely to be negatively affected. If it goes into red,
-you may be in trouble, since AFL will have difficulty discerning between
+you may be in trouble, since FOT will have difficulty discerning between
 meaningful and "phantom" effects of tweaking the input file.
 
 Now, most targets will just get a 100% score, but when you see lower figures,
 there are several things to look at:
 
   - The use of uninitialized memory in conjunction with some intrinsic sources
-    of entropy in the tested binary. Harmless to AFL, but could be indicative
+    of entropy in the tested binary. Harmless to FOT, but could be indicative
     of a security bug.
 
   - Attempts to manipulate persistent resources, such as left over temporary
@@ -340,7 +340,7 @@ there are several things to look at:
 
   - In persistent mode, minor drops in the "stability" metric can be normal,
     because not all the code behaves identically when re-entered; but major
-    dips may signify that the code within __AFL_LOOP() is not behaving
+    dips may signify that the code within __FOT_LOOP() is not behaving
     correctly on subsequent iterations (e.g., due to incomplete clean-up or
     reinitialization of the state) and that most of the fuzzing effort goes
     to waste.

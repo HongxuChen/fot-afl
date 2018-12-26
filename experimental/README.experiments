@@ -27,7 +27,7 @@ Here's a quick overview of the stuff you can find in this directory:
   - persistent_demo      - an example of how to use the LLVM persistent process
                            mode to speed up certain fuzzing jobs.
 
-  - post_library         - an example of how to build postprocessors for AFL.
+  - post_library         - an example of how to build postprocessors for FOT.
 
 Note that the minimize_corpus.sh tool has graduated from the experimental/
 directory and is now available as ../afl-cmin. The LLVM mode has likewise
