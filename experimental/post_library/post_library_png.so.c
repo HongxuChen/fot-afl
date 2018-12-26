@@ -35,7 +35,7 @@
 
 #define UP4K(_i) ((((_i) >> 12) + 1) << 12)
 
-const unsigned char* afl_postprocess(const unsigned char* in_buf,
+const unsigned char* fafl_postprocess(const unsigned char* in_buf,
                                      unsigned int* len) {
 
   static unsigned char* saved_buf;

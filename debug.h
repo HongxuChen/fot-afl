@@ -187,7 +187,7 @@
     SAYF(cRST "\n"); \
   } while (0)
 
-/* Show a prefixed fatal error message (not used in afl). */
+/* Show a prefixed fatal error message (not used in fafl). */
 
 #define BADF(x...) do { \
     SAYF(cLRD "\n[-] " cRST x); \

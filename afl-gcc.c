@@ -13,13 +13,13 @@
      http://www.apache.org/licenses/LICENSE-2.0
 
    This program is a drop-in replacement for GCC or clang. The most common way
-   of using it is to pass the path to afl-gcc or afl-clang via CC when invoking
+   of using it is to pass the path to fafl-gcc or fafl-clang via CC when invoking
    ./configure.
 
-   (Of course, use CXX and point it to afl-g++ / afl-clang++ for C++ code.)
+   (Of course, use CXX and point it to fafl-g++ / fafl-clang++ for C++ code.)
 
-   The wrapper needs to know the path to afl-as (renamed to 'as'). The default
-   is /usr/local/lib/afl/. A convenient way to specify alternative directories
+   The wrapper needs to know the path to fafl-as (renamed to 'as'). The default
+   is /usr/local/lib/fafl/. A convenient way to specify alternative directories
    would be to set FOT_PATH.
 
    If FOT_HARDEN is set, the wrapper will compile the target app with various
@@ -47,7 +47,7 @@ static u8*  as_path;                /* Path to the FOT 'as' wrapper      */
 static u8** cc_params;              /* Parameters passed to the real CC  */
 static u32  cc_par_cnt = 1;         /* Param count, including argv0      */
 static u8   be_quiet,               /* Quiet mode                        */
-            clang_mode;             /* Invoked as afl-clang*?            */
+            clang_mode;             /* Invoked as fafl-clang*?            */
 
 
 /* Try to find our "fake" GNU assembler in FOT_PATH or at the location derived
@@ -55,15 +55,15 @@ static u8   be_quiet,               /* Quiet mode                        */
 
 static void find_as(u8* argv0) {
 
-  u8 *afl_path = getenv("FOT_PATH");
+  u8 *fafl_path = getenv("FOT_PATH");
   u8 *slash, *tmp;
 
-  if (afl_path) {
+  if (fafl_path) {
 
-    tmp = alloc_printf("%s/as", afl_path);
+    tmp = alloc_printf("%s/as", fafl_path);
 
     if (!access(tmp, X_OK)) {
-      as_path = afl_path;
+      as_path = fafl_path;
       ck_free(tmp);
       return;
     }
@@ -82,7 +82,7 @@ static void find_as(u8* argv0) {
     dir = ck_strdup(argv0);
     *slash = '/';
 
-    tmp = alloc_printf("%s/afl-as", dir);
+    tmp = alloc_printf("%s/fafl-as", dir);
 
     if (!access(tmp, X_OK)) {
       as_path = dir;
@@ -121,13 +121,13 @@ static void edit_params(u32 argc, char** argv) {
   name = strrchr(argv[0], '/');
   if (!name) name = argv[0]; else name++;
 
-  if (!strncmp(name, "afl-clang", 9)) {
+  if (!strncmp(name, "fafl-clang", 9)) {
 
     clang_mode = 1;
 
     setenv(CLANG_ENV_VAR, "1", 1);
 
-    if (!strcmp(name, "afl-clang++")) {
+    if (!strcmp(name, "fafl-clang++")) {
       u8* alt_cxx = getenv("FOT_CXX");
       cc_params[0] = alt_cxx ? alt_cxx : (u8*)"clang++";
     } else {
@@ -139,21 +139,21 @@ static void edit_params(u32 argc, char** argv) {
 
     /* With GCJ and Eclipse installed, you can actually compile Java! The
        instrumentation will work (amazingly). Alas, unhandled exceptions do
-       not call abort(), so afl-fuzz would need to be modified to equate
+       not call abort(), so fafl-fuzz would need to be modified to equate
        non-zero exit codes with crash conditions when working with Java
        binaries. Meh. */
 
 #ifdef __APPLE__
 
-    if (!strcmp(name, "afl-g++")) cc_params[0] = getenv("FOT_CXX");
-    else if (!strcmp(name, "afl-gcj")) cc_params[0] = getenv("FOT_GCJ");
+    if (!strcmp(name, "fafl-g++")) cc_params[0] = getenv("FOT_CXX");
+    else if (!strcmp(name, "fafl-gcj")) cc_params[0] = getenv("FOT_GCJ");
     else cc_params[0] = getenv("FOT_CC");
 
     if (!cc_params[0]) {
 
       SAYF("\n" cLRD "[-] " cRST
            "On Apple systems, 'gcc' is usually just a wrapper for clang. Please use the\n"
-           "    'afl-clang' utility instead of 'afl-gcc'. If you really have GCC installed,\n"
+           "    'fafl-clang' utility instead of 'fafl-gcc'. If you really have GCC installed,\n"
            "    set FOT_CC or FOT_CXX to specify the correct path to that compiler.\n");
 
       FATAL("FOT_CC or FOT_CXX required on MacOS X");
@@ -162,10 +162,10 @@ static void edit_params(u32 argc, char** argv) {
 
 #else
 
-    if (!strcmp(name, "afl-g++")) {
+    if (!strcmp(name, "fafl-g++")) {
       u8* alt_cxx = getenv("FOT_CXX");
       cc_params[0] = alt_cxx ? alt_cxx : (u8*)"g++";
-    } else if (!strcmp(name, "afl-gcj")) {
+    } else if (!strcmp(name, "fafl-gcj")) {
       u8* alt_cc = getenv("FOT_GCJ");
       cc_params[0] = alt_cc ? alt_cc : (u8*)"gcj";
     } else {
@@ -223,7 +223,7 @@ static void edit_params(u32 argc, char** argv) {
 
   if (asan_set) {
 
-    /* Pass this on to afl-as to adjust map density. */
+    /* Pass this on to fafl-as to adjust map density. */
 
     setenv("FOT_USE_ASAN", "1", 1);
 
@@ -303,19 +303,19 @@ int main(int argc, char** argv) {
 
   if (isatty(2) && !getenv("FOT_QUIET")) {
 
-    SAYF(cCYA "afl-cc " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+    SAYF(cCYA "fafl-cc " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   } else be_quiet = 1;
 
   if (argc < 2) {
 
     SAYF("\n"
-         "This is a helper application for afl-fuzz. It serves as a drop-in replacement\n"
+         "This is a helper application for fafl-fuzz. It serves as a drop-in replacement\n"
          "for gcc or clang, letting you recompile third-party code with the required\n"
          "runtime instrumentation. A common use pattern would be one of the following:\n\n"
 
-         "  CC=%s/afl-gcc ./configure\n"
-         "  CXX=%s/afl-g++ ./configure\n\n"
+         "  CC=%s/fafl-gcc ./configure\n"
+         "  CXX=%s/fafl-g++ ./configure\n\n"
 
          "You can specify custom next-stage toolchain via FOT_CC, FOT_CXX, and FOT_AS.\n"
          "Setting FOT_HARDEN enables hardening optimizations in the compiled code.\n\n",

@@ -22,7 +22,7 @@
 
    The resulting QEMU binary is essentially a standalone instrumentation
    tool; for an example of how to leverage it for other purposes, you can
-   have a look at afl-showmap.c.
+   have a look at fafl-showmap.c.
 
  */
 
@@ -39,19 +39,19 @@
    overhead in the next forked-off copy). */
 
 #define FOT_QEMU_CPU_SNIPPET1 do { \
-    afl_request_tsl(pc, cs_base, flags); \
+    fafl_request_tsl(pc, cs_base, flags); \
   } while (0)
 
 /* This snippet kicks in when the instruction pointer is positioned at
    _start and does the usual forkserver stuff, not very different from
-   regular instrumentation injected via afl-as.h. */
+   regular instrumentation injected via fafl-as.h. */
 
 #define FOT_QEMU_CPU_SNIPPET2 do { \
-    if(itb->pc == afl_entry_point) { \
-      afl_setup(); \
-      afl_forkserver(cpu); \
+    if(itb->pc == fafl_entry_point) { \
+      fafl_setup(); \
+      fafl_forkserver(cpu); \
     } \
-    afl_maybe_log(itb->pc); \
+    fafl_maybe_log(itb->pc); \
   } while (0)
 
 /* We use one additional file descriptor to relay "needs translation"
@@ -59,37 +59,37 @@
 
 #define TSL_FD (FORKSRV_FD - 1)
 
-/* This is equivalent to afl-as.h: */
+/* This is equivalent to fafl-as.h: */
 
-static unsigned char *afl_area_ptr;
+static unsigned char *fafl_area_ptr;
 
 /* Exported variables populated by the code patched into elfload.c: */
 
-abi_ulong afl_entry_point, /* ELF entry point (_start) */
-          afl_start_code,  /* .text start pointer      */
-          afl_end_code;    /* .text end pointer        */
+abi_ulong fafl_entry_point, /* ELF entry point (_start) */
+          fafl_start_code,  /* .text start pointer      */
+          fafl_end_code;    /* .text end pointer        */
 
 /* Set in the child process in forkserver mode: */
 
-static unsigned char afl_fork_child;
-unsigned int afl_forksrv_pid;
+static unsigned char fafl_fork_child;
+unsigned int fafl_forksrv_pid;
 
 /* Instrumentation ratio: */
 
-static unsigned int afl_inst_rms = MAP_SIZE;
+static unsigned int fafl_inst_rms = MAP_SIZE;
 
 /* Function declarations. */
 
-static void afl_setup(void);
-static void afl_forkserver(CPUState*);
-static inline void afl_maybe_log(abi_ulong);
+static void fafl_setup(void);
+static void fafl_forkserver(CPUState*);
+static inline void fafl_maybe_log(abi_ulong);
 
-static void afl_wait_tsl(CPUState*, int);
-static void afl_request_tsl(target_ulong, target_ulong, uint64_t);
+static void fafl_wait_tsl(CPUState*, int);
+static void fafl_request_tsl(target_ulong, target_ulong, uint64_t);
 
 /* Data structure passed around by the translate handlers: */
 
-struct afl_tsl {
+struct fafl_tsl {
   target_ulong pc;
   target_ulong cs_base;
   uint64_t flags;
@@ -106,7 +106,7 @@ static inline TranslationBlock *tb_find(CPUState*, TranslationBlock*, int);
 
 /* Set up SHM region and initialize other stuff. */
 
-static void afl_setup(void) {
+static void fafl_setup(void) {
 
   char *id_str = getenv(SHM_ENV_VAR),
        *inst_r = getenv("FOT_INST_RATIO");
@@ -122,29 +122,29 @@ static void afl_setup(void) {
     if (r > 100) r = 100;
     if (!r) r = 1;
 
-    afl_inst_rms = MAP_SIZE * r / 100;
+    fafl_inst_rms = MAP_SIZE * r / 100;
 
   }
 
   if (id_str) {
 
     shm_id = atoi(id_str);
-    afl_area_ptr = shmat(shm_id, NULL, 0);
+    fafl_area_ptr = shmat(shm_id, NULL, 0);
 
-    if (afl_area_ptr == (void*)-1) exit(1);
+    if (fafl_area_ptr == (void*)-1) exit(1);
 
     /* With FOT_INST_RATIO set to a low value, we want to touch the bitmap
        so that the parent doesn't give up on us. */
 
-    if (inst_r) afl_area_ptr[0] = 1;
+    if (inst_r) fafl_area_ptr[0] = 1;
 
 
   }
 
   if (getenv("FOT_INST_LIBS")) {
 
-    afl_start_code = 0;
-    afl_end_code   = (abi_ulong)-1;
+    fafl_start_code = 0;
+    fafl_end_code   = (abi_ulong)-1;
 
   }
 
@@ -159,18 +159,18 @@ static void afl_setup(void) {
 
 /* Fork server logic, invoked once we hit _start. */
 
-static void afl_forkserver(CPUState *cpu) {
+static void fafl_forkserver(CPUState *cpu) {
 
   static unsigned char tmp[4];
 
-  if (!afl_area_ptr) return;
+  if (!fafl_area_ptr) return;
 
   /* Tell the parent that we're alive. If the parent doesn't want
      to talk, assume that we're not running in forkserver mode. */
 
   if (write(FORKSRV_FD + 1, tmp, 4) != 4) return;
 
-  afl_forksrv_pid = getpid();
+  fafl_forksrv_pid = getpid();
 
   /* All right, let's await orders... */
 
@@ -196,7 +196,7 @@ static void afl_forkserver(CPUState *cpu) {
 
       /* Child process. Close descriptors and run free. */
 
-      afl_fork_child = 1;
+      fafl_fork_child = 1;
       close(FORKSRV_FD);
       close(FORKSRV_FD + 1);
       close(t_fd[0]);
@@ -212,7 +212,7 @@ static void afl_forkserver(CPUState *cpu) {
 
     /* Collect translation requests until child dies and closes the pipe. */
 
-    afl_wait_tsl(cpu, t_fd[0]);
+    fafl_wait_tsl(cpu, t_fd[0]);
 
     /* Get and relay exit status to parent. */
 
@@ -224,16 +224,16 @@ static void afl_forkserver(CPUState *cpu) {
 }
 
 
-/* The equivalent of the tuple logging routine from afl-as.h. */
+/* The equivalent of the tuple logging routine from fafl-as.h. */
 
-static inline void afl_maybe_log(abi_ulong cur_loc) {
+static inline void fafl_maybe_log(abi_ulong cur_loc) {
 
   static __thread abi_ulong prev_loc;
 
-  /* Optimize for cur_loc > afl_end_code, which is the most likely case on
+  /* Optimize for cur_loc > fafl_end_code, which is the most likely case on
      Linux systems. */
 
-  if (cur_loc > afl_end_code || cur_loc < afl_start_code || !afl_area_ptr)
+  if (cur_loc > fafl_end_code || cur_loc < fafl_start_code || !fafl_area_ptr)
     return;
 
   /* Looks like QEMU always maps to fixed locations, so ASAN is not a
@@ -246,9 +246,9 @@ static inline void afl_maybe_log(abi_ulong cur_loc) {
   /* Implement probabilistic instrumentation by looking at scrambled block
      address. This keeps the instrumented locations stable across runs. */
 
-  if (cur_loc >= afl_inst_rms) return;
+  if (cur_loc >= fafl_inst_rms) return;
 
-  afl_area_ptr[cur_loc ^ prev_loc]++;
+  fafl_area_ptr[cur_loc ^ prev_loc]++;
   prev_loc = cur_loc >> 1;
 
 }
@@ -259,34 +259,34 @@ static inline void afl_maybe_log(abi_ulong cur_loc) {
    we tell the parent to mirror the operation, so that the next fork() has a
    cached copy. */
 
-static void afl_request_tsl(target_ulong pc, target_ulong cb, uint64_t flags) {
+static void fafl_request_tsl(target_ulong pc, target_ulong cb, uint64_t flags) {
 
-  struct afl_tsl t;
+  struct fafl_tsl t;
 
-  if (!afl_fork_child) return;
+  if (!fafl_fork_child) return;
 
   t.pc      = pc;
   t.cs_base = cb;
   t.flags   = flags;
 
-  if (write(TSL_FD, &t, sizeof(struct afl_tsl)) != sizeof(struct afl_tsl))
+  if (write(TSL_FD, &t, sizeof(struct fafl_tsl)) != sizeof(struct fafl_tsl))
     return;
 
 }
 
 /* This is the other side of the same channel. Since timeouts are handled by
-   afl-fuzz simply killing the child, we can just wait until the pipe breaks. */
+   fafl-fuzz simply killing the child, we can just wait until the pipe breaks. */
 
-static void afl_wait_tsl(CPUState *cpu, int fd) {
+static void fafl_wait_tsl(CPUState *cpu, int fd) {
 
-  struct afl_tsl t;
+  struct fafl_tsl t;
   TranslationBlock *tb;
 
   while (1) {
 
     /* Broken pipe means it's time to return to the fork server routine. */
 
-    if (read(fd, &t, sizeof(struct afl_tsl)) != sizeof(struct afl_tsl))
+    if (read(fd, &t, sizeof(struct fafl_tsl)) != sizeof(struct fafl_tsl))
       break;
 
     tb = tb_htable_lookup(cpu, t.pc, t.cs_base, t.flags);

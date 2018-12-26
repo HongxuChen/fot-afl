@@ -18,7 +18,7 @@
    across runs.
 
    To make this work, the library and this shim need to be compiled in LLVM
-   mode using afl-clang-fast (other compiler wrappers will *not* work).
+   mode using fafl-clang-fast (other compiler wrappers will *not* work).
 
  */
 

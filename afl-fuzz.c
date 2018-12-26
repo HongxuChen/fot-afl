@@ -482,7 +482,7 @@ static void bind_to_free_cpu(void) {
 
     SAYF("\n" cLRD "[-] " cRST
          "Uh-oh, looks like all %u CPU cores on your system are allocated to\n"
-         "    other instances of afl-fuzz (or similar CPU-locked tasks). Starting\n"
+         "    other instances of fafl-fuzz (or similar CPU-locked tasks). Starting\n"
          "    another fuzzer on this machine is probably a bad plan, but if you are\n"
          "    absolutely sure, you can set FOT_NO_AFFINITY and try again.\n",
          cpu_core_count);
@@ -1387,8 +1387,8 @@ static void setup_post(void) {
   dh = dlopen(fn, RTLD_NOW);
   if (!dh) FATAL("%s", dlerror());
 
-  post_handler = dlsym(dh, "afl_postprocess");
-  if (!post_handler) FATAL("Symbol 'afl_postprocess' not found.");
+  post_handler = dlsym(dh, "fafl_postprocess");
+  if (!post_handler) FATAL("Symbol 'fafl_postprocess' not found.");
 
   /* Do a quick test. It's better to segfault now than later =) */
 
@@ -1971,7 +1971,7 @@ static void destroy_extras(void) {
 
    In essence, the instrumentation allows us to skip execve(), and just keep
    cloning a stopped child. So, we just execute once, and then send commands
-   through a pipe. The other part of this logic is in afl-as.h. */
+   through a pipe. The other part of this logic is in fafl-as.h. */
 
 EXP_ST void init_forkserver(char** argv) {
 
@@ -2153,7 +2153,7 @@ EXP_ST void init_forkserver(char** argv) {
 #ifdef __APPLE__
 
            "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
-           "      break afl-fuzz performance optimizations when running platform-specific\n"
+           "      break fafl-fuzz performance optimizations when running platform-specific\n"
            "      targets. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
@@ -2187,7 +2187,7 @@ EXP_ST void init_forkserver(char** argv) {
 #ifdef __APPLE__
 
            "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
-           "      break afl-fuzz performance optimizations when running platform-specific\n"
+           "      break fafl-fuzz performance optimizations when running platform-specific\n"
            "      targets. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
@@ -2686,7 +2686,7 @@ static void check_map_coverage(void) {
   for (i = (1 << (MAP_SIZE_POW2 - 1)); i < MAP_SIZE; i++)
     if (trace_bits[i]) return;
 
-  WARNF("Recompile binary with newer version of afl to improve coverage!");
+  WARNF("Recompile binary with newer version of fafl to improve coverage!");
 
 }
 
@@ -2744,7 +2744,7 @@ static void perform_dry_run(char** argv) {
         if (timeout_given) {
 
           /* The -t nn+ syntax in the command line sets timeout_given to '2' and
-             instructs afl-fuzz to tolerate but skip queue entries that time
+             instructs fafl-fuzz to tolerate but skip queue entries that time
              out. */
 
           if (timeout_given > 1) {
@@ -2817,7 +2817,7 @@ static void perform_dry_run(char** argv) {
 #ifdef __APPLE__
   
                "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
-               "      break afl-fuzz performance optimizations when running platform-specific\n"
+               "      break fafl-fuzz performance optimizations when running platform-specific\n"
                "      binaries. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
@@ -2839,7 +2839,7 @@ static void perform_dry_run(char** argv) {
 #ifdef __APPLE__
   
                "    - On MacOS X, the semantics of fork() syscalls are non-standard and may\n"
-               "      break afl-fuzz performance optimizations when running platform-specific\n"
+               "      break fafl-fuzz performance optimizations when running platform-specific\n"
                "      binaries. To fix this, set FOT_NO_FORKSRV=1 in the environment.\n\n"
 
 #endif /* __APPLE__ */
@@ -3089,17 +3089,17 @@ static void write_crash_readme(void) {
 
              "%s\n\n"
 
-             "If you can't reproduce a bug outside of afl-fuzz, be sure to set the same\n"
+             "If you can't reproduce a bug outside of fafl-fuzz, be sure to set the same\n"
              "memory limit. The limit used for this fuzzing session was %s.\n\n"
 
              "Need a tool to minimize test cases before investigating the crashes or sending\n"
-             "them to a vendor? Check out the afl-tmin that comes with the fuzzer!\n\n"
+             "them to a vendor? Check out the fafl-tmin that comes with the fuzzer!\n\n"
 
-             "Found any cool bugs in open-source tools using afl-fuzz? If yes, please drop\n"
+             "Found any cool bugs in open-source tools using fafl-fuzz? If yes, please drop\n"
              "me a mail at <lcamtuf@coredump.cx> once the issues are fixed - I'd love to\n"
              "add your finds to the gallery at:\n\n"
 
-             "  http://lcamtuf.coredump.cx/afl/\n\n"
+             "  http://lcamtuf.coredump.cx/fafl/\n\n"
 
              "Thanks :-)\n",
 
@@ -3427,8 +3427,8 @@ static void write_stats_file(double bitmap_cvg, double stability, double eps) {
              "last_hang         : %llu\n"
              "execs_since_crash : %llu\n"
              "exec_timeout      : %u\n"
-             "afl_banner        : %s\n"
-             "afl_version       : " VERSION "\n"
+             "fafl_banner        : %s\n"
+             "fafl_version       : " VERSION "\n"
              "target_mode       : %s%s%s%s%s%s%s\n"
              "command_line      : %s\n",
              start_time / 1000, get_cur_time() / 1000, getpid(),
@@ -3636,7 +3636,7 @@ static void maybe_delete_out_dir(void) {
 
     SAYF("\n" cLRD "[-] " cRST
          "Looks like the job output directory is being actively used by another\n"
-         "    instance of afl-fuzz. You will need to choose a different %s\n"
+         "    instance of fafl-fuzz. You will need to choose a different %s\n"
          "    or stop the other process first.\n",
          sync_id ? "fuzzer ID" : "output location");
 
@@ -3664,7 +3664,7 @@ static void maybe_delete_out_dir(void) {
 
       SAYF("\n" cLRD "[-] " cRST
            "The job output directory already exists and contains the results of more\n"
-           "    than %u minutes worth of fuzzing. To avoid data loss, afl-fuzz will *NOT*\n"
+           "    than %u minutes worth of fuzzing. To avoid data loss, fafl-fuzz will *NOT*\n"
            "    automatically delete this data for you.\n\n"
 
            "    If you wish to start a new session, remove or rename the directory manually,\n"
@@ -4749,7 +4749,7 @@ static u32 calculate_score(struct queue_entry* q) {
 
 /* Helper function to see if a particular change (xor_val = old ^ new) could
    be a product of deterministic bit flips with the lengths and stepovers
-   attempted by afl-fuzz. This is used to avoid dupes in some of the
+   attempted by fafl-fuzz. This is used to avoid dupes in some of the
    deterministic fuzzing operations that follow bit flips. We also
    return 1 if xor_val is zero, which implies that the old and attempted new
    values are identical and the exec would be a waste of time. */
@@ -6913,7 +6913,7 @@ EXP_ST void check_binary(u8* fname) {
          "    When source code is not available, you may be able to leverage QEMU\n"
          "    mode support. Consult the README for tips on how to enable this.\n"
 
-         "    (It is also possible to use afl-fuzz as a traditional, \"dumb\" fuzzer.\n"
+         "    (It is also possible to use fafl-fuzz as a traditional, \"dumb\" fuzzer.\n"
          "    For that, you can use the -n option - but expect much worse results.)\n",
          doc_path);
 
@@ -6925,7 +6925,7 @@ EXP_ST void check_binary(u8* fname) {
       memmem(f_data, f_len, SHM_ENV_VAR, strlen(SHM_ENV_VAR) + 1)) {
 
     SAYF("\n" cLRD "[-] " cRST
-         "This program appears to be instrumented with afl-gcc, but is being run in\n"
+         "This program appears to be instrumented with fafl-gcc, but is being run in\n"
          "    QEMU mode (-Q). This is probably not what you want - this setup will be\n"
          "    slow and offer no practical benefits.\n");
 
@@ -7324,14 +7324,14 @@ static void check_cpu_governor(void) {
        "Whoops, your system uses on-demand CPU frequency scaling, adjusted\n"
        "    between %llu and %llu MHz. Unfortunately, the scaling algorithm in the\n"
        "    kernel is imperfect and can miss the short-lived processes spawned by\n"
-       "    afl-fuzz. To keep things moving, run these commands as root:\n\n"
+       "    fafl-fuzz. To keep things moving, run these commands as root:\n\n"
 
        "    cd /sys/devices/system/cpu\n"
        "    echo performance | tee cpu*/cpufreq/scaling_governor\n\n"
 
        "    You can later go back to the original state by replacing 'performance' with\n"
        "    'ondemand'. If you don't want to change the settings, set FOT_SKIP_CPUFREQ\n"
-       "    to make afl-fuzz skip this check - but expect some performance drop.\n",
+       "    to make fafl-fuzz skip this check - but expect some performance drop.\n",
        min / 1024, max / 1024);
 
   FATAL("Suboptimal CPU scaling governor");
@@ -7620,7 +7620,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   if (tmp) {
 
-    cp = alloc_printf("%s/afl-qemu-trace", tmp);
+    cp = alloc_printf("%s/fafl-qemu-trace", tmp);
 
     if (access(cp, X_OK))
       FATAL("Unable to find '%s'", tmp);
@@ -7637,7 +7637,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
     *rsl = 0;
 
-    cp = alloc_printf("%s/afl-qemu-trace", own_copy);
+    cp = alloc_printf("%s/fafl-qemu-trace", own_copy);
     ck_free(own_copy);
 
     if (!access(cp, X_OK)) {
@@ -7649,24 +7649,24 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   } else ck_free(own_copy);
 
-  if (!access(BIN_PATH "/afl-qemu-trace", X_OK)) {
+  if (!access(BIN_PATH "/fafl-qemu-trace", X_OK)) {
 
-    target_path = new_argv[0] = ck_strdup(BIN_PATH "/afl-qemu-trace");
+    target_path = new_argv[0] = ck_strdup(BIN_PATH "/fafl-qemu-trace");
     return new_argv;
 
   }
 
   SAYF("\n" cLRD "[-] " cRST
-       "Oops, unable to find the 'afl-qemu-trace' binary. The binary must be built\n"
+       "Oops, unable to find the 'fafl-qemu-trace' binary. The binary must be built\n"
        "    separately by following the instructions in qemu_mode/README.qemu. If you\n"
        "    already have the binary installed, you may need to specify FOT_PATH in the\n"
        "    environment.\n\n"
 
-       "    Of course, even without QEMU, afl-fuzz can still work with binaries that are\n"
-       "    instrumented at compile time with afl-gcc. It is also possible to use it as a\n"
+       "    Of course, even without QEMU, fafl-fuzz can still work with binaries that are\n"
+       "    instrumented at compile time with fafl-gcc. It is also possible to use it as a\n"
        "    traditional \"dumb\" fuzzer by specifying '-n' in the command line.\n");
 
-  FATAL("Failed to locate 'afl-qemu-trace'.");
+  FATAL("Failed to locate 'fafl-qemu-trace'.");
 
 }
 
@@ -7716,7 +7716,7 @@ int main(int argc, char** argv) {
   struct timeval tv;
   struct timezone tz;
 
-  SAYF(cCYA "afl-fuzz " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "fafl-fuzz " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;
 

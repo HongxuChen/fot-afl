@@ -29,7 +29,7 @@
  *                                                    *
  ******************************************************/
 
-/* Comment out to disable terminal colors (note that this makes afl-analyze
+/* Comment out to disable terminal colors (note that this makes fafl-analyze
    a lot less nice): */
 
 #define USE_COLOR
@@ -145,7 +145,7 @@
 
 #define TMIN_MAX_FILE       (10 * 1024 * 1024)
 
-/* Block normalization steps for afl-tmin: */
+/* Block normalization steps for fafl-tmin: */
 
 #define TMIN_SET_MIN_SIZE   4
 #define TMIN_SET_STEPS      128
@@ -324,7 +324,7 @@
 
 #define HASH_CONST          0xa5b35705
 
-/* Constants for afl-gotcpu to control busy loop timing: */
+/* Constants for fafl-gotcpu to control busy loop timing: */
 
 #define  CTEST_TARGET_MS    5000
 #define  CTEST_CORE_TRG_MS  1000

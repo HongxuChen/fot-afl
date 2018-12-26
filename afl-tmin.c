@@ -683,7 +683,7 @@ static void set_up_environment(void) {
 
     }
 
-    prog_in = alloc_printf("%s/.afl-tmin-temp-%u", use_dir, getpid());
+    prog_in = alloc_printf("%s/.fafl-tmin-temp-%u", use_dir, getpid());
 
   }
 
@@ -909,7 +909,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   if (tmp) {
 
-    cp = alloc_printf("%s/afl-qemu-trace", tmp);
+    cp = alloc_printf("%s/fafl-qemu-trace", tmp);
 
     if (access(cp, X_OK))
       FATAL("Unable to find '%s'", tmp);
@@ -926,7 +926,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
     *rsl = 0;
 
-    cp = alloc_printf("%s/afl-qemu-trace", own_copy);
+    cp = alloc_printf("%s/fafl-qemu-trace", own_copy);
     ck_free(own_copy);
 
     if (!access(cp, X_OK)) {
@@ -938,14 +938,14 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   } else ck_free(own_copy);
 
-  if (!access(BIN_PATH "/afl-qemu-trace", X_OK)) {
+  if (!access(BIN_PATH "/fafl-qemu-trace", X_OK)) {
 
-    target_path = new_argv[0] = BIN_PATH "/afl-qemu-trace";
+    target_path = new_argv[0] = BIN_PATH "/fafl-qemu-trace";
     return new_argv;
 
   }
 
-  FATAL("Unable to find 'afl-qemu-trace'.");
+  FATAL("Unable to find 'fafl-qemu-trace'.");
 
 }
 
@@ -976,7 +976,7 @@ int main(int argc, char** argv) {
 
   doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;
 
-  SAYF(cCYA "afl-tmin " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "fafl-tmin " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   while ((opt = getopt(argc,argv,"+i:o:f:m:t:B:xeQ")) > 0)
 
@@ -1077,7 +1077,7 @@ int main(int argc, char** argv) {
            file you want to minimize.
 
            You can dump a binary bitmap for the boring file using
-           afl-showmap -b, and then load it into afl-tmin via -B. The minimizer
+           fafl-showmap -b, and then load it into fafl-tmin via -B. The minimizer
            will then minimize to preserve only the edges that are unique to
            the interesting input file, but ignoring everything from the
            original map.

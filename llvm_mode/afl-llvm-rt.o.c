@@ -15,7 +15,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0
 
-   This code is the rewrite of afl-as.h's main_payload.
+   This code is the rewrite of fafl-as.h's main_payload.
 
 */
 
@@ -45,14 +45,14 @@
 #endif /* ^USE_TRACE_PC */
 
 
-/* Globals needed by the injected instrumentation. The __afl_area_initial region
-   is used for instrumentation output before __afl_map_shm() has a chance to run.
+/* Globals needed by the injected instrumentation. The __fafl_area_initial region
+   is used for instrumentation output before __fafl_map_shm() has a chance to run.
    It will end up as .comm, so it shouldn't be too wasteful. */
 
-u8  __afl_area_initial[MAP_SIZE];
-u8* __afl_area_ptr = __afl_area_initial;
+u8  __fafl_area_initial[MAP_SIZE];
+u8* __fafl_area_ptr = __fafl_area_initial;
 
-__thread u32 __afl_prev_loc;
+__thread u32 __fafl_prev_loc;
 
 
 /* Running in persistent mode? */
@@ -62,28 +62,28 @@ static u8 is_persistent;
 
 /* SHM setup. */
 
-static void __afl_map_shm(void) {
+static void __fafl_map_shm(void) {
 
   u8 *id_str = getenv(SHM_ENV_VAR);
 
   /* If we're running under FOT, attach to the appropriate region, replacing the
-     early-stage __afl_area_initial region that is needed to allow some really
+     early-stage __fafl_area_initial region that is needed to allow some really
      hacky .init code to work correctly in projects such as OpenSSL. */
 
   if (id_str) {
 
     u32 shm_id = atoi(id_str);
 
-    __afl_area_ptr = shmat(shm_id, NULL, 0);
+    __fafl_area_ptr = shmat(shm_id, NULL, 0);
 
     /* Whooooops. */
 
-    if (__afl_area_ptr == (void *)-1) _exit(1);
+    if (__fafl_area_ptr == (void *)-1) _exit(1);
 
     /* Write something into the bitmap so that even with low FOT_INST_RATIO,
        our parent doesn't give up on us. */
 
-    __afl_area_ptr[0] = 1;
+    __fafl_area_ptr[0] = 1;
 
   }
 
@@ -92,7 +92,7 @@ static void __afl_map_shm(void) {
 
 /* Fork server logic. */
 
-static void __afl_start_forkserver(void) {
+static void __fafl_start_forkserver(void) {
 
   static u8 tmp[4];
   s32 child_pid;
@@ -114,7 +114,7 @@ static void __afl_start_forkserver(void) {
     if (read(FORKSRV_FD, &was_killed, 4) != 4) _exit(1);
 
     /* If we stopped the child in persistent mode, but there was a race
-       condition and afl-fuzz already issued SIGKILL, write off the old
+       condition and fafl-fuzz already issued SIGKILL, write off the old
        process. */
 
     if (child_stopped && was_killed) {
@@ -173,7 +173,7 @@ static void __afl_start_forkserver(void) {
 
 /* A simplified persistent mode handler, used as explained in README.llvm. */
 
-int __afl_persistent_loop(unsigned int max_cnt) {
+int __fafl_persistent_loop(unsigned int max_cnt) {
 
   static u8  first_pass = 1;
   static u32 cycle_cnt;
@@ -187,9 +187,9 @@ int __afl_persistent_loop(unsigned int max_cnt) {
 
     if (is_persistent) {
 
-      memset(__afl_area_ptr, 0, MAP_SIZE);
-      __afl_area_ptr[0] = 1;
-      __afl_prev_loc = 0;
+      memset(__fafl_area_ptr, 0, MAP_SIZE);
+      __fafl_area_ptr[0] = 1;
+      __fafl_prev_loc = 0;
     }
 
     cycle_cnt  = max_cnt;
@@ -204,8 +204,8 @@ int __afl_persistent_loop(unsigned int max_cnt) {
 
       raise(SIGSTOP);
 
-      __afl_area_ptr[0] = 1;
-      __afl_prev_loc = 0;
+      __fafl_area_ptr[0] = 1;
+      __fafl_prev_loc = 0;
 
       return 1;
 
@@ -215,7 +215,7 @@ int __afl_persistent_loop(unsigned int max_cnt) {
          follows the loop is not traced. We do that by pivoting back to the
          dummy output region. */
 
-      __afl_area_ptr = __afl_area_initial;
+      __fafl_area_ptr = __fafl_area_initial;
 
     }
 
@@ -229,14 +229,14 @@ int __afl_persistent_loop(unsigned int max_cnt) {
 /* This one can be called from user code when deferred forkserver mode
     is enabled. */
 
-void __afl_manual_init(void) {
+void __fafl_manual_init(void) {
 
   static u8 init_done;
 
   if (!init_done) {
 
-    __afl_map_shm();
-    __afl_start_forkserver();
+    __fafl_map_shm();
+    __fafl_start_forkserver();
     init_done = 1;
 
   }
@@ -246,13 +246,13 @@ void __afl_manual_init(void) {
 
 /* Proper initialization routine. */
 
-__attribute__((constructor(CONST_PRIO))) void __afl_auto_init(void) {
+__attribute__((constructor(CONST_PRIO))) void __fafl_auto_init(void) {
 
   is_persistent = !!getenv(PERSIST_ENV_VAR);
 
   if (getenv(DEFER_ENV_VAR)) return;
 
-  __afl_manual_init();
+  __fafl_manual_init();
 
 }
 
@@ -265,7 +265,7 @@ __attribute__((constructor(CONST_PRIO))) void __afl_auto_init(void) {
    edge (as opposed to every basic block). */
 
 void __sanitizer_cov_trace_pc_guard(uint32_t* guard) {
-  __afl_area_ptr[*guard]++;
+  __fafl_area_ptr[*guard]++;
 }
 
 

@@ -13,9 +13,9 @@
      http://www.apache.org/licenses/LICENSE-2.0
 
    The sole purpose of this wrapper is to preprocess assembly files generated
-   by GCC / clang and inject the instrumentation bits included from afl-as.h. It
+   by GCC / clang and inject the instrumentation bits included from fafl-as.h. It
    is automatically invoked by the toolchain when compiling programs using
-   afl-gcc / afl-clang.
+   fafl-gcc / fafl-clang.
 
    Note that it's an explicit non-goal to instrument hand-written assembly,
    be it in separate .s files or in __asm__ blocks. The only aspiration this
@@ -35,7 +35,7 @@
 #include "debug.h"
 #include "alloc-inl.h"
 
-#include "afl-as.h"
+#include "fafl-as.h"
 
 #include <stdio.h>
 #include <unistd.h>
@@ -87,7 +87,7 @@ static u8   use_64bit = 0;
 
 static void edit_params(int argc, char** argv) {
 
-  u8 *tmp_dir = getenv("TMPDIR"), *afl_as = getenv("FOT_AS");
+  u8 *tmp_dir = getenv("TMPDIR"), *fafl_as = getenv("FOT_AS");
   u32 i;
 
 #ifdef __APPLE__
@@ -106,13 +106,13 @@ static void edit_params(int argc, char** argv) {
      seemingly get away with this by making only very minor tweaks. Thanks
      to Nico Weber for the idea. */
 
-  if (clang_mode && !afl_as) {
+  if (clang_mode && !fafl_as) {
 
     use_clang_as = 1;
 
-    afl_as = getenv("FOT_CC");
-    if (!afl_as) afl_as = getenv("FOT_CXX");
-    if (!afl_as) afl_as = "clang";
+    fafl_as = getenv("FOT_CC");
+    if (!fafl_as) fafl_as = getenv("FOT_CXX");
+    if (!fafl_as) fafl_as = "clang";
 
   }
 
@@ -128,7 +128,7 @@ static void edit_params(int argc, char** argv) {
 
   as_params = ck_alloc((argc + 32) * sizeof(u8*));
 
-  as_params[0] = afl_as ? afl_as : (u8*)"as";
+  as_params[0] = fafl_as ? fafl_as : (u8*)"as";
 
   as_params[argc] = 0;
 
@@ -186,7 +186,7 @@ static void edit_params(int argc, char** argv) {
       goto wrap_things_up;
     }
 
-    if (input_file[1]) FATAL("Incorrect use (not called through afl-gcc?)");
+    if (input_file[1]) FATAL("Incorrect use (not called through fafl-gcc?)");
       else input_file = NULL;
 
   } else {
@@ -202,7 +202,7 @@ static void edit_params(int argc, char** argv) {
 
   }
 
-  modified_file = alloc_printf("%s/.afl-%u-%u.s", tmp_dir, getpid(),
+  modified_file = alloc_printf("%s/.fafl-%u-%u.s", tmp_dir, getpid(),
                                (u32)time(NULL));
 
 wrap_things_up:
@@ -480,15 +480,15 @@ int main(int argc, char** argv) {
 
   if (isatty(2) && !getenv("FOT_QUIET")) {
 
-    SAYF(cCYA "afl-as " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+    SAYF(cCYA "fafl-as " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
  
   } else be_quiet = 1;
 
   if (argc < 2) {
 
     SAYF("\n"
-         "This is a helper application for afl-fuzz. It is a wrapper around GNU 'as',\n"
-         "executed by the toolchain whenever using afl-gcc or afl-clang. You probably\n"
+         "This is a helper application for fafl-fuzz. It is a wrapper around GNU 'as',\n"
+         "executed by the toolchain whenever using fafl-gcc or fafl-clang. You probably\n"
          "don't want to run this program directly.\n\n"
 
          "Rarely, when dealing with extremely complex projects, it may be advisable to\n"

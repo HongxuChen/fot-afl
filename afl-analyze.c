@@ -673,7 +673,7 @@ static void set_up_environment(void) {
 
     }
 
-    prog_in = alloc_printf("%s/.afl-analyze-temp-%u", use_dir, getpid());
+    prog_in = alloc_printf("%s/.fafl-analyze-temp-%u", use_dir, getpid());
 
   }
 
@@ -897,7 +897,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   if (tmp) {
 
-    cp = alloc_printf("%s/afl-qemu-trace", tmp);
+    cp = alloc_printf("%s/fafl-qemu-trace", tmp);
 
     if (access(cp, X_OK))
       FATAL("Unable to find '%s'", tmp);
@@ -914,7 +914,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
     *rsl = 0;
 
-    cp = alloc_printf("%s/afl-qemu-trace", own_copy);
+    cp = alloc_printf("%s/fafl-qemu-trace", own_copy);
     ck_free(own_copy);
 
     if (!access(cp, X_OK)) {
@@ -926,14 +926,14 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   } else ck_free(own_copy);
 
-  if (!access(BIN_PATH "/afl-qemu-trace", X_OK)) {
+  if (!access(BIN_PATH "/fafl-qemu-trace", X_OK)) {
 
-    target_path = new_argv[0] = BIN_PATH "/afl-qemu-trace";
+    target_path = new_argv[0] = BIN_PATH "/fafl-qemu-trace";
     return new_argv;
 
   }
 
-  FATAL("Unable to find 'afl-qemu-trace'.");
+  FATAL("Unable to find 'fafl-qemu-trace'.");
 
 }
 
@@ -948,7 +948,7 @@ int main(int argc, char** argv) {
 
   doc_path = access(DOC_PATH, F_OK) ? "docs" : DOC_PATH;
 
-  SAYF(cCYA "afl-analyze " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "fafl-analyze " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   while ((opt = getopt(argc,argv,"+i:f:m:t:eQ")) > 0)
 

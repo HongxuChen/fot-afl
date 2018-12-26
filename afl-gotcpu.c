@@ -14,7 +14,7 @@
 
    This tool provides a fairly accurate measurement of CPU preemption rate.
    It is meant to complement the quick-and-dirty load average widget shown
-   in the afl-fuzz UI. See docs/parallel_fuzzing.txt for more info.
+   in the fafl-fuzz UI. See docs/parallel_fuzzing.txt for more info.
 
    For some work loads, the tool may actually suggest running more instances
    than you have CPU cores. This can happen if the tested program is spending
@@ -123,7 +123,7 @@ int main(int argc, char** argv) {
   u32 cpu_cnt = sysconf(_SC_NPROCESSORS_ONLN),
       idle_cpus = 0, maybe_cpus = 0, i;
 
-  SAYF(cCYA "afl-gotcpu " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "fafl-gotcpu " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   ACTF("Measuring per-core preemption rate (this will take %0.02f sec)...",
        ((double)CTEST_CORE_TRG_MS) / 1000);
@@ -215,7 +215,7 @@ int main(int argc, char** argv) {
 
   u32 util_perc;
 
-  SAYF(cCYA "afl-gotcpu " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "fafl-gotcpu " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
   /* Run a busy loop for CTEST_TARGET_MS. */
 
