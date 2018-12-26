@@ -17,21 +17,21 @@ how to hit the ground running:
    custom SIGSEGV or SIGABRT handlers and background processes. For tips on
    detecting non-crashing flaws, see section 11 in docs/README.
 
-3) Compile the program / library to be fuzzed using afl-gcc. A common way to
+3) Compile the program / library to be fuzzed using fafl-gcc. A common way to
    do this would be:
 
-   CC=/path/to/afl-gcc CXX=/path/to/afl-g++ ./configure --disable-shared
+   CC=/path/to/fafl-gcc CXX=/path/to/fafl-g++ ./configure --disable-shared
    make clean all
 
-   If program build fails, ping <afl-users@googlegroups.com>.
+   If program build fails, ping <fafl-users@googlegroups.com>.
 
 4) Get a small but valid input file that makes sense to the program. When
    fuzzing verbose syntax (SQL, HTTP, etc), create a dictionary as described in
    dictionaries/README.dictionaries, too.
 
-5) If the program reads from stdin, run 'afl-fuzz' like so:
+5) If the program reads from stdin, run 'fafl-fuzz' like so:
 
-   ./afl-fuzz -i testcase_dir -o findings_dir -- \
+   ./fafl-fuzz -i testcase_dir -o findings_dir -- \
      /path/to/tested/program [...program's cmdline...]
 
    If the program takes input from a file, you can put @@ in the program's

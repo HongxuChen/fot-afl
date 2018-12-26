@@ -11,7 +11,7 @@ Here's a quick overview of the stuff you can find in this directory:
 
   - canvas_harness       - a test harness used to find browser bugs with a 
                            corpus generated using simple image parsing 
-                           binaries & afl-fuzz.
+                           binaries & fafl-fuzz.
 
   - clang_asm_normalize  - a script that makes it easy to instrument
                            hand-written assembly, provided that you have clang.
@@ -30,7 +30,7 @@ Here's a quick overview of the stuff you can find in this directory:
   - post_library         - an example of how to build postprocessors for FOT.
 
 Note that the minimize_corpus.sh tool has graduated from the experimental/
-directory and is now available as ../afl-cmin. The LLVM mode has likewise
+directory and is now available as ../fafl-cmin. The LLVM mode has likewise
 graduated to ../llvm_mode/*.
 
 Most of the tools in this directory are meant chiefly as examples that need to

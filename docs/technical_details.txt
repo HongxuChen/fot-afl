@@ -1,5 +1,5 @@
 ===================================
-Technical "whitepaper" for afl-fuzz
+Technical "whitepaper" for fafl-fuzz
 ===================================
 
   This document provides a quick overview of the guts of American Fuzzy Lop.
@@ -146,13 +146,13 @@ In contrast to more greedy genetic algorithms, this approach allows the tool
 to progressively explore various disjoint and possibly mutually incompatible
 features of the underlying data format, as shown in this image:
 
-  http://lcamtuf.coredump.cx/afl/afl_gzip.png
+  http://lcamtuf.coredump.cx/fafl/fafl_gzip.png
 
 Several practical examples of the results of this algorithm are discussed
 here:
 
   http://lcamtuf.blogspot.com/2014/11/pulling-jpegs-out-of-thin-air.html
-  http://lcamtuf.blogspot.com/2014/11/afl-fuzz-nobody-expects-cdata-sections.html
+  http://lcamtuf.blogspot.com/2014/11/fafl-fuzz-nobody-expects-cdata-sections.html
 
 The synthetic corpus produced by this process is essentially a compact
 collection of "hmm, this does something new!" input files, and can be used to
@@ -167,7 +167,7 @@ The following table compares the relative ability to discover file syntax and
 explore program states when using several different approaches to guided
 fuzzing. The instrumented target was GNU patch 2.7.3 compiled with -O3 and
 seeded with a dummy text file; the session consisted of a single pass over the
-input queue with afl-fuzz:
+input queue with fafl-fuzz:
 
     Fuzzer guidance | Blocks  | Edges   | Edge hit | Highest-coverage
       strategy used | reached | reached | cnt var  | test case generated
@@ -251,8 +251,8 @@ Based on empirical testing, this provides a reasonable balance between queue
 cycling speed and test case diversity.
 
 Slightly more sophisticated but much slower culling can be performed on input
-or output corpora with afl-cmin. This tool permanently discards the redundant
-entries and produces a smaller corpus suitable for use with afl-fuzz or
+or output corpora with fafl-cmin. This tool permanently discards the redundant
+entries and produces a smaller corpus suitable for use with fafl-fuzz or
 external tools.
 
 5) Trimming input files
@@ -271,19 +271,19 @@ Luckily, the instrumentation feedback provides a simple way to automatically
 trim down input files while ensuring that the changes made to the files have no
 impact on the execution path.
 
-The built-in trimmer in afl-fuzz attempts to sequentially remove blocks of data
+The built-in trimmer in fafl-fuzz attempts to sequentially remove blocks of data
 with variable length and stepover; any deletion that doesn't affect the checksum
 of the trace map is committed to disk. The trimmer is not designed to be
 particularly thorough; instead, it tries to strike a balance between precision
 and the number of execve() calls spent on the process, selecting the block size
 and stepover to match. The average per-file gains are around 5-20%.
 
-The standalone afl-tmin tool uses a more exhaustive, iterative algorithm, and
+The standalone fafl-tmin tool uses a more exhaustive, iterative algorithm, and
 also attempts to perform alphabet normalization on the trimmed files. The
-operation of afl-tmin is as follows.
+operation of fafl-tmin is as follows.
 
 First, the tool automatically selects the operating mode. If the initial input
-crashes the target binary, afl-tmin will run in non-instrumented mode, simply
+crashes the target binary, fafl-tmin will run in non-instrumented mode, simply
 keeping any tweaks that produce a simpler file but still crash the target. If
 the target is non-crashing, the tool uses an instrumented mode and keeps only
 the tweaks that produce exactly the same execution path.
@@ -302,7 +302,7 @@ The actual minimization algorithm is:
 
   4) As a last result, perform byte-by-byte normalization on non-zero bytes.
 
-Instead of zeroing with a 0x00 byte, afl-tmin uses the ASCII digit '0'. This
+Instead of zeroing with a 0x00 byte, fafl-tmin uses the ASCII digit '0'. This
 is done because such a modification is much less likely to interfere with
 text parsing, so it is more likely to result in successful minimization of
 text files.
@@ -318,12 +318,12 @@ applications.
 The feedback provided by the instrumentation makes it easy to understand the
 value of various fuzzing strategies and optimize their parameters so that they
 work equally well across a wide range of file types. The strategies used by
-afl-fuzz are generally format-agnostic and are discussed in more detail here:
+fafl-fuzz are generally format-agnostic and are discussed in more detail here:
 
   http://lcamtuf.blogspot.com/2014/08/binary-fuzzing-strategies-what-works.html
 
 It is somewhat notable that especially early on, most of the work done by
-afl-fuzz is actually highly deterministic, and progresses to random stacked
+fafl-fuzz is actually highly deterministic, and progresses to random stacked
 modifications and test case splicing only at a later stage. The deterministic
 strategies include:
 
@@ -373,10 +373,10 @@ identify syntax tokens in some types of input files, and to detect that certain
 combinations of predefined or auto-detected dictionary terms constitute a
 valid grammar for the tested parser.
 
-A discussion of how these features are implemented within afl-fuzz can be found
+A discussion of how these features are implemented within fafl-fuzz can be found
 here:
 
-  http://lcamtuf.blogspot.com/2015/01/afl-fuzz-making-up-grammar-with.html
+  http://lcamtuf.blogspot.com/2015/01/fafl-fuzz-making-up-grammar-with.html
 
 In essence, when basic, typically easily-obtained syntax tokens are combined
 together in a purely random manner, the instrumentation and the evolutionary
@@ -409,7 +409,7 @@ library function (say, strcmp, strcpy); while checksumming call stack
 backtraces can lead to extreme crash count inflation if the fault can be
 reached through a number of different, possibly recursive code paths.
 
-The solution implemented in afl-fuzz considers a crash unique if any of two
+The solution implemented in fafl-fuzz considers a crash unique if any of two
 conditions are met:
 
   - The crash trace includes a tuple not seen in any of the previous crashes,
@@ -419,12 +419,12 @@ conditions are met:
 
 The approach is vulnerable to some path count inflation early on, but exhibits
 a very strong self-limiting effect, similar to the execution path analysis
-logic that is the cornerstone of afl-fuzz.
+logic that is the cornerstone of fafl-fuzz.
 
 9) Investigating crashes
 ------------------------
 
-The exploitability of many types of crashes can be ambiguous; afl-fuzz tries
+The exploitability of many types of crashes can be ambiguous; fafl-fuzz tries
 to address this by providing a crash exploration mode where a known-faulting
 test case is fuzzed in a manner very similar to the normal operation of the
 fuzzer, but with a constraint that causes any non-crashing mutations to be
@@ -432,7 +432,7 @@ thrown away.
 
 A detailed discussion of the value of this approach can be found here:
 
-  http://lcamtuf.blogspot.com/2014/11/afl-fuzz-crash-exploration-mode.html
+  http://lcamtuf.blogspot.com/2014/11/fafl-fuzz-crash-exploration-mode.html
 
 The method uses instrumentation feedback to explore the state of the crashing
 program to get past the ambiguous faulting condition and then isolate the
@@ -441,12 +441,12 @@ newly-found inputs for human review.
 On the subject of crashes, it is worth noting that in contrast to normal
 queue entries, crashing inputs are *not* trimmed; they are kept exactly as
 discovered to make it easier to compare them to the parent, non-crashing entry
-in the queue. That said, afl-tmin can be used to shrink them at will.
+in the queue. That said, fafl-tmin can be used to shrink them at will.
 
 10) The fork server
 -------------------
 
-To improve performance, afl-fuzz uses a "fork server", where the fuzzed process
+To improve performance, fafl-fuzz uses a "fork server", where the fuzzed process
 goes through execve(), linking, and libc initialization only once, and is then
 cloned from a stopped process image by leveraging copy-on-write. The
 implementation is described in more detail here:
@@ -455,7 +455,7 @@ implementation is described in more detail here:
 
 The fork server is an integral aspect of the injected instrumentation and
 simply stops at the first instrumented function to await commands from
-afl-fuzz.
+fafl-fuzz.
 
 With fast targets, the fork server can offer considerable performance gains,
 usually between 1.5x and 2x. It is also possible to:
@@ -523,7 +523,7 @@ processes.
 As a result of these two optimizations, the overhead of the QEMU mode is
 roughly 2-5x, compared to 100x+ for PIN.
 
-13) The afl-analyze tool
+13) The fafl-analyze tool
 ------------------------
 
 The file format analyzer is a simple extension of the minimization algorithm

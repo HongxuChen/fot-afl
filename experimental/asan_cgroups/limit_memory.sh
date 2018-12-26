@@ -6,7 +6,7 @@
 # Written by Samir Khakimov <samir.hakim@nyu.edu> and
 #            David A. Wheeler <dwheeler@ida.org>
 #
-# Edits to bring the script in line with afl-cmin and other companion scripts
+# Edits to bring the script in line with fafl-cmin and other companion scripts
 # by Michal Zalewski <lcamtuf@google.com>. All bugs are my fault.
 #
 # Copyright 2015 Institute for Defense Analyses.
@@ -22,12 +22,12 @@
 # setrlimit() API. This helps avoid the address space problems discussed in
 # docs/notes_for_asan.txt.
 #
-# Important: the limit covers *both* afl-fuzz and the fuzzed binary. In some
-# hopefully rare circumstances, afl-fuzz could be killed before the fuzzed
+# Important: the limit covers *both* fafl-fuzz and the fuzzed binary. In some
+# hopefully rare circumstances, fafl-fuzz could be killed before the fuzzed
 # task.
 #
 
-echo "cgroup tool for afl-fuzz by <samir.hakim@nyu.edu> and <dwheeler@ida.org>"
+echo "cgroup tool for fafl-fuzz by <samir.hakim@nyu.edu> and <dwheeler@ida.org>"
 echo
 
 unset NEW_USER
@@ -65,7 +65,7 @@ TARGET_BIN="$1"
 if [ "$TARGET_BIN" = "" -o "$NEW_USER" = "" ]; then
 
   cat 1>&2 <<_EOF_
-Usage: $0 [ options ] -- /path/to/afl-fuzz [ ...afl options... ]
+Usage: $0 [ options ] -- /path/to/fafl-fuzz [ ...fafl options... ]
 
 Required parameters:
 
@@ -77,9 +77,9 @@ Optional parameters:
 
 This tool configures cgroups-based memory limits for a fuzzing job to simplify
 the task of fuzzing ASAN or MSAN binaries. You would normally want to use it in
-conjunction with '-m none' passed to the afl-fuzz binary itself, say:
+conjunction with '-m none' passed to the fafl-fuzz binary itself, say:
 
-  $0 -u joe ./afl-fuzz -i input -o output -m none /path/to/target
+  $0 -u joe ./fafl-fuzz -i input -o output -m none /path/to/target
 
 _EOF_
 
@@ -119,9 +119,9 @@ if ! id -u "$NEW_USER" 2>/dev/null 1>&2; then
 fi
 
 # Create a new cgroup path if necessary... We used PID-keyed groups to keep
-# parallel afl-fuzz tasks separate from each other.
+# parallel fafl-fuzz tasks separate from each other.
 
-CID="afl-$NEW_USER-$$"
+CID="fafl-$NEW_USER-$$"
 
 CPATH="/sys/fs/cgroup/memory/$CID"
 

@@ -7,7 +7,7 @@ Environmental variables
   users or for some types of custom fuzzing setups. See README for the general
   instruction manual.
 
-1) Settings for afl-gcc, afl-clang, and afl-as
+1) Settings for fafl-gcc, fafl-clang, and fafl-as
 ----------------------------------------------
 
 Because they can't directly accept command-line options, the compile-time
@@ -36,7 +36,7 @@ tools make fairly broad use of environmental variables:
     compilation tools, rather than the default 'clang', 'gcc', or 'as' binaries
     in your $PATH.
 
-  - FOT_PATH can be used to point afl-gcc to an alternate location of afl-as.
+  - FOT_PATH can be used to point fafl-gcc to an alternate location of fafl-as.
     One possible use of this is experimental/clang_asm_normalize/, which lets
     you instrument hand-written assembly when compiling clang code by plugging
     a normalizer into the chain. (There is no equivalent feature for GCC.)
@@ -46,7 +46,7 @@ tools make fairly broad use of environmental variables:
     when dealing with exceptionally complex programs that saturate the output
     bitmap. Examples include v8, ffmpeg, and perl.
 
-    (If this ever happens, afl-fuzz will warn you ahead of the time by
+    (If this ever happens, fafl-fuzz will warn you ahead of the time by
     displaying the "bitmap density" field in fiery red.)
 
     Setting FOT_INST_RATIO to 0 is a valid choice. This will instrument only
@@ -55,20 +55,20 @@ tools make fairly broad use of environmental variables:
   - FOT_NO_BUILTIN causes the compiler to generate code suitable for use with
     libtokencap.so (but perhaps running a bit slower than without the flag).
 
-  - TMPDIR is used by afl-as for temporary files; if this variable is not set,
+  - TMPDIR is used by fafl-as for temporary files; if this variable is not set,
     the tool defaults to /tmp.
 
-  - Setting FOT_KEEP_ASSEMBLY prevents afl-as from deleting instrumented
+  - Setting FOT_KEEP_ASSEMBLY prevents fafl-as from deleting instrumented
     assembly files. Useful for troubleshooting problems or understanding how
     the tool works. To get them in a predictable place, try something like:
 
     mkdir assembly_here
     TMPDIR=$PWD/assembly_here FOT_KEEP_ASSEMBLY=1 make clean all
 
-  - Setting FOT_QUIET will prevent afl-cc and afl-as banners from being
+  - Setting FOT_QUIET will prevent fafl-cc and fafl-as banners from being
     displayed during compilation, in case you find them distracting.
 
-2) Settings for afl-clang-fast
+2) Settings for fafl-clang-fast
 ------------------------------
 
 The native LLVM instrumentation helper accepts a subset of the settings
@@ -79,11 +79,11 @@ discussed in section #1, with the exception of:
   - TMPDIR and FOT_KEEP_ASSEMBLY, since no temporary assembly files are
     created.
 
-Note that FOT_INST_RATIO will behave a bit differently than for afl-gcc,
+Note that FOT_INST_RATIO will behave a bit differently than for fafl-gcc,
 because functions are *not* instrumented unconditionally - so low values
 will have a more striking effect. For this tool, 0 is not a valid choice.
 
-3) Settings for afl-fuzz
+3) Settings for fafl-fuzz
 ------------------------
 
 The main fuzzer binary accepts several options that disable a couple of sanity
@@ -102,14 +102,14 @@ checks or alter some of the more exotic semantics of the tool:
     normally done when starting up the forkserver and causes a pretty
     significant performance drop.
 
-  - FOT_EXIT_WHEN_DONE causes afl-fuzz to terminate when all existing paths
+  - FOT_EXIT_WHEN_DONE causes fafl-fuzz to terminate when all existing paths
     have been fuzzed and there were no new finds for a while. This would be
     normally indicated by the cycle counter in the UI turning green. May be
     convenient for some types of automated jobs.
 
   - Setting FOT_NO_AFFINITY disables attempts to bind to a specific CPU core
     on Linux systems. This slows things down, but lets you run more instances
-    of afl-fuzz than would be prudent (if you really want to).
+    of fafl-fuzz than would be prudent (if you really want to).
 
   - FOT_SKIP_CRASHES causes FOT to tolerate crashing files in the input
     queue. This can help with rare situations where a program crashes only
@@ -130,10 +130,10 @@ checks or alter some of the more exotic semantics of the tool:
     by some users for unorthodox parallelized fuzzing setups, but not
     advisable otherwise.
 
-  - When developing custom instrumentation on top of afl-fuzz, you can use
+  - When developing custom instrumentation on top of fafl-fuzz, you can use
     FOT_SKIP_BIN_CHECK to inhibit the checks for non-instrumented binaries
     and shell scripts; and FOT_DUMB_FORKSRV in conjunction with the -n
-    setting to instruct afl-fuzz to still follow the fork server protocol
+    setting to instruct fafl-fuzz to still follow the fork server protocol
     without expecting any instrumentation data in return.
 
   - When running in the -M or -S mode, setting FOT_IMPORT_FIRST causes the
@@ -152,15 +152,15 @@ checks or alter some of the more exotic semantics of the tool:
     may complain of high load prematurely, especially on systems with low core
     counts. To avoid the alarming red color, you can set FOT_NO_CPU_RED.
 
-  - In QEMU mode (-Q), FOT_PATH will be searched for afl-qemu-trace.
+  - In QEMU mode (-Q), FOT_PATH will be searched for fafl-qemu-trace.
 
   - Setting FOT_PRELOAD causes FOT to set LD_PRELOAD for the target binary
-    without disrupting the afl-fuzz process itself. This is useful, among other
+    without disrupting the fafl-fuzz process itself. This is useful, among other
     things, for bootstrapping libdislocator.so.
 
   - Setting FOT_NO_UI inhibits the UI altogether, and just periodically prints
     some basic stats. This behavior is also automatically triggered when the
-    output from afl-fuzz is redirected to a file or to a pipe.
+    output from fafl-fuzz is redirected to a file or to a pipe.
 
   - If you are Jakub, you may need FOT_I_DONT_CARE_ABOUT_MISSING_CRASHES.
     Others need not apply.
@@ -169,7 +169,7 @@ checks or alter some of the more exotic semantics of the tool:
     processing the first queue entry; and FOT_BENCH_UNTIL_CRASH causes it to
     exit soon after the first crash is found.
 
-4) Settings for afl-qemu-trace
+4) Settings for fafl-qemu-trace
 ------------------------------
 
 The QEMU wrapper used to instrument binary-only code supports several settings:
@@ -185,13 +185,13 @@ The QEMU wrapper used to instrument binary-only code supports several settings:
     emulation" variables (e.g., QEMU_STACK_SIZE), but there should be no
     reason to touch them.
 
-5) Settings for afl-cmin
+5) Settings for fafl-cmin
 ------------------------
 
 The corpus minimization script offers very little customization:
 
-  - Setting FOT_PATH offers a way to specify the location of afl-showmap
-    and afl-qemu-trace (the latter only in -Q mode).
+  - Setting FOT_PATH offers a way to specify the location of fafl-showmap
+    and fafl-qemu-trace (the latter only in -Q mode).
 
   - FOT_KEEP_TRACES makes the tool keep traces and other metadata used for
     minimization and normally deleted at exit. The files can be found in the
@@ -201,19 +201,19 @@ The corpus minimization script offers very little customization:
     a modest security risk on multi-user systems with rogue users, but should
     be safe on dedicated fuzzing boxes.
 
-6) Settings for afl-tmin
+6) Settings for fafl-tmin
 ------------------------
 
 Virtually nothing to play with. Well, in QEMU mode (-Q), FOT_PATH will be
-searched for afl-qemu-trace. In addition to this, TMPDIR may be used if a
+searched for fafl-qemu-trace. In addition to this, TMPDIR may be used if a
 temporary file can't be created in the current working directory.
 
-You can specify FOT_TMIN_EXACT if you want afl-tmin to require execution paths
+You can specify FOT_TMIN_EXACT if you want fafl-tmin to require execution paths
 to match when minimizing crashes. This will make minimization less useful, but
 may prevent the tool from "jumping" from one crashing condition to another in
 very buggy software. You probably want to combine it with the -e flag.
 
-7) Settings for afl-analyze
+7) Settings for fafl-analyze
 ---------------------------
 
 You can set FOT_ANALYZE_HEX to get file offsets printed as hexadecimal instead
@@ -245,10 +245,10 @@ The library honors three environmental variables:
 This library accepts FOT_TOKEN_FILE to indicate the location to which the
 discovered tokens should be written.
 
-10) Third-party variables set by afl-fuzz & other tools
+10) Third-party variables set by fafl-fuzz & other tools
 -------------------------------------------------------
 
-Several variables are not directly interpreted by afl-fuzz, but are set to
+Several variables are not directly interpreted by fafl-fuzz, but are set to
 optimal values if not already present in the environment:
 
   - By default, LD_BIND_NOW is set to speed up fuzzing by forcing the

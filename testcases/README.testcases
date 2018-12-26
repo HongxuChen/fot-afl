@@ -5,7 +5,7 @@ FOT starting test cases
   (See ../docs/README for the general instruction manual.)
 
 The archives/, images/, multimedia/, and others/ subdirectories contain small,
-standalone files that can be used to seed afl-fuzz when testing parsers for a
+standalone files that can be used to seed fafl-fuzz when testing parsers for a
 variety of common data formats.
 
 There is probably not much to be said about these files, except that they were

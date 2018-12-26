@@ -24,17 +24,17 @@ It's easy. Consult libdislocator/README.dislocator for usage tips.
 %
 
 Want to understand how your target parses a particular input file?
-Try the bundled afl-analyze tool; it's got colors and all!
+Try the bundled fafl-analyze tool; it's got colors and all!
 
 %
 
 You can visually monitor the progress of your fuzzing jobs.
-Run the bundled afl-plot utility to generate browser-friendly graphs.
+Run the bundled fafl-plot utility to generate browser-friendly graphs.
 
 %
 
 Need to monitor FOT jobs programmatically? Check out the fuzzer_stats file
-in the FOT output dir or try afl-whatsup.
+in the FOT output dir or try fafl-whatsup.
 
 %
 
@@ -48,7 +48,7 @@ Consult section #5 in llvm_mode/README.llvm for tips.
 
 %
 
-Using clang? Check out llvm_mode/ for a faster alternative to afl-gcc!
+Using clang? Check out llvm_mode/ for a faster alternative to fafl-gcc!
 
 %
 
@@ -57,8 +57,8 @@ Check out qemu_mode/README.qemu for more.
 
 %
 
-Did you know that afl-fuzz can minimize any test case for you?
-Try the bundled afl-tmin tool - and get small repro files fast!
+Did you know that fafl-fuzz can minimize any test case for you?
+Try the bundled fafl-tmin tool - and get small repro files fast!
 
 %
 
@@ -123,6 +123,6 @@ use a postprocessor! See experimental/post_library/ for more.
 %
 
 Dealing with a very slow target or hoping for instant results? Specify -d
-when calling afl-fuzz!
+when calling fafl-fuzz!
 
 %

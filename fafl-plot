@@ -15,18 +15,18 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 
-echo "progress plotting utility for afl-fuzz by <lcamtuf@google.com>"
+echo "progress plotting utility for fafl-fuzz by <lcamtuf@google.com>"
 echo
 
 if [ ! "$#" = "2" ]; then
 
   cat 1>&2 <<_EOF_
-This program generates gnuplot images from afl-fuzz output data. Usage:
+This program generates gnuplot images from fafl-fuzz output data. Usage:
 
-$0 afl_state_dir graph_output_dir
+$0 fafl_state_dir graph_output_dir
 
-The afl_state_dir parameter should point to an existing state directory for any
-active or stopped instance of afl-fuzz; while graph_output_dir should point to
+The fafl_state_dir parameter should point to an existing state directory for any
+active or stopped instance of fafl-fuzz; while graph_output_dir should point to
 an empty directory where this tool can write the resulting plots to.
 
 The program will put index.html and three PNG images in the output directory;
@@ -62,7 +62,7 @@ if [ ! -f "$1/plot_data" ]; then
 
 fi
 
-BANNER="`cat "$1/fuzzer_stats" | grep '^afl_banner ' | cut -d: -f2- | cut -b2-`"
+BANNER="`cat "$1/fuzzer_stats" | grep '^fafl_banner ' | cut -d: -f2- | cut -b2-`"
 
 test "$BANNER" = "" && BANNER="(none)"
 

@@ -28,7 +28,7 @@ traditional approach.
 
 You may have to change several settings to get optimal results (most notably,
 disable crash reporting utilities and switch to a different CPU governor), but
-afl-fuzz will guide you through that if necessary.
+fafl-fuzz will guide you through that if necessary.
 
 2) OpenBSD, FreeBSD, NetBSD on x86
 ----------------------------------
@@ -67,8 +67,8 @@ and depend mostly on user feedback.
 
 To build FOT, install Xcode and follow the general instructions for Linux.
 
-The Xcode 'gcc' tool is just a wrapper for clang, so be sure to use afl-clang
-to compile any instrumented binaries; afl-gcc will fail unless you have GCC
+The Xcode 'gcc' tool is just a wrapper for clang, so be sure to use fafl-clang
+to compile any instrumented binaries; fafl-gcc will fail unless you have GCC
 installed from another source (in which case, please specify FOT_CC and
 FOT_CXX to point to the "real" GCC binaries).
 
@@ -89,7 +89,7 @@ and definitely don't look POSIX-compliant. This means two things:
 
   - Some non-portable, platform-specific code may be incompatible with the
     FOT forkserver. If you run into any problems, set FOT_NO_FORKSRV=1 in the
-    environment before starting afl-fuzz.
+    environment before starting fafl-fuzz.
 
 User emulation mode of QEMU does not appear to be supported on MacOS X, so
 black-box instrumentation mode (-Q) will not work.
@@ -116,8 +116,8 @@ If you're not sure what you need, you need the LLVM mode. To get it, try:
 
 $ FOT_NO_X86=1 gmake && gmake -C llvm_mode
 
-...and compile your target program with afl-clang-fast or afl-clang-fast++
-instead of the traditional afl-gcc or afl-clang wrappers.
+...and compile your target program with fafl-clang-fast or fafl-clang-fast++
+instead of the traditional fafl-gcc or fafl-clang wrappers.
 
 5) Solaris on x86
 -----------------

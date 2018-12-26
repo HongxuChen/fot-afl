@@ -261,7 +261,7 @@ exceed it by a margin sufficient to be classified as hangs.
 This is just another nerd-targeted section keeping track of how many paths we
 have netted, in proportion to the number of execs attempted, for each of the
 fuzzing strategies discussed earlier on. This serves to convincingly validate
-assumptions about the usefulness of the various approaches taken by afl-fuzz.
+assumptions about the usefulness of the various approaches taken by fafl-fuzz.
 
 The trim strategy stats in this section are a bit different than the rest.
 The first number in this line shows the ratio of bytes removed from the input
@@ -288,7 +288,7 @@ user are considered "level 1". The test cases that can be derived from that
 through traditional fuzzing are considered "level 2"; the ones derived by
 using these as inputs to subsequent fuzzing rounds are "level 3"; and so forth.
 The maximum depth is therefore a rough proxy for how much value you're getting
-out of the instrumentation-guided approach taken by afl-fuzz.
+out of the instrumentation-guided approach taken by fafl-fuzz.
 
 The next field shows you the number of inputs that have not gone through any
 fuzzing yet. The same stat is also given for "favored" entries that the fuzzer
@@ -328,7 +328,7 @@ there are several things to look at:
     when the 'stability' metric stays over 90% or so, but can become an issue
     if not. Here's what to try:
 
-    - Use afl-clang-fast from llvm_mode/ - it uses a thread-local tracking
+    - Use fafl-clang-fast from llvm_mode/ - it uses a thread-local tracking
       model that is less prone to concurrency issues,
 
     - See if the target can be compiled or run without threads. Common
@@ -370,7 +370,7 @@ are ready to run, but not how resource-hungry they may be. It also doesn't
 distinguish between physical cores, logical cores, and virtualized CPUs; the
 performance characteristics of each of these will differ quite a bit.
 
-If you want a more accurate measurement, you can run the afl-gotcpu utility
+If you want a more accurate measurement, you can run the fafl-gotcpu utility
 from the command line.
 
 10) Addendum: status and plot files
@@ -380,7 +380,7 @@ For unattended operation, some of the key status screen information can be also
 found in a machine-readable format in the fuzzer_stats file in the output
 directory. This includes:
 
-  - start_time     - unix time indicating the start time of afl-fuzz
+  - start_time     - unix time indicating the start time of fafl-fuzz
   - last_update    - unix time corresponding to the last update of this file
   - fuzzer_pid     - PID of the fuzzer process
   - cycles_done    - queue cycles completed so far
@@ -402,4 +402,4 @@ Most of these map directly to the UI elements discussed earlier on.
 
 On top of that, you can also find an entry called 'plot_data', containing a
 plottable history for most of these fields. If you have gnuplot installed, you
-can turn this into a nice progress report with the included 'afl-plot' tool.
+can turn this into a nice progress report with the included 'fafl-plot' tool.

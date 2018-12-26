@@ -1,5 +1,5 @@
 ==================================
-Notes for using ASAN with afl-fuzz
+Notes for using ASAN with fafl-fuzz
 ==================================
 
   This file discusses some of the caveats for fuzzing under ASAN, and suggests
@@ -26,7 +26,7 @@ Because of this, fuzzing with ASAN is recommended only in four scenarios:
       experimental/asan_cgroups).
 
 To compile with ASAN, set FOT_USE_ASAN=1 before calling 'make clean all'. The
-afl-gcc / afl-clang wrappers will pick that up and add the appropriate flags.
+fafl-gcc / fafl-clang wrappers will pick that up and add the appropriate flags.
 Note that ASAN is incompatible with -static, so be mindful of that.
 
 (You can also use FOT_USE_MSAN=1 to enable MSAN instead.)
@@ -46,7 +46,7 @@ real pages of memory for the process, and the VM grabbed by ASAN is essentially
 "free" - but the mapping counts against the standard OS-enforced limit
 (RLIMIT_AS, aka ulimit -v).
 
-On our end, afl-fuzz tries to protect you from processes that go off-rails
+On our end, fafl-fuzz tries to protect you from processes that go off-rails
 and start consuming all the available memory in a vain attempt to parse a
 malformed input file. This happens surprisingly often, so enforcing such a limit
 is important for almost any fuzzer: the alternative is for the kernel OOM
@@ -72,7 +72,7 @@ ways to limit the size of the heap:
 
 There are also cgroups, but they are Linux-specific, not universally available
 even on Linux systems, and they require root permissions to set up; I'm a bit
-hesitant to make afl-fuzz require root permissions just for that. That said,
+hesitant to make fafl-fuzz require root permissions just for that. That said,
 if you are on Linux and want to use cgroups, check out the contributed script
 that ships in experimental/asan_cgroups/.
 
@@ -97,7 +97,7 @@ To get the precise number, you can use the recidivm tool developed by Jakub
 Wilk (http://jwilk.net/software/recidivm). In absence of this, ASAN is *not*
 recommended when fuzzing 64-bit binaries, unless you are confident that they
 are robust and enforce reasonable memory limits (in which case, you can
-specify '-m none' when calling afl-fuzz).
+specify '-m none' when calling fafl-fuzz).
 
 Using recidivm or running with no limits aside, there are two other decent
 alternatives: build a corpus of test cases using a non-ASAN binary, and then
@@ -140,4 +140,4 @@ That said, some versions of the library can be binary-patched to address this
 issue, while newer releases support explicit compile-time flags - see this
 mailing list thread for tips:
 
-  https://groups.google.com/forum/#!topic/afl-users/GyeSBJt4M38
+  https://groups.google.com/forum/#!topic/fafl-users/GyeSBJt4M38

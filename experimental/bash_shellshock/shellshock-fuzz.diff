@@ -7,7 +7,7 @@ In essence, it shows a way to fuzz environmental variables. Instructions:
 
 1) Download bash 4.3, apply this patch, compile with:
 
-   CC=/path/to/afl-gcc ./configure
+   CC=/path/to/fafl-gcc ./configure
    make clean all
 
    Note that the harness puts the fuzzed output in $TEST_VARIABLE. With
@@ -22,7 +22,7 @@ In essence, it shows a way to fuzz environmental variables. Instructions:
 
 3) Run the fuzzer with:
 
-   /path/to/afl-fuzz -d -i in_dir -o out_dir ./bash -c :
+   /path/to/fafl-fuzz -d -i in_dir -o out_dir ./bash -c :
 
    The -d parameter is advisable only if the tested shell is fairly slow
    or if you are in a hurry; will cover more ground faster, but

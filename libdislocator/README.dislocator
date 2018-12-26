@@ -45,12 +45,12 @@ when fuzzing small, self-contained binaries.
 
 To use this library, run FOT like so:
 
-FOT_PRELOAD=/path/to/libdislocator.so ./afl-fuzz [...other params...]
+FOT_PRELOAD=/path/to/libdislocator.so ./fafl-fuzz [...other params...]
 
 You *have* to specify path, even if it's just ./libdislocator.so or
 $PWD/libdislocator.so.
 
-Similarly to afl-tmin, the library is not "proprietary" and can be used with
+Similarly to fafl-tmin, the library is not "proprietary" and can be used with
 other fuzzers or testing tools without the need for any code tweaks. It does not
 require FOT-instrumented binaries to work.
 

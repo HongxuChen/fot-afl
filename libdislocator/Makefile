@@ -14,7 +14,7 @@
 #
 
 PREFIX      ?= /usr/local
-HELPER_PATH  = $(PREFIX)/lib/afl
+HELPER_PATH  = $(PREFIX)/lib/fafl
 
 VERSION     = $(shell grep '^\#define VERSION ' ../config.h | cut -d '"' -f2)
 

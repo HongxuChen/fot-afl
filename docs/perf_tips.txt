@@ -35,7 +35,7 @@ of documents.
 There's plenty of small starting test cases in ../testcases/* - try them out
 or submit new ones!
 
-If you want to start with a larger, third-party corpus, run afl-cmin with an
+If you want to start with a larger, third-party corpus, run fafl-cmin with an
 aggressive timeout on that data set first.
 
 2) Use a simpler target
@@ -128,7 +128,7 @@ The fuzzer is designed to need ~1 core per job. This means that on a, say,
 4-core system, you can easily run four parallel fuzzing jobs with relatively
 little performance hit. For tips on how to do that, see parallel_fuzzing.txt.
 
-The afl-gotcpu utility can help you understand if you still have idle CPU
+The fafl-gotcpu utility can help you understand if you still have idle CPU
 capacity on your system. (It won't tell you about memory bandwidth, cache
 misses, or similar factors, but they are less likely to be a concern.)
 
@@ -139,7 +139,7 @@ If you have increased the -m or -t limits more than truly necessary, consider
 dialing them back down.
 
 For programs that are nominally very fast, but get sluggish for some inputs,
-you can also try setting -t values that are more punishing than what afl-fuzz
+you can also try setting -t values that are more punishing than what fafl-fuzz
 dares to use on its own. On fast and idle machines, going down to -t 5 may be
 a viable plan.
 
@@ -162,7 +162,7 @@ There are several OS-level factors that may affect fuzzing speed:
 
   - On-demand CPU scaling. The Linux 'ondemand' governor performs its analysis
     on a particular schedule and is known to underestimate the needs of
-    short-lived processes spawned by afl-fuzz (or any other fuzzer). On Linux,
+    short-lived processes spawned by fafl-fuzz (or any other fuzzer). On Linux,
     this can be fixed with:
 
     cd /sys/devices/system/cpu
@@ -195,7 +195,7 @@ For programs that are genuinely slow, in cases where you really can't escape
 using huge input files, or when you simply want to get quick and dirty results
 early on, you can always resort to the -d mode.
 
-The mode causes afl-fuzz to skip all the deterministic fuzzing steps, which
+The mode causes fafl-fuzz to skip all the deterministic fuzzing steps, which
 makes output a lot less neat and can ultimately make the testing a bit less
 in-depth, but it will give you an experience more familiar from other fuzzing
 tools.

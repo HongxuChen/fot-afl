@@ -16,10 +16,10 @@
 #
 # This script downloads, patches, and builds a version of QEMU with
 # minor tweaks to allow non-instrumented binaries to be run under
-# afl-fuzz. 
+# fafl-fuzz. 
 #
 # The modifications reside in patches/*. The standalone QEMU binary
-# will be written to ../afl-qemu-trace.
+# will be written to ../fafl-qemu-trace.
 #
 
 
@@ -41,16 +41,16 @@ if [ ! "`uname -s`" = "Linux" ]; then
 
 fi
 
-if [ ! -f "patches/afl-qemu-cpu-inl.h" -o ! -f "../config.h" ]; then
+if [ ! -f "patches/fafl-qemu-cpu-inl.h" -o ! -f "../config.h" ]; then
 
   echo "[-] Error: key files not found - wrong working directory?"
   exit 1
 
 fi
 
-if [ ! -f "../afl-showmap" ]; then
+if [ ! -f "../fafl-showmap" ]; then
 
-  echo "[-] Error: ../afl-showmap not found - compile FOT first!"
+  echo "[-] Error: ../fafl-showmap not found - compile FOT first!"
   exit 1
 
 fi
@@ -76,9 +76,9 @@ if [ ! -d "/usr/include/glib-2.0/" -a ! -d "/usr/local/include/glib-2.0/" ]; the
 
 fi
 
-if echo "$CC" | grep -qF /afl-; then
+if echo "$CC" | grep -qF /fafl-; then
 
-  echo "[-] Error: do not use afl-gcc or afl-clang to compile this tool."
+  echo "[-] Error: do not use fafl-gcc or fafl-clang to compile this tool."
   exit 1
 
 fi
@@ -151,12 +151,12 @@ echo "[+] Build process successful!"
 
 echo "[*] Copying binary..."
 
-cp -f "${CPU_TARGET}-linux-user/qemu-${CPU_TARGET}" "../../afl-qemu-trace" || exit 1
+cp -f "${CPU_TARGET}-linux-user/qemu-${CPU_TARGET}" "../../fafl-qemu-trace" || exit 1
 
 cd ..
-ls -l ../afl-qemu-trace || exit 1
+ls -l ../fafl-qemu-trace || exit 1
 
-echo "[+] Successfully created '../afl-qemu-trace'."
+echo "[+] Successfully created '../fafl-qemu-trace'."
 
 if [ "$ORIG_CPU_TARGET" = "" ]; then
 
@@ -170,8 +170,8 @@ if [ "$ORIG_CPU_TARGET" = "" ]; then
 
   unset FOT_INST_RATIO
 
-  echo 0 | ./afl-showmap -m none -Q -q -o .test-instr0 ./test-instr || exit 1
-  echo 1 | ./afl-showmap -m none -Q -q -o .test-instr1 ./test-instr || exit 1
+  echo 0 | ./fafl-showmap -m none -Q -q -o .test-instr0 ./test-instr || exit 1
+  echo 1 | ./fafl-showmap -m none -Q -q -o .test-instr1 ./test-instr || exit 1
 
   rm -f test-instr
 
@@ -182,18 +182,18 @@ if [ "$ORIG_CPU_TARGET" = "" ]; then
 
   if [ "$DR" = "0" ]; then
 
-    echo "[-] Error: afl-qemu-trace instrumentation doesn't seem to work!"
+    echo "[-] Error: fafl-qemu-trace instrumentation doesn't seem to work!"
     exit 1
 
   fi
 
   echo "[+] Instrumentation tests passed. "
-  echo "[+] All set, you can now use the -Q mode in afl-fuzz!"
+  echo "[+] All set, you can now use the -Q mode in fafl-fuzz!"
 
 else
 
   echo "[!] Note: can't test instrumentation when CPU_TARGET set."
-  echo "[+] All set, you can now (hopefully) use the -Q mode in afl-fuzz!"
+  echo "[+] All set, you can now (hopefully) use the -Q mode in fafl-fuzz!"
 
 fi
 

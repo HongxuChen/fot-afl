@@ -8,10 +8,10 @@ american fuzzy lop
   Released under terms and conditions of Apache License, Version 2.0.
 
   For new versions and additional information, check out:
-  http://lcamtuf.coredump.cx/afl/
+  http://lcamtuf.coredump.cx/fafl/
 
   To compare notes with other users or get notified about major new features,
-  send a mail to <afl-users+subscribe@googlegroups.com>.
+  send a mail to <fafl-users+subscribe@googlegroups.com>.
 
   ** See QuickStartGuide.txt if you don't have time to read this file. **
 
@@ -42,7 +42,7 @@ All these methods are extremely promising in experimental settings, but tend
 to suffer from reliability and performance problems in practical uses - and
 currently do not offer a viable alternative to "dumb" fuzzing techniques.
 
-2) The afl-fuzz approach
+2) The fafl-fuzz approach
 ------------------------
 
 American Fuzzy Lop is a brute-force fuzzer coupled with an exceedingly simple
@@ -89,18 +89,18 @@ tool that works as a drop-in replacement for gcc or clang in any standard build
 process for third-party code.
 
 The instrumentation has a fairly modest performance impact; in conjunction with
-other optimizations implemented by afl-fuzz, most programs can be fuzzed as fast
+other optimizations implemented by fafl-fuzz, most programs can be fuzzed as fast
 or even faster than possible with traditional tools.
 
 The correct way to recompile the target program may vary depending on the
 specifics of the build process, but a nearly-universal approach would be:
 
-$ CC=/path/to/afl/afl-gcc ./configure
+$ CC=/path/to/fafl/fafl-gcc ./configure
 $ make clean all
 
-For C++ programs, you'd would also want to set CXX=/path/to/afl/afl-g++.
+For C++ programs, you'd would also want to set CXX=/path/to/fafl/fafl-g++.
 
-The clang wrappers (afl-clang and afl-clang++) can be used in the same way;
+The clang wrappers (fafl-clang and fafl-clang++) can be used in the same way;
 clang users may also opt to leverage a higher-performance instrumentation mode,
 as described in llvm_mode/README.llvm.
 
@@ -111,7 +111,7 @@ instrumented library, or to make sure that the correct .so file is loaded at
 runtime (usually by setting LD_LIBRARY_PATH). The simplest option is a static
 build, usually possible via:
 
-$ CC=/path/to/afl/afl-gcc ./configure --disable-shared
+$ CC=/path/to/fafl/fafl-gcc ./configure --disable-shared
 
 Setting FOT_HARDEN=1 when calling 'make' will cause the CC wrapper to
 automatically enable code hardening options that make it easier to detect
@@ -157,25 +157,25 @@ You can find many good examples of starting files in the testcases/ subdirectory
 that comes with this tool.
 
 PS. If a large corpus of data is available for screening, you may want to use
-the afl-cmin utility to identify a subset of functionally distinct files that
+the fafl-cmin utility to identify a subset of functionally distinct files that
 exercise different code paths in the target binary.
 
 6) Fuzzing binaries
 -------------------
 
-The fuzzing process itself is carried out by the afl-fuzz utility. This program
+The fuzzing process itself is carried out by the fafl-fuzz utility. This program
 requires a read-only directory with initial test cases, a separate place to
 store its findings, plus a path to the binary to test.
 
 For target binaries that accept input directly from stdin, the usual syntax is:
 
-$ ./afl-fuzz -i testcase_dir -o findings_dir /path/to/program [...params...]
+$ ./fafl-fuzz -i testcase_dir -o findings_dir /path/to/program [...params...]
 
 For programs that take input from a file, use '@@' to mark the location in
 the target's command line where the input file name should be placed. The
 fuzzer will substitute this for you:
 
-$ ./afl-fuzz -i testcase_dir -o findings_dir /path/to/program @@
+$ ./fafl-fuzz -i testcase_dir -o findings_dir /path/to/program @@
 
 You can also use the -f option to have the mutated data written to a specific
 file. This is useful if the program expects a particular file extension or so.
@@ -189,7 +189,7 @@ include compilers and video decoders.
 
 Tips for optimizing fuzzing performance are discussed in perf_tips.txt.
 
-Note that afl-fuzz starts by performing an array of deterministic fuzzing
+Note that fafl-fuzz starts by performing an array of deterministic fuzzing
 steps, which can take several days, but tend to produce neat test cases. If you
 want quick & dirty results right away - akin to zzuf and other traditional
 fuzzers - add the -d option to the command line.
@@ -213,7 +213,7 @@ in real time:
                mentioned in section 2.
 
                Before using this corpus for any other purposes, you can shrink
-               it to a smaller size using the afl-cmin tool. The tool will find
+               it to a smaller size using the fafl-cmin tool. The tool will find
                a smaller subset of files offering equivalent edge coverage.
 
   - crashes/ - unique test cases that cause the tested program to receive a
@@ -234,27 +234,27 @@ early in the process, but this should quickly taper off.
 The file names for crashes and hangs are correlated with parent, non-faulting
 queue entries. This should help with debugging.
 
-When you can't reproduce a crash found by afl-fuzz, the most likely cause is
+When you can't reproduce a crash found by fafl-fuzz, the most likely cause is
 that you are not setting the same memory limit as used by the tool. Try:
 
 $ LIMIT_MB=50
 $ ( ulimit -Sv $[LIMIT_MB << 10]; /path/to/tested_binary ... )
 
-Change LIMIT_MB to match the -m parameter passed to afl-fuzz. On OpenBSD,
+Change LIMIT_MB to match the -m parameter passed to fafl-fuzz. On OpenBSD,
 also change -Sv to -Sd.
 
 Any existing output directory can be also used to resume aborted jobs; try:
 
-$ ./afl-fuzz -i- -o existing_output_dir [...etc...]
+$ ./fafl-fuzz -i- -o existing_output_dir [...etc...]
 
 If you have gnuplot installed, you can also generate some pretty graphs for any
-active fuzzing task using afl-plot. For an example of how this looks like,
-see http://lcamtuf.coredump.cx/afl/plot/.
+active fuzzing task using fafl-plot. For an example of how this looks like,
+see http://lcamtuf.coredump.cx/fafl/plot/.
 
 8) Parallelized fuzzing
 -----------------------
 
-Every instance of afl-fuzz takes up roughly one core. This means that on
+Every instance of fafl-fuzz takes up roughly one core. This means that on
 multi-core systems, parallelization is necessary to fully utilize the hardware.
 For tips on how to fuzz a common target on multiple cores or multiple networked
 machines, please refer to parallel_fuzzing.txt.
@@ -266,17 +266,17 @@ last section of parallel_fuzzing.txt for tips.
 9) Fuzzer dictionaries
 ----------------------
 
-By default, afl-fuzz mutation engine is optimized for compact data formats -
+By default, fafl-fuzz mutation engine is optimized for compact data formats -
 say, images, multimedia, compressed data, regular expression syntax, or shell
 scripts. It is somewhat less suited for languages with particularly verbose and
 redundant verbiage - notably including HTML, SQL, or JavaScript.
 
-To avoid the hassle of building syntax-aware tools, afl-fuzz provides a way to
+To avoid the hassle of building syntax-aware tools, fafl-fuzz provides a way to
 seed the fuzzing process with an optional dictionary of language keywords,
 magic headers, or other special tokens associated with the targeted data type
 - and use that to reconstruct the underlying grammar on the go:
 
-  http://lcamtuf.blogspot.com/2015/01/afl-fuzz-making-up-grammar-with.html
+  http://lcamtuf.blogspot.com/2015/01/fafl-fuzz-making-up-grammar-with.html
 
 To use this feature, you first need to create a dictionary in one of the two
 formats discussed in dictionaries/README.dictionaries; and then point the fuzzer
@@ -290,7 +290,7 @@ instrumentation feedback alone. This actually works in practice, say:
 
   http://lcamtuf.blogspot.com/2015/04/finding-bugs-in-sqlite-easy-way.html
 
-PS. Even when no explicit dictionary is given, afl-fuzz will try to extract
+PS. Even when no explicit dictionary is given, fafl-fuzz will try to extract
 existing syntax tokens in the input corpus by watching the instrumentation
 very closely during deterministic byte flips. This works for some types of
 parsers and grammars, but isn't nearly as good as the -x mode.
@@ -309,7 +309,7 @@ queue, making it easier to diagnose faults.
 
 Having said that, it's important to acknowledge that some fuzzing crashes can be
 difficult to quickly evaluate for exploitability without a lot of debugging and
-code analysis work. To assist with this task, afl-fuzz supports a very unique
+code analysis work. To assist with this task, fafl-fuzz supports a very unique
 "crash exploration" mode enabled with the -C flag.
 
 In this mode, the fuzzer takes one or more crashing test cases as the input,
@@ -325,10 +325,10 @@ what degree of control the attacker has over the faulting address, or whether
 it is possible to get past an initial out-of-bounds read - and see what lies
 beneath.
 
-Oh, one more thing: for test case minimization, give afl-tmin a try. The tool
+Oh, one more thing: for test case minimization, give fafl-tmin a try. The tool
 can be operated in a very simple way:
 
-$ ./afl-tmin -i test_case -o minimized_result -- /path/to/program [...]
+$ ./fafl-tmin -i test_case -o minimized_result -- /path/to/program [...]
 
 The tool works with crashing and non-crashing test cases alike. In the crash
 mode, it will happily accept instrumented and non-instrumented binaries. In the
@@ -336,9 +336,9 @@ non-crashing mode, the minimizer relies on standard FOT instrumentation to make
 the file simpler without altering the execution path.
 
 The minimizer accepts the -m, -t, -f and @@ syntax in a manner compatible with
-afl-fuzz.
+fafl-fuzz.
 
-Another recent addition to FOT is the afl-analyze tool. It takes an input
+Another recent addition to FOT is the fafl-analyze tool. It takes an input
 file, attempts to sequentially flip bytes, and observes the behavior of the
 tested program. It then color-codes the input based on which sections appear to
 be critical, and which are not; while not bulletproof, it can often offer quick
@@ -418,7 +418,7 @@ Here are some of the most important caveats for FOT:
     experimental/post_library/.
 
   - There are some unfortunate trade-offs with ASAN and 64-bit binaries. This
-    isn't due to any specific fault of afl-fuzz; see notes_for_asan.txt for
+    isn't due to any specific fault of fafl-fuzz; see notes_for_asan.txt for
     tips.
 
   - There is no direct support for fuzzing network services, background
@@ -431,7 +431,7 @@ Here are some of the most important caveats for FOT:
     https://www.fastly.com/blog/how-to-fuzz-server-american-fuzzy-lop
 
   - FOT doesn't output human-readable coverage data. If you want to monitor
-    coverage, use afl-cov from Michael Rash: https://github.com/mrash/afl-cov
+    coverage, use fafl-cov from Michael Rash: https://github.com/mrash/fafl-cov
 
   - Occasionally, sentient machines rise against their creators. If this
     happens to you, please consult http://lcamtuf.coredump.cx/prep/.
@@ -441,7 +441,7 @@ Beyond this, see INSTALL for platform-specific tips.
 14) Special thanks
 ------------------
 
-Many of the improvements to afl-fuzz wouldn't be possible without feedback,
+Many of the improvements to fafl-fuzz wouldn't be possible without feedback,
 bug reports, or patches from:
 
   Jann Horn                             Hanno Boeck
@@ -493,10 +493,10 @@ Questions? Concerns? Bug reports? The author can be usually reached at
 <lcamtuf@google.com>.
 
 There is also a mailing list for the project; to join, send a mail to
-<afl-users+subscribe@googlegroups.com>. Or, if you prefer to browse
+<fafl-users+subscribe@googlegroups.com>. Or, if you prefer to browse
 archives first, try:
 
-  https://groups.google.com/group/afl-users
+  https://groups.google.com/group/fafl-users
 
 PS. If you wish to submit raw code to be incorporated into the project, please
 be aware that the copyright on most of FOT is claimed by Google. While you do

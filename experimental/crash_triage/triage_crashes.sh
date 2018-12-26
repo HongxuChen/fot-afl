@@ -22,14 +22,14 @@
 # necessary.
 #
 
-echo "crash triage utility for afl-fuzz by <lcamtuf@google.com>"
+echo "crash triage utility for fafl-fuzz by <lcamtuf@google.com>"
 echo
 
 ulimit -v 100000 2>/dev/null
 ulimit -d 100000 2>/dev/null
 
 if [ "$#" -lt "2" ]; then
-  echo "Usage: $0 /path/to/afl_output_dir /path/to/tested_binary [...target params...]" 1>&2
+  echo "Usage: $0 /path/to/fafl_output_dir /path/to/tested_binary [...target params...]" 1>&2
   echo 1>&2
   exit 1
 fi
@@ -65,7 +65,7 @@ if [ ! -f "$BIN" -o ! -x "$BIN" ]; then
 fi
 
 if [ ! -d "$DIR/queue" ]; then
-  echo "[-] Error: directory '$1' not found or not created by afl-fuzz." 1>&2
+  echo "[-] Error: directory '$1' not found or not created by fafl-fuzz." 1>&2
   exit 1
 fi
 

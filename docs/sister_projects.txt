@@ -16,7 +16,7 @@ Python FOT (Jakub Wilk)
   Allows fuzz-testing of Python programs. Uses custom instrumentation and its
   own forkserver.
 
-  http://jwilk.net/software/python-afl
+  http://jwilk.net/software/python-fafl
 
 Go-fuzz (Dmitry Vyukov)
 -----------------------
@@ -25,12 +25,12 @@ Go-fuzz (Dmitry Vyukov)
 
   https://github.com/dvyukov/go-fuzz
 
-afl.rs (Keegan McAllister)
+fafl.rs (Keegan McAllister)
 --------------------------
 
   Allows Rust features to be easily fuzzed with FOT (using the LLVM mode).
 
-  https://github.com/kmcallister/afl.rs
+  https://github.com/kmcallister/fafl.rs
 
 OCaml support (KC Sivaramakrishnan)
 -----------------------------------
@@ -44,7 +44,7 @@ FOT for GCJ Java and other GCC frontends (-)
 --------------------------------------------
 
   GCC Java programs are actually supported out of the box - simply rename
-  afl-gcc to afl-gcj. Unfortunately, by default, unhandled exceptions in GCJ do
+  fafl-gcc to fafl-gcj. Unfortunately, by default, unhandled exceptions in GCJ do
   not result in abort() being called, so you will need to manually add a
   top-level exception handler that exits with SIGABRT or something equivalent.
 
@@ -68,7 +68,7 @@ FOT fixup shim (Ben Nagy)
   Allows FOT_POST_LIBRARY postprocessors to be written in arbitrary languages
   that don't have C / .so bindings. Includes examples in Go.
 
-  https://github.com/bnagy/aflfix
+  https://github.com/bnagy/faflfix
 
 TriforceFOT (Tim Newsham and Jesse Hertz)
 -----------------------------------------
@@ -76,14 +76,14 @@ TriforceFOT (Tim Newsham and Jesse Hertz)
   Leverages QEMU full system emulation mode to allow FOT to target operating
   systems and other alien worlds:
 
-  https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2016/june/project-triforce-run-afl-on-everything/
+  https://www.nccgroup.trust/us/about-us/newsroom-and-events/blog/2016/june/project-triforce-run-fafl-on-everything/
 
 WinFOT (Ivan Fratric)
 ---------------------
 
   As the name implies, allows you to fuzz Windows binaries (using DynamoRio).
 
-  https://github.com/ivanfratric/winafl
+  https://github.com/ivanfratric/winfafl
 
   Another Windows alternative may be:
 
@@ -118,11 +118,11 @@ roving (Richo Healey)
 Distfuzz-FOT (Martijn Bogaard)
 ------------------------------
 
-  Simplifies the management of afl-fuzz instances on remote machines. The
+  Simplifies the management of fafl-fuzz instances on remote machines. The
   author notes that the current implementation isn't secure and should not
   be exposed on the Internet.
 
-  https://github.com/MartijnB/disfuzz-afl
+  https://github.com/MartijnB/disfuzz-fafl
 
 FOTDFF (quantumvm)
 ------------------
@@ -131,59 +131,59 @@ FOTDFF (quantumvm)
 
   https://github.com/quantumvm/FOTDFF
 
-afl-launch (Ben Nagy)
+fafl-launch (Ben Nagy)
 ---------------------
 
   Batch FOT launcher utility with a simple CLI.
 
-  https://github.com/bnagy/afl-launch
+  https://github.com/bnagy/fafl-launch
 
 FOT Utils (rc0r)
 ----------------
 
   Simplifies the triage of discovered crashes, start parallel instances, etc.
 
-  https://github.com/rc0r/afl-utils
+  https://github.com/rc0r/fafl-utils
 
   Another crash triage tool:
 
-  https://github.com/floyd-fuh/afl-crash-analyzer
+  https://github.com/floyd-fuh/fafl-crash-analyzer
 
-afl-fuzzing-scripts (Tobias Ospelt)
+fafl-fuzzing-scripts (Tobias Ospelt)
 -----------------------------------
 
   Simplifies starting up multiple parallel FOT jobs.
 
-  https://github.com/floyd-fuh/afl-fuzzing-scripts/
+  https://github.com/floyd-fuh/fafl-fuzzing-scripts/
 
-afl-sid (Jacek Wielemborek)
+fafl-sid (Jacek Wielemborek)
 ---------------------------
 
   Allows users to more conveniently build and deploy FOT via Docker.
 
-  https://github.com/d33tah/afl-sid
+  https://github.com/d33tah/fafl-sid
 
   Another Docker-related project:
 
-  https://github.com/ozzyjohnson/docker-afl
+  https://github.com/ozzyjohnson/docker-fafl
 
-afl-monitor (Paul S. Ziegler)
+fafl-monitor (Paul S. Ziegler)
 -----------------------------
 
   Provides more detailed and versatile statistics about your running FOT jobs.
 
-  https://github.com/reflare/afl-monitor
+  https://github.com/reflare/fafl-monitor
 
 -----------------------------------------------------------
 Crash triage, coverage analysis, and other companion tools:
 -----------------------------------------------------------
 
-afl-crash-analyzer (Tobias Ospelt)
+fafl-crash-analyzer (Tobias Ospelt)
 ----------------------------------
 
   Makes it easier to navigate and annotate crashing test cases.
 
-  https://github.com/floyd-fuh/afl-crash-analyzer/
+  https://github.com/floyd-fuh/fafl-crash-analyzer/
 
 Crashwalk (Ben Nagy)
 --------------------
@@ -192,19 +192,19 @@ Crashwalk (Ben Nagy)
 
   https://github.com/bnagy/crashwalk
 
-afl-cov (Michael Rash)
+fafl-cov (Michael Rash)
 ----------------------
 
-  Produces human-readable coverage data based on the output queue of afl-fuzz.
+  Produces human-readable coverage data based on the output queue of fafl-fuzz.
 
-  https://github.com/mrash/afl-cov
+  https://github.com/mrash/fafl-cov
 
-afl-sancov (Bhargava Shastry)
+fafl-sancov (Bhargava Shastry)
 -----------------------------
 
-  Similar to afl-cov, but uses clang sanitizer instrumentation.
+  Similar to fafl-cov, but uses clang sanitizer instrumentation.
 
-  https://github.com/bshastry/afl-sancov
+  https://github.com/bshastry/fafl-sancov
 
 RecidiVM (Jakub Wilk)
 ---------------------
@@ -213,28 +213,28 @@ RecidiVM (Jakub Wilk)
 
   http://jwilk.net/software/recidivm
 
-aflize (Jacek Wielemborek)
+faflize (Jacek Wielemborek)
 --------------------------
 
   Automatically build FOT-enabled versions of Debian packages.
 
-  https://github.com/d33tah/aflize
+  https://github.com/d33tah/faflize
 
-afl-ddmin-mod (Markus Teufelberger)
+fafl-ddmin-mod (Markus Teufelberger)
 -----------------------------------
 
-  A variant of afl-tmin that uses a more sophisticated (but slower)
+  A variant of fafl-tmin that uses a more sophisticated (but slower)
   minimization algorithm.
 
-  https://github.com/MarkusTeufelberger/afl-ddmin-mod
+  https://github.com/MarkusTeufelberger/fafl-ddmin-mod
 
-afl-kit (Kuang-che Wu)
+fafl-kit (Kuang-che Wu)
 ----------------------
 
-  Replacements for afl-cmin and afl-tmin with additional features, such
+  Replacements for fafl-cmin and fafl-tmin with additional features, such
   as the ability to filter crashes based on stderr patterns.
 
-  https://github.com/kcwu/afl-kit
+  https://github.com/kcwu/fafl-kit
 
 -------------------------------
 Narrow-purpose or experimental:
@@ -246,14 +246,14 @@ Cygwin support (Ali Rizvi-Santiago)
   Pretty self-explanatory. As per the author, this "mostly" ports FOT to
   Windows. Field reports welcome!
 
-  https://github.com/arizvisa/afl-cygwin
+  https://github.com/arizvisa/fafl-cygwin
 
 Pause and resume scripts (Ben Nagy)
 -----------------------------------
 
   Simple automation to suspend and resume groups of fuzzing jobs.
 
-  https://github.com/bnagy/afl-trivia
+  https://github.com/bnagy/fafl-trivia
 
 Static binary-only instrumentation (Aleksandar Nikolich)
 --------------------------------------------------------
@@ -263,7 +263,7 @@ Static binary-only instrumentation (Aleksandar Nikolich)
   reports better performance compared to QEMU, but occasional translation
   errors with stripped binaries.
 
-  https://github.com/vrtadmin/moflow/tree/master/afl-dyninst
+  https://github.com/vrtadmin/moflow/tree/master/fafl-dyninst
 
 FOT PIN (Parker Thompson)
 -------------------------
@@ -271,7 +271,7 @@ FOT PIN (Parker Thompson)
   Early-stage Intel PIN instrumentation support (from before we settled on
   faster-running QEMU).
 
-  https://github.com/mothran/aflpin
+  https://github.com/mothran/faflpin
 
 FOT-style instrumentation in llvm (Kostya Serebryany)
 -----------------------------------------------------
@@ -288,14 +288,14 @@ FOT JS (Han Choongwoo)
   One-off optimizations to speed up the fuzzing of JavaScriptCore (now likely
   superseded by LLVM deferred forkserver init - see llvm_mode/README.llvm).
 
-  https://github.com/tunz/afl-fuzz-js
+  https://github.com/tunz/fafl-fuzz-js
 
 FOT harness for fwknop (Michael Rash)
 -------------------------------------
 
   An example of a fairly involved integration with FOT.
 
-  https://github.com/mrash/fwknop/tree/master/test/afl
+  https://github.com/mrash/fwknop/tree/master/test/fafl
 
 Building harnesses for DNS servers (Jonathan Foote, Ron Bowes)
 --------------------------------------------------------------
@@ -315,12 +315,12 @@ Fuzzer shell for SQLite (Richard Hipp)
 Support for Python mutation modules (Christian Holler)
 ------------------------------------------------------
 
-  https://github.com/choller/afl/blob/master/docs/mozilla/python_modules.txt
+  https://github.com/choller/fafl/blob/master/docs/mozilla/python_modules.txt
 
 Support for selective instrumentation (Christian Holler)
 --------------------------------------------------------
 
-  https://github.com/choller/afl/blob/master/docs/mozilla/partial_instrumentation.txt
+  https://github.com/choller/fafl/blob/master/docs/mozilla/partial_instrumentation.txt
 
 Kernel fuzzing (Dmitry Vyukov)
 ------------------------------
@@ -336,14 +336,14 @@ Android support (ele7enxxh)
 
   Based on a somewhat dated version of FOT:
 
-  https://github.com/ele7enxxh/android-afl
+  https://github.com/ele7enxxh/android-fafl
 
 CGI wrapper (floyd)
 -------------------
 
   Facilitates the testing of CGI scripts.
 
-  https://github.com/floyd-fuh/afl-cgi-wrapper
+  https://github.com/floyd-fuh/fafl-cgi-wrapper
 
 Fuzzing difficulty estimation (Marcel Boehme)
 ---------------------------------------------

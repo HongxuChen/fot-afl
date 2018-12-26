@@ -10,7 +10,7 @@ Staying informed
 ----------------
 
 Want to stay in the loop on major new features? Join our mailing list by
-sending a mail to <afl-users+subscribe@googlegroups.com>.
+sending a mail to <fafl-users+subscribe@googlegroups.com>.
 
 Not sure if you should upgrade? The lowest currently recommended version
 is 2.41b. If you're stuck on an earlier release, it's strongly advisable
@@ -23,15 +23,15 @@ Version 2.52b (2017-11-04):
   - Upgraded QEMU patches from 2.3.0 to 2.10.0. Required troubleshooting
     several weird issues. All the legwork done by Andrew Griffiths.
 
-  - Added setsid to afl-showmap. See the notes for 2.51b.
+  - Added setsid to fafl-showmap. See the notes for 2.51b.
 
   - Added target mode (deferred, persistent, qemu, etc) to fuzzer_stats.
     Requested by Jakub Wilk.
 
-  - afl-tmin should now save a partially minimized file when Ctrl-C
+  - fafl-tmin should now save a partially minimized file when Ctrl-C
     is pressed. Suggested by Jakub Wilk.
 
-  - Added an option for afl-analyze to dump offsets in hex. Suggested by
+  - Added an option for fafl-analyze to dump offsets in hex. Suggested by
     Jakub Wilk.
 
   - Added support for parameters in triage_crashes.sh. Patch by Adam of
@@ -41,7 +41,7 @@ Version 2.52b (2017-11-04):
 Version 2.51b (2017-08-30):
 ---------------------------
 
-  - Made afl-tmin call setsid to prevent glibc traceback junk from showing
+  - Made fafl-tmin call setsid to prevent glibc traceback junk from showing
     up on the terminal in some distros. Suggested by Jakub Wilk.
 
 ---------------------------
@@ -53,7 +53,7 @@ Version 2.50b (2017-08-19):
   - Addressed a libtokencap / pthreads incompatibility issue. Likewise, spotted
     by Jakub Wilk.
 
-  - Added a mention of afl-kit and Pythia.
+  - Added a mention of fafl-kit and Pythia.
 
   - Added FOT_FAST_CAL.
 
@@ -73,15 +73,15 @@ Version 2.48b (2017-07-17):
 
   - Added FOT_ALLOW_TMP to permit some scripts to run in /tmp.
 
-  - Fixed cwd handling in afl-analyze (similar to the quirk in afl-tmin).
+  - Fixed cwd handling in fafl-analyze (similar to the quirk in fafl-tmin).
 
-  - Made it possible to point -o and -f to the same file in afl-tmin.
+  - Made it possible to point -o and -f to the same file in fafl-tmin.
 
 ---------------------------
 Version 2.47b (2017-07-14):
 ---------------------------
 
-  - Fixed cwd handling in afl-tmin. Spotted by Jakub Wilk.
+  - Fixed cwd handling in fafl-tmin. Spotted by Jakub Wilk.
 
 ---------------------------
 Version 2.46b (2017-07-10):
@@ -103,7 +103,7 @@ Version 2.45b (2017-07-04):
 
   - Fixed a resumption offset glitch spotted by Jakub Wilk.
 
-  - There are definitely no bugs in afl-showmap -c now.
+  - There are definitely no bugs in fafl-showmap -c now.
 
 ---------------------------
 Version 2.44b (2017-06-28):
@@ -112,9 +112,9 @@ Version 2.44b (2017-06-28):
   - Added a visual indicator of ASAN / MSAN mode when compiling. Requested
     by Jakub Wilk.
 
-  - Added support for afl-showmap coredumps (-c). Suggested by Jakub Wilk.
+  - Added support for fafl-showmap coredumps (-c). Suggested by Jakub Wilk.
 
-  - Added LD_BIND_NOW=1 for afl-showmap by default. Although not really useful,
+  - Added LD_BIND_NOW=1 for fafl-showmap by default. Although not really useful,
     it reportedly helps reproduce some crashes. Suggested by Jakub Wilk.
 
   - Added a note about allocator_may_return_null=1 not always working with
@@ -157,11 +157,11 @@ Version 2.40b (2017-04-02):
 Version 2.39b (2017-02-02):
 ---------------------------
 
-  - Improved error reporting in afl-cmin. Suggested by floyd.
+  - Improved error reporting in fafl-cmin. Suggested by floyd.
 
   - Made a minor tweak to trace-pc-guard support. Suggested by kcc.
 
-  - Added a mention of afl-monitor.
+  - Added a mention of fafl-monitor.
 
 ---------------------------
 Version 2.38b (2017-01-22):
@@ -184,7 +184,7 @@ Version 2.37b (2017-01-22):
     for dragging my feet).
 
     Note that for some reason, this mode doesn't perform as well as
-    "vanilla" afl-clang-fast / afl-clang.
+    "vanilla" fafl-clang-fast / fafl-clang.
 
 ---------------------------
 Version 2.36b (2017-01-14):
@@ -193,7 +193,7 @@ Version 2.36b (2017-01-14):
   - Fixed a cosmetic bad free() bug when aborting -S sessions. Spotted
     by Johannes S.
 
-  - Made a small change to afl-whatsup to sort fuzzers by name.
+  - Made a small change to fafl-whatsup to sort fuzzers by name.
 
   - Fixed a minor issue with malloc(0) in libdislocator. Spotted by
     Rene Freingruber.
@@ -203,7 +203,7 @@ Version 2.36b (2017-01-14):
 
   - Added a note about THP performance. Suggested by Sergey Davidoff.
 
-  - Added a somewhat unofficial support for running afl-tmin with a
+  - Added a somewhat unofficial support for running fafl-tmin with a
     baseline "mask" that causes it to minimize only for edges that
     are unique to the input file, but not to the "boring" baseline.
     Suggested by Sami Liedes.
@@ -226,7 +226,7 @@ Version 2.35b:
 Version 2.34b:
 --------------
 
-  - Added a note about afl-tmin to technical_details.txt.
+  - Added a note about fafl-tmin to technical_details.txt.
 
   - Added support for FOT_NO_UI, as suggested by Leo Barnes.
 
@@ -234,7 +234,7 @@ Version 2.34b:
 Version 2.33b:
 --------------
 
-  - Added code to strip -Wl,-z,defs and -Wl,--no-undefined for afl-clang-fast,
+  - Added code to strip -Wl,-z,defs and -Wl,--no-undefined for fafl-clang-fast,
     since they interfere with -shared. Spotted and diagnosed by Toby Hutton.
 
   - Added some fuzzing tips for Android.
@@ -256,7 +256,7 @@ Version 2.31b:
   - Changed havoc cycle counts for a marked performance boost, especially
     with -S / -d. See the discussion of FidgetyFOT in:
 
-    https://groups.google.com/forum/#!topic/afl-users/fOPeb62FZUg
+    https://groups.google.com/forum/#!topic/fafl-users/fOPeb62FZUg
 
     While this does not implement the approach proposed by the authors of
     the CCS paper, the solution is a result of digging into that research;
@@ -331,7 +331,7 @@ Version 2.24b:
 
   - Added libdislocator.so, an experimental, abusive allocator. Try
     it out with FOT_LD_PRELOAD=/path/to/libdislocator.so when running
-    afl-fuzz.
+    fafl-fuzz.
 
 --------------
 Version 2.23b:
@@ -353,7 +353,7 @@ Version 2.22b:
 
   - Populated the support for FOT_LD_PRELOAD to all companion tools.
 
-  - Made a change to the handling of ./afl-clang-fast -v. Spotted by
+  - Made a change to the handling of ./fafl-clang-fast -v. Spotted by
     Jan Kneschke.
 
 --------------
@@ -430,7 +430,7 @@ Version 2.14b:
 --------------
 
   - Added FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION as a macro defined when
-    compiling with afl-gcc and friends. Suggested by Kostya Serebryany.
+    compiling with fafl-gcc and friends. Suggested by Kostya Serebryany.
 
   - Refreshed some of the non-x86 docs.
 
@@ -441,13 +441,13 @@ Version 2.13b:
   - Fixed a spurious build test error with trace-pc and llvm_mode/Makefile.
     Spotted by Markus Teufelberger.
 
-  - Fixed a cosmetic issue with afl-whatsup. Spotted by Brandon Perry.
+  - Fixed a cosmetic issue with fafl-whatsup. Spotted by Brandon Perry.
 
 --------------
 Version 2.12b:
 --------------
 
-  - Fixed a minor issue in afl-tmin that can make alphabet minimization less
+  - Fixed a minor issue in fafl-tmin that can make alphabet minimization less
     efficient during passes > 1. Spotted by Daniel Binderman.
 
 --------------
@@ -458,7 +458,7 @@ Version 2.11b:
 
   - Added a missing size check for deterministic insertion steps.
 
-  - Made an improvement to afl-gotcpu when -Z not used.
+  - Made an improvement to fafl-gotcpu when -Z not used.
 
   - Fixed a typo in post_library_png.so.c in experimental/. Spotted by Kostya
     Serebryany.
@@ -494,7 +494,7 @@ Version 2.07b:
     offer a significant (10%+) performance bump and reduce jitter.
     Proposed by Austin Seipp.
 
-  - Updated afl-gotcpu to use CPU affinity where supported.
+  - Updated fafl-gotcpu to use CPU affinity where supported.
 
   - Fixed confusing CPU_TARGET error messages with QEMU build. Spotted by
     Daniel Komaromy and others.
@@ -507,7 +507,7 @@ Version 2.06b:
     Contributed by Christian Holler.
 
   - Added __FOT_COMPILER as a convenient way to detect that something is
-    built under afl-gcc / afl-clang / afl-clang-fast and enable custom
+    built under fafl-gcc / fafl-clang / fafl-clang-fast and enable custom
     optimizations in your code. Suggested by Pedro Corte-Real.
 
   - Upstreamed several minor changes developed by Franjo Ivancic to
@@ -566,9 +566,9 @@ Version 2.01b:
   - Made an improvement to cycle counter color coding, based on feedback
     from Shai Sarfaty.
 
-  - Added a mention of aflize to sister_projects.txt.
+  - Added a mention of faflize to sister_projects.txt.
 
-  - Fixed an installation issue with afl-as, as spotted by ilovezfs.
+  - Fixed an installation issue with fafl-as, as spotted by ilovezfs.
 
 --------------
 Version 2.00b:
@@ -583,32 +583,32 @@ Version 2.00b:
 Version 1.99b:
 --------------
 
-  - Substantially revamped the output and the internal logic of afl-analyze.
+  - Substantially revamped the output and the internal logic of fafl-analyze.
 
   - Cleaned up some of the color handling code and added support for
     background colors.
 
   - Removed some stray files (oops).
 
-  - Updated docs to better explain afl-analyze.
+  - Updated docs to better explain fafl-analyze.
 
 --------------
 Version 1.98b:
 --------------
 
-  - Improved to "boring string" detection in afl-analyze.
+  - Improved to "boring string" detection in fafl-analyze.
 
-  - Added technical_details.txt for afl-analyze.
+  - Added technical_details.txt for fafl-analyze.
 
 --------------
 Version 1.97b:
 --------------
 
-  - Added afl-analyze, a nifty tool to analyze the structure of a file
+  - Added fafl-analyze, a nifty tool to analyze the structure of a file
     based on the feedback from FOT instrumentation. This is kinda experimental,
     so field reports welcome.
 
-  - Added a mention of afl-cygwin.
+  - Added a mention of fafl-cygwin.
 
   - Fixed a couple of typos, as reported by Jakub Wilk and others.
 
@@ -649,9 +649,9 @@ Version 1.94b:
   - Changed allocator alignment to improve support for non-x86 systems (now
     that llvm_mode makes this more feasible).
 
-  - Fixed a minor typo in afl-cmin. Spotted by Jonathan Neuschafer.
+  - Fixed a minor typo in fafl-cmin. Spotted by Jonathan Neuschafer.
 
-  - Fixed an obscure bug that would affect people trying to use afl-gcc
+  - Fixed an obscure bug that would affect people trying to use fafl-gcc
     with $TMP set but $TMPDIR absent. Spotted by Jeremy Barnes.
 
 --------------
@@ -681,7 +681,7 @@ Version 1.90b:
   - Fixed a minor typo spotted by Kai Zhao; and made several other minor updates
     to docs.
 
-  - Updated the project URL for python-afl. Requested by Jakub Wilk.
+  - Updated the project URL for python-fafl. Requested by Jakub Wilk.
 
   - Fixed a potential problem with deferred mode signatures getting optimized
     out by the linker (with --gc-sections).
@@ -694,7 +694,7 @@ Version 1.89b:
     Both now feature simpler syntax and do not require companion env
     variables. Suggested by Jakub Wilk.
 
-  - Added a bit more info about afl-showmap. Suggested by Jacek Wielemborek.
+  - Added a bit more info about fafl-showmap. Suggested by Jacek Wielemborek.
 
 --------------
 Version 1.88b:
@@ -731,7 +731,7 @@ Version 1.85b:
 
   - Fixed a garbled sentence in notes on parallel fuzzing. Thanks to Jakub Wilk.
 
-  - Fixed a minor glitch in afl-cmin. Spotted by Jonathan Foote.
+  - Fixed a minor glitch in fafl-cmin. Spotted by Jonathan Foote.
 
 --------------
 Version 1.84b:
@@ -743,7 +743,7 @@ Version 1.84b:
   - Added the total number of favored paths to fuzzer_stats. Requested by
     Ben Nagy.
 
-  - Made afl-tmin, afl-fuzz, and afl-cmin reject negative values passed to
+  - Made fafl-tmin, fafl-fuzz, and fafl-cmin reject negative values passed to
     -t and -m, since they generally won't work as expected.
 
   - Made a fix for no lahf / sahf support on older versions of FreeBSD.
@@ -753,7 +753,7 @@ Version 1.84b:
 Version 1.83b:
 --------------
 
-  - Fixed a problem with xargs -d on non-Linux systems in afl-cmin. Spotted by
+  - Fixed a problem with xargs -d on non-Linux systems in fafl-cmin. Spotted by
     teor2345 and Ben Nagy.
 
   - Fixed an implicit declaration in LLVM mode on MacOS X. Reported by 
@@ -787,7 +787,7 @@ Version 1.81b:
 Version 1.80b:
 --------------
 
-  - Made afl-cmin tolerant of whitespaces in filenames. Suggested by 
+  - Made fafl-cmin tolerant of whitespaces in filenames. Suggested by 
     Jonathan Neuschafer and Ketil Froyn.
 
   - Added support for FOT_EXIT_WHEN_DONE, as suggested by Michael Rash.
@@ -808,7 +808,7 @@ Version 1.78b:
 
   - Added a dictionary for PDF, contributed by Ben Nagy.
 
-  - Added several references to afl-cov, a new tool by Michael Rash.
+  - Added several references to fafl-cov, a new tool by Michael Rash.
 
   - Fixed a problem with crash reporter detection on MacOS X, as reported by
     Louis Dassy.
@@ -837,7 +837,7 @@ Version 1.76b:
     that this doesn't seem to have significant impact on coverage with
     libpng.
 
-  - Added a note about integrating afl-fuzz with third-party tools.
+  - Added a note about integrating fafl-fuzz with third-party tools.
 
 --------------
 Version 1.75b:
@@ -846,9 +846,9 @@ Version 1.75b:
   - Improved argv_fuzzing to allow it to emit empty args. Spotted by Jakub
     Wilk.
 
-  - afl-clang-fast now defines __FOT_HAVE_MANUAL_INIT. Suggested by Jakub Wilk.
+  - fafl-clang-fast now defines __FOT_HAVE_MANUAL_INIT. Suggested by Jakub Wilk.
 
-  - Fixed a libtool-related bug with afl-clang-fast that would make some
+  - Fixed a libtool-related bug with fafl-clang-fast that would make some
     ./configure invocations generate incorrect output. Spotted by Jakub Wilk.
 
   - Removed flock() on Solaris. This means no locking on this platform,
@@ -865,7 +865,7 @@ Version 1.74b:
 
   - Clarified llvm_mode prerequisites for FreeBSD.
 
-  - Improved afl-tmin to use /tmp if cwd is not writeable.
+  - Improved fafl-tmin to use /tmp if cwd is not writeable.
 
   - Removed redundant includes for sys/fcntl.h, which caused warnings with
     some nitpicky versions of libc.
@@ -969,7 +969,7 @@ Version 1.66b:
 Version 1.65b:
 --------------
 
-  - Fixed a snafu with some leftover code in afl-clang-fast.
+  - Fixed a snafu with some leftover code in fafl-clang-fast.
 
   - Corrected even moar typos.
 
@@ -977,11 +977,11 @@ Version 1.65b:
 Version 1.64b:
 --------------
 
-  - Further simplified afl-clang-fast runtime by reverting .init_array to
+  - Further simplified fafl-clang-fast runtime by reverting .init_array to
     __attribute__((constructor(0)). This should improve compatibility with
     non-ELF platforms.
 
-  - Fixed a problem with afl-clang-fast and -shared libraries. Simplified
+  - Fixed a problem with fafl-clang-fast and -shared libraries. Simplified
     the code by getting rid of .preinit_array and replacing it with a .comm
     object. Problem reported by Charlie Eriksen.
 
@@ -993,7 +993,7 @@ Version 1.63b:
 --------------
 
   - Updated cgroups_asan/ with a new version from Sam, made a couple changes
-    to streamline it and keep parallel afl instances in separate groups.
+    to streamline it and keep parallel fafl instances in separate groups.
 
   - Fixed typos, thanks to Jakub Wilk.
 
@@ -1001,7 +1001,7 @@ Version 1.63b:
 Version 1.62b:
 --------------
 
-  - Improved the handling of -x in afl-clang-fast,
+  - Improved the handling of -x in fafl-clang-fast,
 
   - Improved the handling of low FOT_INST_RATIO settings for QEMU and
     LLVM modes.
@@ -1012,7 +1012,7 @@ Version 1.62b:
 Version 1.61b:
 --------------
 
-  - Fixed an obscure bug compiling OpenSSL with afl-clang-fast. Patch by
+  - Fixed an obscure bug compiling OpenSSL with fafl-clang-fast. Patch by
     Laszlo Szekeres.
 
   - Fixed a 'make install' bug on non-x86 systems, thanks to Tobias Ospelt.
@@ -1033,7 +1033,7 @@ Version 1.60b:
   - Added ASAN cgroups script to experimental/asan_cgroups/, updated existing
     docs. Courtesy Sam Hakim and David A. Wheeler.
 
-  - Refactored afl-tmin to reduce the number of execs in common use cases.
+  - Refactored fafl-tmin to reduce the number of execs in common use cases.
     Ideas from Jonathan Neuschafer and Turo Lamminen.
 
   - Added a note about CLAs at the bottom of README.
@@ -1043,7 +1043,7 @@ Version 1.60b:
 
   - Made assorted updates to docs.
 
-  - Added MEM_BARRIER() to afl-showmap and afl-tmin, just to be safe.
+  - Added MEM_BARRIER() to fafl-showmap and fafl-tmin, just to be safe.
 
 --------------
 Version 1.59b:
@@ -1072,7 +1072,7 @@ Version 1.57b:
   - Fixed a problem with exception handling on some versions of MacOS X.
     Spotted by Samir Aguiar and Anders Wang Kristensen.
 
-  - Tweaked afl-gcc to use BIN_PATH instead of a fixed string in help
+  - Tweaked fafl-gcc to use BIN_PATH instead of a fixed string in help
     messages.
 
 --------------
@@ -1090,7 +1090,7 @@ Version 1.56b:
 Version 1.55b:
 --------------
 
-  - Fixed a glitch with afl-showmap opening /dev/null with O_RDONLY when
+  - Fixed a glitch with fafl-showmap opening /dev/null with O_RDONLY when
     running in quiet mode. Spotted by Tyler Nighswander.
 
 --------------
@@ -1165,10 +1165,10 @@ Version 1.48b:
 Version 1.47b:
 --------------
 
-  - Fixed a bug with afl-cmin in -Q mode complaining about binary being not
+  - Fixed a bug with fafl-cmin in -Q mode complaining about binary being not
     instrumented. Thanks to Jonathan Neuschafer for the bug report.
 
-  - Fixed another bug with argv handling for afl-fuzz in -Q mode. Reported
+  - Fixed another bug with argv handling for fafl-fuzz in -Q mode. Reported
     by Jonathan Neuschafer.
 
   - Improved the use of colors when showing crash counts in -C mode.
@@ -1207,7 +1207,7 @@ Version 1.44b:
 --------------
 
   - Corrected two bungled attempts to get the -C mode work properly
-    with afl-cmin (accounting for the short-lived releases tagged 1.42 and
+    with fafl-cmin (accounting for the short-lived releases tagged 1.42 and
     1.43b) - sorry.
 
   - Removed FOT_ALLOW_CRASHES in favor of the -C mode in said tool.
@@ -1218,18 +1218,18 @@ Version 1.44b:
 Version 1.41b:
 --------------
 
-  - Added FOT_ALLOW_CRASHES=1 to afl-cmin. Allows crashing inputs in the
+  - Added FOT_ALLOW_CRASHES=1 to fafl-cmin. Allows crashing inputs in the
     output corpus. Changed the default behavior to disallow it.
 
-  - Made the afl-cmin output dir default to 0700, not 0755, to be consistent
-    with afl-fuzz; documented the rationale for 0755 in afl-plot.
+  - Made the fafl-cmin output dir default to 0700, not 0755, to be consistent
+    with fafl-fuzz; documented the rationale for 0755 in fafl-plot.
 
   - Lowered the output dir reuse time limit to 25 minutes as a dice-roll
-    compromise after a discussion on afl-users@.
+    compromise after a discussion on fafl-users@.
 
-  - Made afl-showmap accept -o /dev/null without borking out.
+  - Made fafl-showmap accept -o /dev/null without borking out.
 
-  - Added support for crash / hang info in exit codes of afl-showmap.
+  - Added support for crash / hang info in exit codes of fafl-showmap.
 
   - Tweaked block operation scaling to also factor in ballpark run time
     in cases where queue passes take very little time.
@@ -1259,7 +1259,7 @@ Version 1.39b:
   - Changed the code to reset splicing perf scores between runs to keep
     them closer to intended length.
 
-  - Reduced the minimum value of -t to 5 for afl-fuzz (~200 exec/sec)
+  - Reduced the minimum value of -t to 5 for fafl-fuzz (~200 exec/sec)
     and to 10 for auxiliary tools (due to the absence of a fork server).
 
   - Switched to more aggressive default timeouts (rounded up to 25 ms
@@ -1289,7 +1289,7 @@ Version 1.37b:
     improvements with quite a few types of text-based formats, reducing the
     number of deterministic execs by a factor of 2 or so.
 
-  - Cleaned up mem limit handling in afl-cmin.
+  - Cleaned up mem limit handling in fafl-cmin.
 
   - Switched from uname -i to uname -m to work around Gentoo-specific
     issues with coreutils when building QEMU. Reported by William Robinet.
@@ -1309,14 +1309,14 @@ Version 1.37b:
   - Switched from perror() to strerror() in error macros, thanks to Jakub
     Wilk for the nag.
 
-  - Moved afl-cmin back to bash, wasn't thinking straight. It has to stay
+  - Moved fafl-cmin back to bash, wasn't thinking straight. It has to stay
     on bash because other shells may have restrictive limits on array sizes.
 
 --------------
 Version 1.36b:
 --------------
 
-  - Switched afl-cmin over to /bin/sh. Thanks to Jonathan Gray.
+  - Switched fafl-cmin over to /bin/sh. Thanks to Jonathan Gray.
 
   - Fixed an off-by-one bug in queue limit check when resuming sessions
     (could cause NULL ptr deref if you are *really* unlucky).
@@ -1353,13 +1353,13 @@ Version 1.33b:
   - Fixed a stack allocation crash in QEMU mode (bug in QEMU, fixed with
     an extra patch applied to the downloaded release).
 
-  - Added code to test the QEMU instrumentation once the afl-qemu-trace
+  - Added code to test the QEMU instrumentation once the fafl-qemu-trace
     binary is built.
 
-  - Modified afl-tmin and afl-showmap to search $PATH for binaries and to
+  - Modified fafl-tmin and fafl-showmap to search $PATH for binaries and to
     better handle QEMU support.
 
-  - Added a check for instrumented binaries when passing -Q to afl-fuzz.
+  - Added a check for instrumented binaries when passing -Q to fafl-fuzz.
 
 --------------
 Version 1.32b:
@@ -1367,7 +1367,7 @@ Version 1.32b:
 
   - Fixed 'make install' following the QEMU changes. Spotted by Hanno Boeck.
 
-  - Fixed EXTRA_PAR handling in afl-cmin.
+  - Fixed EXTRA_PAR handling in fafl-cmin.
 
 --------------
 Version 1.31b:
@@ -1377,20 +1377,20 @@ Version 1.31b:
     instrumentation of binary-only code. See qemu_mode/README.qemu.
 
     To use this feature, you need to follow the instructions in that
-    directory and then run afl-fuzz with -Q.
+    directory and then run fafl-fuzz with -Q.
 
 --------------
 Version 1.30b:
 --------------
 
-  - Added -s (summary) option to afl-whatsup. Suggested by Jodie Cunningham.
+  - Added -s (summary) option to fafl-whatsup. Suggested by Jodie Cunningham.
 
-  - Added a sanity check in afl-tmin to detect minimization to zero len or
+  - Added a sanity check in fafl-tmin to detect minimization to zero len or
     excess hangs.
 
-  - Fixed alphabet size counter in afl-tmin.
+  - Fixed alphabet size counter in fafl-tmin.
 
-  - Slightly improved the handling of -B in afl-fuzz.
+  - Slightly improved the handling of -B in fafl-fuzz.
 
   - Fixed process crash messages with -m none.
 
@@ -1411,20 +1411,20 @@ Version 1.28b:
     of tuples (i.e., A -> B != B -> A) and to maintain the identity of tight
     loops (A -> A). You need to recompile targeted binaries to leverage this.
 
-  - Cleaned up some of the afl-whatsup stats.
+  - Cleaned up some of the fafl-whatsup stats.
 
-  - Added several sanity checks to afl-cmin.
+  - Added several sanity checks to fafl-cmin.
 
 --------------
 Version 1.27b:
 --------------
 
-  - Made afl-tmin recursive. Thanks to Hanno Boeck for the tip.
+  - Made fafl-tmin recursive. Thanks to Hanno Boeck for the tip.
 
   - Added docs/technical_details.txt.
 
-  - Changed afl-showmap search strategy in afl-cmap to just look into the
-    same place that afl-cmin is executed from. Thanks to Jakub Wilk.
+  - Changed fafl-showmap search strategy in fafl-cmap to just look into the
+    same place that fafl-cmin is executed from. Thanks to Jakub Wilk.
 
   - Removed current_todo.txt and cleaned up the remaining docs.
 
@@ -1432,14 +1432,14 @@ Version 1.27b:
 Version 1.26b:
 --------------
 
-  - Added total execs/sec stat for afl-whatsup.
+  - Added total execs/sec stat for fafl-whatsup.
 
-  - afl-cmin now auto-selects between cp or ln. Based on feedback from
+  - fafl-cmin now auto-selects between cp or ln. Based on feedback from
     Even Huus.
 
   - Fixed a typo. Thanks to Jakub Wilk.
 
-  - Made afl-gotcpu a bit more accurate by using getrusage instead of
+  - Made fafl-gotcpu a bit more accurate by using getrusage instead of
     times. Thanks to Jakub Wilk.
 
   - Fixed a memory limit issue during the build process on NetBSD-current.
@@ -1449,64 +1449,64 @@ Version 1.26b:
 Version 1.25b:
 --------------
 
-  - Introduced afl-whatsup, a simple tool for querying the status of
-    local synced instances of afl-fuzz.
+  - Introduced fafl-whatsup, a simple tool for querying the status of
+    local synced instances of fafl-fuzz.
 
   - Added -x compiler to clang options on Darwin. Suggested by Filipe
     Cabecinhas.
 
-  - Improved exit codes for afl-gotcpu.
+  - Improved exit codes for fafl-gotcpu.
 
-  - Improved the checks for -m and -t values in afl-cmin. Bug report
+  - Improved the checks for -m and -t values in fafl-cmin. Bug report
     from Evan Huus.
 
 --------------
 Version 1.24b:
 --------------
 
-  - Introduced afl-getcpu, an experimental tool to empirically measure
+  - Introduced fafl-getcpu, an experimental tool to empirically measure
     CPU preemption rates. Thanks to Jakub Wilk for the idea.
 
 --------------
 Version 1.23b:
 --------------
 
-  - Reverted one change to afl-cmin that actually made it slower.
+  - Reverted one change to fafl-cmin that actually made it slower.
 
 --------------
 Version 1.22b:
 --------------
 
-  - Reworked afl-showmap.c to support normal options, including -o, -q,
+  - Reworked fafl-showmap.c to support normal options, including -o, -q,
     -e. Also added support for timeouts and memory limits.
 
-  - Made changes to afl-cmin and other scripts to accommodate the new
+  - Made changes to fafl-cmin and other scripts to accommodate the new
     semantics.
 
   - Officially retired FOT_EDGES_ONLY.
 
-  - Fixed another typo in afl-tmin, courtesy of Jakub Wilk.
+  - Fixed another typo in fafl-tmin, courtesy of Jakub Wilk.
 
 --------------
 Version 1.21b:
 --------------
 
-  - Graduated minimize_corpus.sh to afl-cmin. It is now a first-class
+  - Graduated minimize_corpus.sh to fafl-cmin. It is now a first-class
     utility bundled with the fuzzer. 
 
-  - Made significant improvements to afl-cmin to make it faster, more
+  - Made significant improvements to fafl-cmin to make it faster, more
     robust, and more versatile.
 
-  - Refactored some of afl-tmin code to make it a bit more readable.
+  - Refactored some of fafl-tmin code to make it a bit more readable.
 
-  - Made assorted changes to the doc to document afl-cmin and other stuff.
+  - Made assorted changes to the doc to document fafl-cmin and other stuff.
 
 --------------
 Version 1.20b:
 --------------
 
   - Added FOT_DUMB_FORKSRV, as requested by Jakub Wilk. This works only
-    in -n mode and allows afl-fuzz to run with "dummy" fork servers that
+    in -n mode and allows fafl-fuzz to run with "dummy" fork servers that
     don't output any instrumentation, but follow the same protocol.
 
   - Renamed FOT_SKIP_CHECKS to FOT_SKIP_BIN_CHECK to make it at least
@@ -1522,11 +1522,11 @@ Version 1.20b:
 Version 1.19b:
 --------------
 
-  - Improved exec failure detection in afl-fuzz and afl-showmap.
+  - Improved exec failure detection in fafl-fuzz and fafl-showmap.
 
-  - Improved Ctrl-C handling in afl-showmap.
+  - Improved Ctrl-C handling in fafl-showmap.
 
-  - Added afl-tmin, a handy instrumentation-enabled minimizer.
+  - Added fafl-tmin, a handy instrumentation-enabled minimizer.
 
 --------------
 Version 1.18b:
@@ -1604,7 +1604,7 @@ Version 1.12b:
   - Added havoc cycle scaling to help with slow binaries in -d mode. Based on
     a thread with Sami Liedes.
 
-  - Added FOT_SYNC_FIRST for afl-fuzz. This is useful for those who obsess
+  - Added FOT_SYNC_FIRST for fafl-fuzz. This is useful for those who obsess
     over stats, no special purpose otherwise.
 
   - Switched to more robust box drawing codes, suggested by Jakub Wilk.
@@ -1692,7 +1692,7 @@ Version 1.04b:
     large datasets, albeit at the expense of having to switch back to bash
     (other shells may have limits on array sizes, etc).
 
-  - Tweaked afl-showmap to support the format used by the new script.
+  - Tweaked fafl-showmap to support the format used by the new script.
 
 --------------
 Version 1.03b:
@@ -1714,7 +1714,7 @@ Version 1.02b:
     read or write to /tmp/ (since this is generally a pretty bad idea on
     multi-user systems).
 
-  - Added a check for /tmp binaries and -f locations in afl-fuzz.
+  - Added a check for /tmp binaries and -f locations in fafl-fuzz.
 
 --------------
 Version 1.01b:
@@ -1737,10 +1737,10 @@ Version 0.99b:
 
   - Fixed minimize_corpus.sh to work with dash, as suggested by Jakub Wilk.
 
-  - Modified minimize_corpus.sh to try locate afl-showmap in $PATH and ./.
+  - Modified minimize_corpus.sh to try locate fafl-showmap in $PATH and ./.
     The first part requested by Jakub Wilk.
 
-  - Added support for afl-as --version, as required by one funky build
+  - Added support for fafl-as --version, as required by one funky build
     script. Reported by William Robinet.
 
 --------------
@@ -1751,7 +1751,7 @@ Version 0.98b:
 
   - Fixed another cosmetic snafu with stage exec counts for -x.
 
-  - Switched afl-plot to /bin/sh, since it seems bashism-free. Also tried
+  - Switched fafl-plot to /bin/sh, since it seems bashism-free. Also tried
     to remove any obvious bashisms from other experimental/ scripts,
     most notably including minimize_corpus.sh and triage_crashes.sh.
     Requested by Jonathan Gray.
@@ -1779,7 +1779,7 @@ Version 0.96b:
   - Added several additional PNG test cases that are relatively unlikely
     to be hit by chance.
 
-  - Fixed afl-plot syntax for gnuplot 5.x. Reported by David Necas.
+  - Fixed fafl-plot syntax for gnuplot 5.x. Reported by David Necas.
 
 --------------
 Version 0.95b:
@@ -1856,11 +1856,11 @@ Version 0.90b:
 Version 0.89b:
 --------------
 
-  - Renamed afl-plot.sh to afl-plot, as requested by Padraig Brady.
+  - Renamed fafl-plot.sh to fafl-plot, as requested by Padraig Brady.
 
-  - Improved the compatibility of afl-plot with older versions of gnuplot.
+  - Improved the compatibility of fafl-plot with older versions of gnuplot.
 
-  - Added banner information to fuzzer_stats, populated it to afl-plot.
+  - Added banner information to fuzzer_stats, populated it to fafl-plot.
 
 --------------
 Version 0.88b:
@@ -1869,7 +1869,7 @@ Version 0.88b:
   - Added support for plotting, with design and implementation based on a
     prototype design proposed by Michael Rash. Huge thanks!
 
-  - Added afl-plot.sh, which allows you to, well, generate a nice plot using
+  - Added fafl-plot.sh, which allows you to, well, generate a nice plot using
     this data.
 
   - Refactored the code slightly to make more frequent updates to fuzzer_stats
@@ -1893,7 +1893,7 @@ Version 0.86b:
   - Added FOT_NO_FORKSRV, allowing the forkserver to be bypassed. Suggested
     by Ryan Govostes.
 
-  - Simplified afl-showmap.c to make use of the no-forkserver mode.
+  - Simplified fafl-showmap.c to make use of the no-forkserver mode.
 
   - Made minor improvements to crash_triage.sh, as suggested by Jakub Wilk.
 
@@ -1921,7 +1921,7 @@ Version 0.83b:
 --------------
 
   - Added experimental/clang_asm_normalize/ and related notes in 
-    env_variables.txt and afl-as.c. Thanks to Ryan Govostes for the idea.
+    env_variables.txt and fafl-as.c. Thanks to Ryan Govostes for the idea.
 
   - Added advice on hardware utilization in README.
 
@@ -1953,7 +1953,7 @@ Version 0.80b:
 
   - Added FOT_KEEP_ASSEMBLY for easier troubleshooting.
 
-  - Added an override for FOT_USE_ASAN if set at afl compile time. Requested by
+  - Added an override for FOT_USE_ASAN if set at fafl compile time. Requested by
     Hanno Boeck.
 
 --------------
@@ -2044,7 +2044,7 @@ Version 0.72b:
     ship it and see what happens next. I have a good feeling about this.
 
   - Made a fix for stack alignment crash on MacOS X 10.10; looks like the 
-    rhetorical question in the comments in afl-as.h has been answered.
+    rhetorical question in the comments in fafl-as.h has been answered.
     Tracked down by Mudge Zatko.
 
 --------------
@@ -2071,7 +2071,7 @@ Version 0.69b:
 
   - Made the crash counter in -C mode accurate.
 
-  - Fixed an obscure install bug that made afl-as non-functional with the tool
+  - Fixed an obscure install bug that made fafl-as non-functional with the tool
     installed to /usr/bin instead of /usr/local/bin. Found by Florian Kiersch.
 
   - Fixed for a cosmetic SIGFPE when Ctrl-C is pressed while the fork server
@@ -2102,7 +2102,7 @@ Version 0.66b:
 --------------
 
   - Fixed a very obscure issue with build systems that use gcc as an assembler
-    for hand-written .s files; this would confuse afl-as. Affected nss, reported
+    for hand-written .s files; this would confuse fafl-as. Affected nss, reported
     by Hanno Boeck.
 
   - Fixed a bug when cleaning up synchronized fuzzer output dirs. Issue reported
@@ -2155,7 +2155,7 @@ Version 0.61b:
 --------------
 
   - Fixed a minor issue with clang detection on systems with a clang cc
-    wrapper, so that afl-gcc doesn't confuse it with GCC.
+    wrapper, so that fafl-gcc doesn't confuse it with GCC.
 
   - Made cosmetic improvements to docs and to the CPU load indicator.
 
@@ -2166,8 +2166,8 @@ Version 0.60b:
 --------------
 
   - Fixed problems with jump tables generated by exotic versions of GCC. This
-    solves an outstanding problem on OpenBSD when using afl-gcc + PIE (not
-    present with afl-clang).
+    solves an outstanding problem on OpenBSD when using fafl-gcc + PIE (not
+    present with fafl-clang).
 
   - Fixed permissions on one of the sample archives.
 
@@ -2182,7 +2182,7 @@ Version 0.59b:
 
   - Modified 'make install' to also install test cases.
 
-  - Provided better pointers to installed README in afl-fuzz.
+  - Provided better pointers to installed README in fafl-fuzz.
 
   - More work on RLIMIT_AS for OpenBSD.
 
@@ -2201,10 +2201,10 @@ Version 0.57b:
 --------------
 
   - Made fixes to support FreeBSD and OpenBSD: use_64bit is now inferred if not
-    explicitly specified when calling afl-as, and RLIMIT_AS is behind an #ifdef.
+    explicitly specified when calling fafl-as, and RLIMIT_AS is behind an #ifdef.
     Thanks to Fabian Keil and Jonathan Gray for helping troubleshoot this.
 
-  - Modified 'make install' to also install docs (in /usr/local/share/doc/afl).
+  - Modified 'make install' to also install docs (in /usr/local/share/doc/fafl).
 
   - Fixed a typo in status_screen.txt.
 
@@ -2254,7 +2254,7 @@ Version 0.53b:
     wanted to avoid would be equivalent to just looking at crash %eip,
     which can have false negatives in common functions such as memcpy().
 
-    The middle ground currently used in afl-fuzz can be compared to looking
+    The middle ground currently used in fafl-fuzz can be compared to looking
     at every line item in the stack trace and tagging crashes as unique if
     we see any function name that we haven't seen before (or if something that
     we have *always* seen there suddenly disappears). We do the comparison
@@ -2284,7 +2284,7 @@ Version 0.52b:
 Version 0.51b:
 --------------
 
-  - Changed the search order for afl-as to avoid the problem with older copies
+  - Changed the search order for fafl-as to avoid the problem with older copies
     installed system-wide; this also means that I can remove the Makefile check
     for that.
 
@@ -2303,7 +2303,7 @@ Version 0.50b:
   - Revamped various bits of the documentation, especially around perf_tips.txt;
     based on the feedback from Alexander Cherepanov.
 
-  - Added FOT_INST_RATIO to afl-as. The only case where this comes handy is
+  - Added FOT_INST_RATIO to fafl-as. The only case where this comes handy is
     ffmpeg, at least as far as I can tell. (Trivia: the current version of 
     ffmpeg ./configure also ignores CC and --cc, probably unintentionally).
 
@@ -2311,10 +2311,10 @@ Version 0.50b:
 
   - Implemented a visual warning for excessive or insufficient bitmap density.
 
-  - Changed afl-gcc to add -O3 by default; use FOT_DONT_OPTIMIZE if you don't
+  - Changed fafl-gcc to add -O3 by default; use FOT_DONT_OPTIMIZE if you don't
     like that. Big speed gain for ffmpeg, so seems like a good idea.
 
-  - Made a regression fix to afl-as to ignore .LBB labels in gcc mode.
+  - Made a regression fix to fafl-as to ignore .LBB labels in gcc mode.
 
 --------------
 Version 0.49b:
@@ -2327,8 +2327,8 @@ Version 0.49b:
   - Changed FOT_HARDEN to *not* include ASAN by default. Use FOT_USE_ASAN if
     needed. The reasons for this are in notes_for_asan.txt.
 
-  - Switched from configure auto-detection to isatty() to keep afl-as and
-    afl-gcc quiet.
+  - Switched from configure auto-detection to isatty() to keep fafl-as and
+    fafl-gcc quiet.
 
   - Improved installation process to properly create symlinks, rather than
     copies of binaries.
@@ -2337,7 +2337,7 @@ Version 0.49b:
 Version 0.48b:
 --------------
 
-  - Improved afl-fuzz to force-set ASAN_OPTIONS=abort_on_error=1. Otherwise,
+  - Improved fafl-fuzz to force-set ASAN_OPTIONS=abort_on_error=1. Otherwise,
     ASAN crashes wouldn't be caught at all. Reported by Hanno Boeck.
 
   - Improved Makefile mkdir logic, as suggested by Hanno Boeck.
@@ -2345,14 +2345,14 @@ Version 0.48b:
   - Improved the 64-bit instrumentation to properly save r8-r11 registers in
     the x86 setup code. The old behavior could cause rare problems running
     *without* instrumentation when the first function called in a particular
-    .o file has 5+ parameters. No impact on code running under afl-fuzz or
-    afl-showmap. Issue spotted by Padraig Brady.
+    .o file has 5+ parameters. No impact on code running under fafl-fuzz or
+    fafl-showmap. Issue spotted by Padraig Brady.
 
 --------------
 Version 0.47b:
 --------------
 
-  - Fixed another Makefile bug for parallel builds of afl. Problem identified
+  - Fixed another Makefile bug for parallel builds of fafl. Problem identified
     by Richard W. M. Jones.
 
   - Added support for suffixes for -m.
@@ -2360,7 +2360,7 @@ Version 0.47b:
   - Updated the documentation and added notes_for_asan.txt. Based on feedback
     from Hanno Boeck, Ben Laurie, and others.
 
-  - Moved the project to http://lcamtuf.coredump.cx/afl/.
+  - Moved the project to http://lcamtuf.coredump.cx/fafl/.
 
 --------------
 Version 0.46b:
@@ -2408,7 +2408,7 @@ Version 0.44b:
 
   - Added support for FOT_CC and FOT_CXX, based on a patch from Ben Laurie.
 
-  - Replaced afl-fuzz -S -D with -M for simplicity.
+  - Replaced fafl-fuzz -S -D with -M for simplicity.
 
   - Added a check for .section .text; lack of this prevented main() from
     getting instrumented for some users. Reported by Tom Ritter.
@@ -2446,7 +2446,7 @@ Version 0.42b:
 
   - Made several improvements to error messages.
 
-  - Added FOT_QUIET to silence afl-gcc and afl-as when using wonky build
+  - Added FOT_QUIET to silence fafl-gcc and fafl-as when using wonky build
     systems. Reported by Hanno Boeck.
 
   - Improved check for 64-bit compilation, plus several sanity checks
@@ -2458,7 +2458,7 @@ Version 0.41b:
 
   - Fixed a fork served bug for processes that call execve().
 
-  - Made minor compatibility fixes to Makefile, afl-gcc; suggested by Jakub
+  - Made minor compatibility fixes to Makefile, fafl-gcc; suggested by Jakub
     Wilk.
 
   - Fixed triage_crashes.sh to work with the new layout of output directories.
@@ -2469,7 +2469,7 @@ Version 0.41b:
 
   - Added visual indication of the number of imported paths.
 
-  - Fixed afl-showmap to make it work well with new instrumentation.
+  - Fixed fafl-showmap to make it work well with new instrumentation.
 
   - Added much better error messages for crashes when importing test cases
     or otherwise calibrating the binary.
@@ -2500,7 +2500,7 @@ Version 0.39b:
 
   - Made a minor improvement to the handling of variable paths.
 
-  - Made additional performance tweaks to afl-fuzz, chiefly around mem limits.
+  - Made additional performance tweaks to fafl-fuzz, chiefly around mem limits.
 
   - Added performance_tips.txt.
 
@@ -2552,7 +2552,7 @@ Version 0.36b:
 Version 0.35b:
 --------------
 
-  - Properly integrated 64-bit instrumentation into afl-as.
+  - Properly integrated 64-bit instrumentation into fafl-as.
 
 --------------
 Version 0.34b:
@@ -2582,7 +2582,7 @@ Version 0.32b:
 Version 0.31b:
 --------------
 
-  - Made another fix to afl-as to address a potential problem with newer
+  - Made another fix to fafl-as to address a potential problem with newer
     versions of GCC (introduced in 0.28b). Thanks to Jann Horn.
 
 --------------

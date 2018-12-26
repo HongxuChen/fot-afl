@@ -1,5 +1,5 @@
 =========================================================
-High-performance binary-only instrumentation for afl-fuzz
+High-performance binary-only instrumentation for fafl-fuzz
 =========================================================
 
   (See ../docs/README for the general instruction manual.)
@@ -10,8 +10,8 @@ High-performance binary-only instrumentation for afl-fuzz
 The code in this directory allows you to build a standalone feature that
 leverages the QEMU "user emulation" mode and allows callers to obtain
 instrumentation output for black-box, closed-source binaries. This mechanism
-can be then used by afl-fuzz to stress-test targets that couldn't be built
-with afl-gcc.
+can be then used by fafl-fuzz to stress-test targets that couldn't be built
+with fafl-gcc.
 
 The usual performance cost is 2-5x, which is considerably better than
 seen so far in experiments with tools such as DynamoRIO and PIN.
@@ -30,12 +30,12 @@ resolve a couple of dependencies (most notably, you will definitely need
 libtool and glib2-devel).
 
 Once the binaries are compiled, you can leverage the QEMU tool by calling
-afl-fuzz and all the related utilities with -Q in the command line.
+fafl-fuzz and all the related utilities with -Q in the command line.
 
 Note that QEMU requires a generous memory limit to run; somewhere around
 200 MB is a good starting point, but considerably more may be needed for
 more complex programs. The default -m limit will be automatically bumped up
-to 200 MB when specifying -Q to afl-fuzz; be careful when overriding this.
+to 200 MB when specifying -Q to fafl-fuzz; be careful when overriding this.
 
 In principle, if you set CPU_TARGET before calling ./build_qemu_support.sh,
 you should get a build capable of running non-native binaries (say, you
@@ -72,9 +72,9 @@ and instrument every basic block encountered.
 ---------------
 
 If you want to compare the performance of the QEMU instrumentation with that of
-afl-gcc compiled code against the same target, you need to build the
+fafl-gcc compiled code against the same target, you need to build the
 non-instrumented binary with the same optimization flags that are normally
-injected by afl-gcc, and make sure that the bits to be tested are statically
+injected by fafl-gcc, and make sure that the bits to be tested are statically
 linked into the binary. A common way to do this would be:
 
 $ CFLAGS="-O3 -funroll-loops" ./configure --disable-shared
@@ -104,7 +104,7 @@ full support for AVX2 / FMA3. Using binaries for older CPUs, or recompiling them
 with -march=core2, can help.
 
 Beyond that, this is an early-stage mechanism, so fields reports are welcome.
-You can send them to <afl-users@googlegroups.com>.
+You can send them to <fafl-users@googlegroups.com>.
 
 6) Alternatives: static rewriting
 ---------------------------------
@@ -117,8 +117,8 @@ program control flow without actually executing each and every code path.
 If you want to experiment with this mode of operation, there is a module
 contributed by Aleksandar Nikolich:
 
-  https://github.com/vrtadmin/moflow/tree/master/afl-dyninst
-  https://groups.google.com/forum/#!topic/afl-users/HlSQdbOTlpg
+  https://github.com/vrtadmin/moflow/tree/master/fafl-dyninst
+  https://groups.google.com/forum/#!topic/fafl-users/HlSQdbOTlpg
 
 At this point, the author reports the possibility of hiccups with stripped
 binaries. That said, if we can get it to be comparably reliable to QEMU, we may

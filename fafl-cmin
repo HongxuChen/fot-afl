@@ -18,25 +18,25 @@
 # the starting corpus. This has two uses:
 #
 #   - Screening large corpora of input files before using them as a seed for
-#     afl-fuzz. The tool will remove functionally redundant files and likely
+#     fafl-fuzz. The tool will remove functionally redundant files and likely
 #     leave you with a much smaller set.
 #
-#     (In this case, you probably also want to consider running afl-tmin on
+#     (In this case, you probably also want to consider running fafl-tmin on
 #     the individual files later on to reduce their size.)
 #
-#   - Minimizing the corpus generated organically by afl-fuzz, perhaps when
+#   - Minimizing the corpus generated organically by fafl-fuzz, perhaps when
 #     planning to feed it to more resource-intensive tools. The tool achieves
 #     this by removing all entries that used to trigger unique behaviors in the
 #     past, but have been made obsolete by later finds.
 #
 # Note that the tool doesn't modify the files themselves. For that, you want
-# afl-tmin.
+# fafl-tmin.
 #
 # This script must use bash because other shells may have hardcoded limits on
 # array sizes.
 #
 
-echo "corpus minimization tool for afl-fuzz by <lcamtuf@google.com>"
+echo "corpus minimization tool for fafl-fuzz by <lcamtuf@google.com>"
 echo
 
 #########
@@ -230,13 +230,13 @@ if [ ! "$STDIN_FILE" = "" ]; then
 fi
 
 if [ "$FOT_PATH" = "" ]; then
-  SHOWMAP="${0%/afl-cmin}/afl-showmap"
+  SHOWMAP="${0%/fafl-cmin}/fafl-showmap"
 else
-  SHOWMAP="$FOT_PATH/afl-showmap"
+  SHOWMAP="$FOT_PATH/fafl-showmap"
 fi
 
 if [ ! -x "$SHOWMAP" ]; then
-  echo "[-] Error: can't find 'afl-showmap' - please set FOT_PATH." 1>&2
+  echo "[-] Error: can't find 'fafl-showmap' - please set FOT_PATH." 1>&2
   rm -rf "$TRACE_DIR"
   exit 1
 fi
@@ -267,7 +267,7 @@ else
   CP_TOOL=cp
 fi
 
-# Make sure that we can actually get anything out of afl-showmap before we
+# Make sure that we can actually get anything out of fafl-showmap before we
 # waste too much time.
 
 echo "[*] Testing the target binary..."

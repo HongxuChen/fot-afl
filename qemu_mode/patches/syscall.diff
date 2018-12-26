@@ -4,7 +4,7 @@
  
  #include "qemu.h"
  
-+extern unsigned int afl_forksrv_pid;
++extern unsigned int fafl_forksrv_pid;
 +
  #ifndef CLONE_IO
  #define CLONE_IO                0x80000000      /* Clone io context */
@@ -23,7 +23,7 @@
 +
 +          /* Not entirely sure if the below is correct for all architectures. */
 +
-+          if(afl_forksrv_pid && afl_forksrv_pid == pid && sig == SIGABRT)
++          if(fafl_forksrv_pid && fafl_forksrv_pid == pid && sig == SIGABRT)
 +              pid = tgid = getpid();
 +
 +          ret = get_errno(safe_tgkill(pid, tgid, target_to_host_signal(sig)));

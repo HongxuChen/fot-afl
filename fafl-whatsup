@@ -14,10 +14,10 @@
 #   http://www.apache.org/licenses/LICENSE-2.0
 #
 # This tool summarizes the status of any locally-running synchronized
-# instances of afl-fuzz.
+# instances of fafl-fuzz.
 #
 
-echo "status check tool for afl-fuzz by <lcamtuf@google.com>"
+echo "status check tool for fafl-fuzz by <lcamtuf@google.com>"
 echo
 
 if [ "$1" = "-s" ]; then
@@ -34,7 +34,7 @@ fi
 
 if [ "$DIR" = "" ]; then
 
-  echo "Usage: $0 [ -s ] afl_sync_dir" 1>&2
+  echo "Usage: $0 [ -s ] fafl_sync_dir" 1>&2
   echo 1>&2
   echo "The -s option causes the tool to skip all the per-fuzzer trivia and show" 1>&2
   echo "just the summary results. See docs/parallel_fuzzing.txt for additional tips." 1>&2
@@ -54,7 +54,7 @@ fi
 
 CUR_TIME=`date +%s`
 
-TMP=`mktemp -t .afl-whatsup-XXXXXXXX` || exit 1
+TMP=`mktemp -t .fafl-whatsup-XXXXXXXX` || exit 1
 
 ALIVE_CNT=0
 DEAD_CNT=0
@@ -85,7 +85,7 @@ for i in `find . -maxdepth 2 -iname fuzzer_stats | sort`; do
 
   if [ "$SUMMARY_ONLY" = "" ]; then
 
-    echo ">>> $afl_banner ($RUN_DAYS days, $RUN_HRS hrs) <<<"
+    echo ">>> $fafl_banner ($RUN_DAYS days, $RUN_HRS hrs) <<<"
     echo
 
   fi

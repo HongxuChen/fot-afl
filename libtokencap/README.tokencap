@@ -7,7 +7,7 @@ strcmp() / memcmp() token capture library
 This Linux-only companion library allows you to instrument strcmp(), memcmp(),
 and related functions to automatically extract syntax tokens passed to any of
 these libcalls. The resulting list of tokens may be then given as a starting
-dictionary to afl-fuzz (the -x option) to improve coverage on subsequent
+dictionary to fafl-fuzz (the -x option) to improve coverage on subsequent
 fuzzing runs.
 
 This may help improving coverage in some targets, and do precisely nothing in
@@ -22,21 +22,21 @@ As for the actual operation: the library stores tokens, without any deduping,
 by appending them to a file specified via FOT_TOKEN_FILE. If the variable is not
 set, the tool uses stderr (which is probably not what you want).
 
-Similarly to afl-tmin, the library is not "proprietary" and can be used with
+Similarly to fafl-tmin, the library is not "proprietary" and can be used with
 other fuzzers or testing tools without the need for any code tweaks. It does not
 require FOT-instrumented binaries to work.
 
 To use the library, you *need* to make sure that your fuzzing target is compiled
 with -fno-builtin and is linked dynamically. If you wish to automate the first
 part without mucking with CFLAGS in Makefiles, you can set FOT_NO_BUILTIN=1
-when using afl-gcc. This setting specifically adds the following flags:
+when using fafl-gcc. This setting specifically adds the following flags:
 
   -fno-builtin-strcmp -fno-builtin-strncmp -fno-builtin-strcasecmp
   -fno-builtin-strcasencmp -fno-builtin-memcmp -fno-builtin-strstr
   -fno-builtin-strcasestr
 
 The next step is simply loading this library via LD_PRELOAD. The optimal usage
-pattern is to allow afl-fuzz to fuzz normally for a while and build up a corpus,
+pattern is to allow fafl-fuzz to fuzz normally for a while and build up a corpus,
 and then fire off the target binary, with libtokencap.so loaded, on every file
 found by FOT in that earlier run. This demonstrates the basic principle:
 
@@ -47,7 +47,7 @@ found by FOT in that earlier run. This demonstrates the basic principle:
       /path/to/target/program [...params, including $i...]
   done
 
-  sort -u temp_output.txt >afl_dictionary.txt
+  sort -u temp_output.txt >fafl_dictionary.txt
 
 If you don't get any results, the target library is probably not using strcmp()
 and memcmp() to parse input; or you haven't compiled it with -fno-builtin; or

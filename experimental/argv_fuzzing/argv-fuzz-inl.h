@@ -13,7 +13,7 @@
      http://www.apache.org/licenses/LICENSE-2.0
 
    This file shows a simple way to fuzz command-line parameters with stock
-   afl-fuzz. To use, add:
+   fafl-fuzz. To use, add:
 
    #include "/path/to/argv-fuzz-inl.h"
 
@@ -36,10 +36,10 @@
 
 #include <unistd.h>
 
-#define FOT_INIT_ARGV() do { argv = afl_init_argv(&argc); } while (0)
+#define FOT_INIT_ARGV() do { argv = fafl_init_argv(&argc); } while (0)
 
 #define FOT_INIT_SET0(_p) do { \
-    argv = afl_init_argv(&argc); \
+    argv = fafl_init_argv(&argc); \
     argv[0] = (_p); \
     if (!argc) argc = 1; \
   } while (0)
@@ -47,7 +47,7 @@
 #define MAX_CMDLINE_LEN 100000
 #define MAX_CMDLINE_PAR 1000
 
-static char** afl_init_argv(int* argc) {
+static char** fafl_init_argv(int* argc) {
 
   static char  in_buf[MAX_CMDLINE_LEN];
   static char* ret[MAX_CMDLINE_PAR];

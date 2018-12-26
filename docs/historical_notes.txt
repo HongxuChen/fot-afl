@@ -10,7 +10,7 @@ Historical notes
 1) Influences
 -------------
 
-In short, afl-fuzz is inspired chiefly by the work done by Tavis Ormandy back
+In short, fafl-fuzz is inspired chiefly by the work done by Tavis Ormandy back
 in 2007. Tavis did some very persuasive experiments using gcov block coverage
 to select optimal test cases out of a large corpus of data, and then using
 them as a starting point for traditional fuzzing workflows.
@@ -22,7 +22,7 @@ In parallel to this, both Tavis and I were interested in evolutionary fuzzing.
 Tavis had his experiments, and I was working on a tool called bunny-the-fuzzer,
 released somewhere in 2007.
 
-Bunny used a generational algorithm not much different from afl-fuzz, but
+Bunny used a generational algorithm not much different from fafl-fuzz, but
 also tried to reason about the relationship between various input bits and
 the internal state of the program, with hopes of deriving some additional value
 from that. The reasoning / correlation part was probably in part inspired by
@@ -40,9 +40,9 @@ There has been a fair amount of independent work, too. Most notably, a few
 weeks earlier that year, Jared DeMott had a Defcon presentation about a
 coverage-driven fuzzer that relied on coverage as a fitness function.
 
-Jared's approach was by no means identical to what afl-fuzz does, but it was in
+Jared's approach was by no means identical to what fafl-fuzz does, but it was in
 the same ballpark. His fuzzer tried to explicitly solve for the maximum coverage
-with a single input file; in comparison, afl simply selects for cases that do
+with a single input file; in comparison, fafl simply selects for cases that do
 something new (which yields better results - see technical_details.txt).
 
 A few years later, Gabriel Campana released fuzzgrind, a tool that relied purely
@@ -75,10 +75,10 @@ But I digress; ultimately, attribution is hard, and glorying the fundamental
 concepts behind FOT is probably a waste of time. The devil is very much in the
 often-overlooked details, which brings us to...
 
-2) Design goals for afl-fuzz
+2) Design goals for fafl-fuzz
 ----------------------------
 
-In short, I believe that the current implementation of afl-fuzz takes care of
+In short, I believe that the current implementation of fafl-fuzz takes care of
 several itches that seemed impossible to scratch with other tools:
 
 1) Speed. It's genuinely hard to compete with brute force when your "smart"
@@ -86,7 +86,7 @@ several itches that seemed impossible to scratch with other tools:
    likely to find a bug, but runs 100x slower, your users are getting a bad
    deal.
 
-   To avoid starting with a handicap, afl-fuzz is meant to let you fuzz most of
+   To avoid starting with a handicap, fafl-fuzz is meant to let you fuzz most of
    the intended targets at roughly their native speed - so even if it doesn't
    add value, you do not lose much.
 
@@ -107,7 +107,7 @@ several itches that seemed impossible to scratch with other tools:
    them strictly worse than "dumb" tools, and such degradation can be difficult
    for less experienced users to notice and correct.
 
-   In contrast, afl-fuzz is designed to be rock solid, chiefly by keeping it
+   In contrast, fafl-fuzz is designed to be rock solid, chiefly by keeping it
    simple. In fact, at its core, it's designed to be just a very good
    traditional fuzzer with a wide range of interesting, well-researched
    strategies to go by. The fancy parts just help it focus the effort in
@@ -143,5 +143,5 @@ of small, complementary methods that were shown to reliably yields results
 better than chance. The use of instrumentation is a part of that toolkit, but is
 far from being the most important one.
 
-Ultimately, what matters is that afl-fuzz is designed to find cool bugs - and
+Ultimately, what matters is that fafl-fuzz is designed to find cool bugs - and
 has a pretty robust track record of doing just that.

@@ -6,7 +6,7 @@
               Michal Zalewski <lcamtuf@google.com>
 
    LLVM integration design comes from Laszlo Szekeres. C bits copied-and-pasted
-   from afl-as.c are Michal's fault.
+   from fafl-as.c are Michal's fault.
 
    Copyright 2015, 2016 Google Inc. All rights reserved.
 
@@ -16,9 +16,9 @@
 
      http://www.apache.org/licenses/LICENSE-2.0
 
-   This library is plugged into LLVM when invoking clang through afl-clang-fast.
+   This library is plugged into LLVM when invoking clang through fafl-clang-fast.
    It tells the compiler to add code roughly equivalent to the bits discussed
-   in ../afl-as.h.
+   in ../fafl-as.h.
 
  */
 
@@ -76,7 +76,7 @@ bool FOTCoverage::runOnModule(Module &M) {
 
   if (isatty(2) && !getenv("FOT_QUIET")) {
 
-    SAYF(cCYA "afl-llvm-pass " cBRI VERSION cRST " by <lszekeres@google.com>\n");
+    SAYF(cCYA "fafl-llvm-pass " cBRI VERSION cRST " by <lszekeres@google.com>\n");
 
   } else be_quiet = 1;
 
@@ -94,14 +94,14 @@ bool FOTCoverage::runOnModule(Module &M) {
   }
 
   /* Get globals for the SHM region and the previous location. Note that
-     __afl_prev_loc is thread-local. */
+     __fafl_prev_loc is thread-local. */
 
   GlobalVariable *FOTMapPtr =
       new GlobalVariable(M, PointerType::get(Int8Ty, 0), false,
-                         GlobalValue::ExternalLinkage, 0, "__afl_area_ptr");
+                         GlobalValue::ExternalLinkage, 0, "__fafl_area_ptr");
 
   GlobalVariable *FOTPrevLoc = new GlobalVariable(
-      M, Int32Ty, false, GlobalValue::ExternalLinkage, 0, "__afl_prev_loc",
+      M, Int32Ty, false, GlobalValue::ExternalLinkage, 0, "__fafl_prev_loc",
       0, GlobalVariable::GeneralDynamicTLSModel, 0, false);
 
   /* Instrument all the things! */
