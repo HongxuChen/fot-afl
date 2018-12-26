@@ -63,7 +63,7 @@ static s32 shm_id;                    /* ID of the SHM region              */
 
 static u8  quiet_mode,                /* Hide non-essential messages?      */
            edges_only,                /* Ignore hit counts?                */
-           cmin_mode,                 /* Generate output in fafl-cmin mode? */
+           cmin_mode,                 /* Generate output in afl-cmin mode? */
            binary_mode,               /* Write output as a binary map      */
            keep_cores;                /* Allow coredumps?                  */
 
@@ -73,7 +73,7 @@ static volatile u8
            child_crashed;             /* Child crashed?                    */
 
 /* Classify tuple counts. Instead of mapping to individual bits, as in
-   fafl-fuzz.c, we map to more user-friendly numbers between 1 and 8. */
+   afl-fuzz.c, we map to more user-friendly numbers between 1 and 8. */
 
 static const u8 count_class_human[256] = {
 
@@ -461,7 +461,7 @@ static void detect_file_args(char** argv) {
 
 static void show_banner(void) {
 
-  SAYF(cCYA "fafl-showmap " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
+  SAYF(cCYA "afl-showmap " cBRI VERSION cRST " by <lcamtuf@google.com>\n");
 
 }
 
@@ -574,7 +574,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   if (tmp) {
 
-    cp = alloc_printf("%s/fafl-qemu-trace", tmp);
+    cp = alloc_printf("%s/afl-qemu-trace", tmp);
 
     if (access(cp, X_OK))
       FATAL("Unable to find '%s'", tmp);
@@ -591,7 +591,7 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
     *rsl = 0;
 
-    cp = alloc_printf("%s/fafl-qemu-trace", own_copy);
+    cp = alloc_printf("%s/afl-qemu-trace", own_copy);
     ck_free(own_copy);
 
     if (!access(cp, X_OK)) {
@@ -603,14 +603,14 @@ static char** get_qemu_argv(u8* own_loc, char** argv, int argc) {
 
   } else ck_free(own_copy);
 
-  if (!access(BIN_PATH "/fafl-qemu-trace", X_OK)) {
+  if (!access(BIN_PATH "/afl-qemu-trace", X_OK)) {
 
-    target_path = new_argv[0] = BIN_PATH "/fafl-qemu-trace";
+    target_path = new_argv[0] = BIN_PATH "/afl-qemu-trace";
     return new_argv;
 
   }
 
-  FATAL("Unable to find 'fafl-qemu-trace'.");
+  FATAL("Unable to find 'afl-qemu-trace'.");
 
 }
 
@@ -703,7 +703,7 @@ int main(int argc, char** argv) {
       case 'Z':
 
         /* This is an undocumented option to write data in the syntax expected
-           by fafl-cmin. Nobody else should have any use for this. */
+           by afl-cmin. Nobody else should have any use for this. */
 
         cmin_mode  = 1;
         quiet_mode = 1;
@@ -711,7 +711,7 @@ int main(int argc, char** argv) {
 
       case 'A':
 
-        /* Another fafl-cmin specific feature. */
+        /* Another afl-cmin specific feature. */
         at_file = optarg;
         break;
 
@@ -726,7 +726,7 @@ int main(int argc, char** argv) {
       case 'b':
 
         /* Secret undocumented mode. Writes output in raw binary format
-           similar to that dumped by fafl-fuzz in <out_dir/queue/fuzz_bitmap. */
+           similar to that dumped by afl-fuzz in <out_dir/queue/fuzz_bitmap. */
 
         binary_mode = 1;
         break;

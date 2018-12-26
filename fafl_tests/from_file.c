@@ -66,7 +66,7 @@ int main(int argc, char ** argv) {
                     if (strcmp(buf+16, "american fuzzy lop") == 0) {
                         printf("CASE_07 Oh no, I've been caught, excellent!\n");
                         abort();
-                    } else if (strcmp(buf+16, "fafl") == 0) {
+                    } else if (strcmp(buf+16, "afl") == 0) {
                         printf("CASE_08 oops, I surrender\n");
                         abort();
                     } else  {

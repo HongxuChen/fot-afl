@@ -12,7 +12,7 @@
 
      http://www.apache.org/licenses/LICENSE-2.0
 
-   Postprocessor libraries can be passed to fafl-fuzz to perform final cleanup
+   Postprocessor libraries can be passed to afl-fuzz to perform final cleanup
    of any mutated test cases - for example, to fix up checksums in PNG files.
 
    Please heed the following warnings:
@@ -27,18 +27,18 @@
 
    3) Postprocessors that do anything non-trivial must be extremely robust to
       gracefully handle malformed data and other error conditions - otherwise,
-      they will crash and take fafl-fuzz down with them. Be wary of reading past
+      they will crash and take afl-fuzz down with them. Be wary of reading past
       *len and of integer overflows when calculating file offsets.
 
    In other words, THIS IS PROBABLY NOT WHAT YOU WANT - unless you really,
    honestly know what you're doing =)
 
-   With that out of the way: the postprocessor library is passed to fafl-fuzz
+   With that out of the way: the postprocessor library is passed to afl-fuzz
    via FOT_POST_LIBRARY. The library must be compiled with:
 
      gcc -shared -Wall -O3 post_library.so.c -o post_library.so
 
-   FOT will call the fafl_postprocess() function for every mutated output buffer.
+   FOT will call the afl_postprocess() function for every mutated output buffer.
    From there, you have three choices:
 
    1) If you don't want to modify the test case, simply return the original
@@ -62,7 +62,7 @@
     sure that all input files start with "GIF89a".
 
     PS. If you don't like C, you can try out the unix-based wrapper from
-    Ben Nagy instead: https://github.com/bnagy/faflfix
+    Ben Nagy instead: https://github.com/bnagy/aflfix
 
  */
 
@@ -74,9 +74,9 @@
 
 #define HEADER "GIF89a"
 
-/* The actual postprocessor routine called by fafl-fuzz: */
+/* The actual postprocessor routine called by afl-fuzz: */
 
-const unsigned char* fafl_postprocess(const unsigned char* in_buf,
+const unsigned char* afl_postprocess(const unsigned char* in_buf,
                                      unsigned int* len) {
 
   static unsigned char* saved_buf;
