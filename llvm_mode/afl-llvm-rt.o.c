@@ -66,7 +66,7 @@ static void __afl_map_shm(void) {
 
   u8 *id_str = getenv(SHM_ENV_VAR);
 
-  /* If we're running under AFL, attach to the appropriate region, replacing the
+  /* If we're running under FOT, attach to the appropriate region, replacing the
      early-stage __afl_area_initial region that is needed to allow some really
      hacky .init code to work correctly in projects such as OpenSSL. */
 

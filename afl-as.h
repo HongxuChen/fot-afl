@@ -31,8 +31,8 @@
 
  */
 
-#ifndef _HAVE_AFL_AS_H
-#define _HAVE_AFL_AS_H
+#ifndef _HAVE_FOT_AS_H
+#define _HAVE_FOT_AS_H
 
 #include "config.h"
 #include "types.h"
@@ -107,7 +107,7 @@
 static const u8* trampoline_fmt_32 =
 
   "\n"
-  "/* --- AFL TRAMPOLINE (32-BIT) --- */\n"
+  "/* --- FOT TRAMPOLINE (32-BIT) --- */\n"
   "\n"
   ".align 4\n"
   "\n"
@@ -130,7 +130,7 @@ static const u8* trampoline_fmt_32 =
 static const u8* trampoline_fmt_64 =
 
   "\n"
-  "/* --- AFL TRAMPOLINE (64-BIT) --- */\n"
+  "/* --- FOT TRAMPOLINE (64-BIT) --- */\n"
   "\n"
   ".align 4\n"
   "\n"
@@ -151,7 +151,7 @@ static const u8* trampoline_fmt_64 =
 static const u8* main_payload_32 = 
 
   "\n"
-  "/* --- AFL MAIN PAYLOAD (32-BIT) --- */\n"
+  "/* --- FOT MAIN PAYLOAD (32-BIT) --- */\n"
   "\n"
   ".text\n"
   ".att_syntax\n"
@@ -213,7 +213,7 @@ static const u8* main_payload_32 =
   "  pushl %eax\n"
   "  pushl %ecx\n"
   "\n"
-  "  pushl $.AFL_SHM_ENV\n"
+  "  pushl $.FOT_SHM_ENV\n"
   "  call  getenv\n"
   "  addl  $4, %esp\n"
   "\n"
@@ -348,7 +348,7 @@ static const u8* main_payload_32 =
   "  popl %eax\n"
   "  jmp __afl_return\n"
   "\n"
-  ".AFL_VARS:\n"
+  ".FOT_VARS:\n"
   "\n"
   "  .comm   __afl_area_ptr, 4, 32\n"
   "  .comm   __afl_setup_failure, 1, 32\n"
@@ -358,7 +358,7 @@ static const u8* main_payload_32 =
   "  .comm   __afl_fork_pid, 4, 32\n"
   "  .comm   __afl_temp, 4, 32\n"
   "\n"
-  ".AFL_SHM_ENV:\n"
+  ".FOT_SHM_ENV:\n"
   "  .asciz \"" SHM_ENV_VAR "\"\n"
   "\n"
   "/* --- END --- */\n"
@@ -381,7 +381,7 @@ static const u8* main_payload_32 =
 static const u8* main_payload_64 = 
 
   "\n"
-  "/* --- AFL MAIN PAYLOAD (64-BIT) --- */\n"
+  "/* --- FOT MAIN PAYLOAD (64-BIT) --- */\n"
   "\n"
   ".text\n"
   ".att_syntax\n"
@@ -495,7 +495,7 @@ static const u8* main_payload_64 =
   "  subq  $16, %rsp\n"
   "  andq  $0xfffffffffffffff0, %rsp\n"
   "\n"
-  "  leaq .AFL_SHM_ENV(%rip), %rdi\n"
+  "  leaq .FOT_SHM_ENV(%rip), %rdi\n"
   CALL_L64("getenv")
   "\n"
   "  testq %rax, %rax\n"
@@ -683,7 +683,7 @@ static const u8* main_payload_64 =
   "\n"
   "  jmp __afl_return\n"
   "\n"
-  ".AFL_VARS:\n"
+  ".FOT_VARS:\n"
   "\n"
 
 #ifdef __APPLE__
@@ -710,10 +710,10 @@ static const u8* main_payload_64 =
 
   "  .comm    __afl_global_area_ptr, 8, 8\n"
   "\n"
-  ".AFL_SHM_ENV:\n"
+  ".FOT_SHM_ENV:\n"
   "  .asciz \"" SHM_ENV_VAR "\"\n"
   "\n"
   "/* --- END --- */\n"
   "\n";
 
-#endif /* !_HAVE_AFL_AS_H */
+#endif /* !_HAVE_FOT_AS_H */

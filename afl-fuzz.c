@@ -423,7 +423,7 @@ static void bind_to_free_cpu(void) {
 
   ACTF("Checking CPU core loadout...");
 
-  /* Introduce some jitter, in case multiple AFL tasks are doing the same
+  /* Introduce some jitter, in case multiple FOT tasks are doing the same
      thing at the same time... */
 
   usleep(R(1000) * 250);
@@ -6800,7 +6800,7 @@ static void handle_timeout(int sig) {
 
 /* Do a PATH search and find target binary to see that it exists and
    isn't a shell script - a common and painful mistake. We also check for
-   a valid ELF header and for evidence of AFL instrumentation. */
+   a valid ELF header and for evidence of FOT instrumentation. */
 
 EXP_ST void check_binary(u8* fname) {
 

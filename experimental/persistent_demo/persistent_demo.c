@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
 
   }
 
-  /* Once the loop is exited, terminate normally - AFL will restart the process
+  /* Once the loop is exited, terminate normally - FOT will restart the process
      when this happens, with a clean slate when it comes to allocated memory,
      leftover file descriptors, etc. */
 

@@ -13,3 +13,4 @@ afl-clang-fast++
 as
 *.o
 *.so
+in/

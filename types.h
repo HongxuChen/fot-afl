@@ -68,11 +68,11 @@ typedef int64_t  s64;
           ((_ret >> 8) & 0x0000FF00)); \
   })
 
-#ifdef AFL_LLVM_PASS
-#  define AFL_R(x) (random() % (x))
+#ifdef FOT_LLVM_PASS
+#  define FOT_R(x) (random() % (x))
 #else
 #  define R(x) (random() % (x))
-#endif /* ^AFL_LLVM_PASS */
+#endif /* ^FOT_LLVM_PASS */
 
 #define STRINGIFY_INTERNAL(x) #x
 #define STRINGIFY(x) STRINGIFY_INTERNAL(x)

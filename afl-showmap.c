@@ -489,7 +489,7 @@ static void usage(u8* argv0) {
        "  -e            - show edge coverage only, ignore hit counts\n"
        "  -c            - allow core dumps\n\n"
 
-       "This tool displays raw tuple data captured by AFL instrumentation.\n"
+       "This tool displays raw tuple data captured by FOT instrumentation.\n"
        "For additional help, consult %s/README.\n\n" cRST,
 
        argv0, MEM_LIMIT, doc_path);

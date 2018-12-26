@@ -43,7 +43,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static u8*  as_path;                /* Path to the AFL 'as' wrapper      */
+static u8*  as_path;                /* Path to the FOT 'as' wrapper      */
 static u8** cc_params;              /* Parameters passed to the real CC  */
 static u32  cc_par_cnt = 1;         /* Param count, including argv0      */
 static u8   be_quiet,               /* Quiet mode                        */
@@ -100,7 +100,7 @@ static void find_as(u8* argv0) {
     return;
   }
 
-  FATAL("Unable to find AFL wrapper binary for 'as'. Please set FOT_PATH");
+  FATAL("Unable to find FOT wrapper binary for 'as'. Please set FOT_PATH");
  
 }
 
@@ -273,7 +273,7 @@ static void edit_params(u32 argc, char** argv) {
     cc_params[cc_par_cnt++] = "-funroll-loops";
 
     /* Two indicators that you're building for fuzzing; one of them is
-       AFL-specific, the other is shared with libfuzzer. */
+       FOT-specific, the other is shared with libfuzzer. */
 
     cc_params[cc_par_cnt++] = "-D__FOT_COMPILER=1";
     cc_params[cc_par_cnt++] = "-DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1";

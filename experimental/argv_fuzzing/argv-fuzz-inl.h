@@ -18,7 +18,7 @@
    #include "/path/to/argv-fuzz-inl.h"
 
    ...to the file containing main(), ideally placing it after all the 
-   standard includes. Next, put AFL_INIT_ARGV(); near the very beginning of
+   standard includes. Next, put FOT_INIT_ARGV(); near the very beginning of
    main().
 
    This will cause the program to read NUL-delimited input from stdin and
@@ -27,7 +27,7 @@
    that shouldn't matter in real life.
 
    If you would like to always preserve argv[0], use this instead:
-   AFL_INIT_SET0("prog_name");
+   FOT_INIT_SET0("prog_name");
 
 */
 
@@ -36,9 +36,9 @@
 
 #include <unistd.h>
 
-#define AFL_INIT_ARGV() do { argv = afl_init_argv(&argc); } while (0)
+#define FOT_INIT_ARGV() do { argv = afl_init_argv(&argc); } while (0)
 
-#define AFL_INIT_SET0(_p) do { \
+#define FOT_INIT_SET0(_p) do { \
     argv = afl_init_argv(&argc); \
     argv[0] = (_p); \
     if (!argc) argc = 1; \

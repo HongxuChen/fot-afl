@@ -17,8 +17,8 @@
 
    This code is a shim patched into the separately-distributed source
    code of QEMU 2.10.0. It leverages the built-in QEMU tracing functionality
-   to implement AFL-style instrumentation and to take care of the remaining
-   parts of the AFL fork server logic.
+   to implement FOT-style instrumentation and to take care of the remaining
+   parts of the FOT fork server logic.
 
    The resulting QEMU binary is essentially a standalone instrumentation
    tool; for an example of how to leverage it for other purposes, you can
@@ -38,7 +38,7 @@
    it to translate within its own context, too (this avoids translation
    overhead in the next forked-off copy). */
 
-#define AFL_QEMU_CPU_SNIPPET1 do { \
+#define FOT_QEMU_CPU_SNIPPET1 do { \
     afl_request_tsl(pc, cs_base, flags); \
   } while (0)
 
@@ -46,7 +46,7 @@
    _start and does the usual forkserver stuff, not very different from
    regular instrumentation injected via afl-as.h. */
 
-#define AFL_QEMU_CPU_SNIPPET2 do { \
+#define FOT_QEMU_CPU_SNIPPET2 do { \
     if(itb->pc == afl_entry_point) { \
       afl_setup(); \
       afl_forkserver(cpu); \
@@ -109,7 +109,7 @@ static inline TranslationBlock *tb_find(CPUState*, TranslationBlock*, int);
 static void afl_setup(void) {
 
   char *id_str = getenv(SHM_ENV_VAR),
-       *inst_r = getenv("AFL_INST_RATIO");
+       *inst_r = getenv("FOT_INST_RATIO");
 
   int shm_id;
 
@@ -133,7 +133,7 @@ static void afl_setup(void) {
 
     if (afl_area_ptr == (void*)-1) exit(1);
 
-    /* With AFL_INST_RATIO set to a low value, we want to touch the bitmap
+    /* With FOT_INST_RATIO set to a low value, we want to touch the bitmap
        so that the parent doesn't give up on us. */
 
     if (inst_r) afl_area_ptr[0] = 1;
@@ -141,7 +141,7 @@ static void afl_setup(void) {
 
   }
 
-  if (getenv("AFL_INST_LIBS")) {
+  if (getenv("FOT_INST_LIBS")) {
 
     afl_start_code = 0;
     afl_end_code   = (abi_ulong)-1;

@@ -361,7 +361,7 @@ struct TRK_obj {
   u32  line;
 };
 
-#ifdef AFL_MAIN
+#ifdef FOT_MAIN
 
 struct TRK_obj* TRK[ALLOC_BUCKETS];
 u32 TRK_cnt[ALLOC_BUCKETS];
@@ -375,7 +375,7 @@ extern u32 TRK_cnt[ALLOC_BUCKETS];
 
 #  define alloc_report()
 
-#endif /* ^AFL_MAIN */
+#endif /* ^FOT_MAIN */
 
 /* Bucket-assigning function for a given pointer: */
 

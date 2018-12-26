@@ -49,7 +49,7 @@
 
 /* Default memory limit for child process (MB): */
 
-#ifndef __x86_64__ 
+#ifndef __x86_64__
 #  define MEM_LIMIT         25
 #else
 #  define MEM_LIMIT         50
@@ -89,7 +89,7 @@
 #define HAVOC_MIN           16
 
 /* Maximum stacking for havoc-stage tweaks. The actual value is calculated
-   like this: 
+   like this:
 
    n = random between 1 and HAVOC_STACK_POW2
    stacking = 2^n
@@ -264,19 +264,19 @@
 
 /* Environment variable used to pass SHM ID to the called program. */
 
-#define SHM_ENV_VAR         "__AFL_SHM_ID"
+#define SHM_ENV_VAR         "__FOT_SHM_ID"
 
 /* Other less interesting, internal-only variables. */
 
-#define CLANG_ENV_VAR       "__AFL_CLANG_MODE"
-#define AS_LOOP_ENV_VAR     "__AFL_AS_LOOPCHECK"
-#define PERSIST_ENV_VAR     "__AFL_PERSISTENT"
-#define DEFER_ENV_VAR       "__AFL_DEFER_FORKSRV"
+#define CLANG_ENV_VAR       "__FOT_CLANG_MODE"
+#define AS_LOOP_ENV_VAR     "__FOT_AS_LOOPCHECK"
+#define PERSIST_ENV_VAR     "__FOT_PERSISTENT"
+#define DEFER_ENV_VAR       "__FOT_DEFER_FORKSRV"
 
 /* In-code signatures for deferred and persistent mode. */
 
-#define PERSIST_SIG         "##SIG_AFL_PERSISTENT##"
-#define DEFER_SIG           "##SIG_AFL_DEFER_FORKSRV##"
+#define PERSIST_SIG         "##SIG_FOT_PERSISTENT##"
+#define DEFER_SIG           "##SIG_FOT_DEFER_FORKSRV##"
 
 /* Distinctive bitmap signature used to indicate failed execution: */
 
@@ -309,7 +309,7 @@
 
 /* Map size for the traced binary (2^MAP_SIZE_POW2). Must be greater than
    2; you probably want to keep it under 18 or so for performance reasons
-   (adjusting AFL_INST_RATIO when compiling is probably a better way to solve
+   (adjusting FOT_INST_RATIO when compiling is probably a better way to solve
    problems with complex programs). You need to recompile the target binary
    after changing this - otherwise, SEGVs may ensue. */
 

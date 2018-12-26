@@ -22,7 +22,7 @@
       exception is the process of fuzzing binary-only software in QEMU mode.
 
    2) The use of postprocessors for anything other than checksums is questionable
-      and may cause more harm than good. AFL is normally pretty good about
+      and may cause more harm than good. FOT is normally pretty good about
       dealing with length fields, magic values, etc.
 
    3) Postprocessors that do anything non-trivial must be extremely robust to
@@ -38,13 +38,13 @@
 
      gcc -shared -Wall -O3 post_library.so.c -o post_library.so
 
-   AFL will call the afl_postprocess() function for every mutated output buffer.
+   FOT will call the afl_postprocess() function for every mutated output buffer.
    From there, you have three choices:
 
    1) If you don't want to modify the test case, simply return the original
       buffer pointer ('in_buf').
 
-   2) If you want to skip this test case altogether and have AFL generate a
+   2) If you want to skip this test case altogether and have FOT generate a
       new one, return NULL. Use this sparingly - it's faster than running
       the target program with patently useless inputs, but still wastes CPU
       time.
@@ -97,7 +97,7 @@ const unsigned char* afl_postprocess(const unsigned char* in_buf,
   new_buf = realloc(saved_buf, *len);
 
   /* If we're out of memory, the most graceful thing to do is to return the
-     original buffer and give up on modifying it. Let AFL handle OOM on its
+     original buffer and give up on modifying it. Let FOT handle OOM on its
      own later on. */
 
   if (!new_buf) return in_buf;

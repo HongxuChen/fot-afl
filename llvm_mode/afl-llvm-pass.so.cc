@@ -42,12 +42,12 @@ using namespace llvm;
 
 namespace {
 
-  class AFLCoverage : public ModulePass {
+  class FOTCoverage : public ModulePass {
 
     public:
 
       static char ID;
-      AFLCoverage() : ModulePass(ID) { }
+      FOTCoverage() : ModulePass(ID) { }
 
       bool runOnModule(Module &M) override;
 
@@ -60,10 +60,10 @@ namespace {
 }
 
 
-char AFLCoverage::ID = 0;
+char FOTCoverage::ID = 0;
 
 
-bool AFLCoverage::runOnModule(Module &M) {
+bool FOTCoverage::runOnModule(Module &M) {
 
   LLVMContext &C = M.getContext();
 
@@ -96,11 +96,11 @@ bool AFLCoverage::runOnModule(Module &M) {
   /* Get globals for the SHM region and the previous location. Note that
      __afl_prev_loc is thread-local. */
 
-  GlobalVariable *AFLMapPtr =
+  GlobalVariable *FOTMapPtr =
       new GlobalVariable(M, PointerType::get(Int8Ty, 0), false,
                          GlobalValue::ExternalLinkage, 0, "__afl_area_ptr");
 
-  GlobalVariable *AFLPrevLoc = new GlobalVariable(
+  GlobalVariable *FOTPrevLoc = new GlobalVariable(
       M, Int32Ty, false, GlobalValue::ExternalLinkage, 0, "__afl_prev_loc",
       0, GlobalVariable::GeneralDynamicTLSModel, 0, false);
 
@@ -124,13 +124,13 @@ bool AFLCoverage::runOnModule(Module &M) {
 
       /* Load prev_loc */
 
-      LoadInst *PrevLoc = IRB.CreateLoad(AFLPrevLoc);
+      LoadInst *PrevLoc = IRB.CreateLoad(FOTPrevLoc);
       PrevLoc->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
       Value *PrevLocCasted = IRB.CreateZExt(PrevLoc, IRB.getInt32Ty());
 
       /* Load SHM pointer */
 
-      LoadInst *MapPtr = IRB.CreateLoad(AFLMapPtr);
+      LoadInst *MapPtr = IRB.CreateLoad(FOTMapPtr);
       MapPtr->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
       Value *MapPtrIdx =
           IRB.CreateGEP(MapPtr, IRB.CreateXor(PrevLocCasted, CurLoc));
@@ -146,7 +146,7 @@ bool AFLCoverage::runOnModule(Module &M) {
       /* Set prev_loc to cur_loc >> 1 */
 
       StoreInst *Store =
-          IRB.CreateStore(ConstantInt::get(Int32Ty, cur_loc >> 1), AFLPrevLoc);
+          IRB.CreateStore(ConstantInt::get(Int32Ty, cur_loc >> 1), FOTPrevLoc);
       Store->setMetadata(M.getMDKindID("nosanitize"), MDNode::get(C, None));
 
       inst_blocks++;
@@ -170,16 +170,16 @@ bool AFLCoverage::runOnModule(Module &M) {
 }
 
 
-static void registerAFLPass(const PassManagerBuilder &,
+static void registerFOTPass(const PassManagerBuilder &,
                             legacy::PassManagerBase &PM) {
 
-  PM.add(new AFLCoverage());
+  PM.add(new FOTCoverage());
 
 }
 
 
-static RegisterStandardPasses RegisterAFLPass(
-    PassManagerBuilder::EP_OptimizerLast, registerAFLPass);
+static RegisterStandardPasses RegisterFOTPass(
+    PassManagerBuilder::EP_OptimizerLast, registerFOTPass);
 
-static RegisterStandardPasses RegisterAFLPass0(
-    PassManagerBuilder::EP_EnabledOnOptLevel0, registerAFLPass);
+static RegisterStandardPasses RegisterFOTPass0(
+    PassManagerBuilder::EP_EnabledOnOptLevel0, registerFOTPass);

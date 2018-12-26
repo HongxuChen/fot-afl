@@ -41,7 +41,7 @@
 #define DEBUGF(_x...) do { \
     if (alloc_verbose) { \
       if (++call_depth == 1) { \
-        fprintf(stderr, "[AFL] " _x); \
+        fprintf(stderr, "[FOT] " _x); \
         fprintf(stderr, "\n"); \
       } \
       call_depth--; \
@@ -50,7 +50,7 @@
 
 #define FATAL(_x...) do { \
     if (++call_depth == 1) { \
-      fprintf(stderr, "*** [AFL] " _x); \
+      fprintf(stderr, "*** [FOT] " _x); \
       fprintf(stderr, " ***\n"); \
       abort(); \
     } \
