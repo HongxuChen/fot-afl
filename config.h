@@ -49,7 +49,7 @@
 
 /* Default memory limit for child process (MB): */
 
-#ifndef __x86_64__ 
+#ifndef __x86_64__
 #  define MEM_LIMIT         25
 #else
 #  define MEM_LIMIT         50
@@ -89,7 +89,7 @@
 #define HAVOC_MIN           16
 
 /* Maximum stacking for havoc-stage tweaks. The actual value is calculated
-   like this: 
+   like this:
 
    n = random between 1 and HAVOC_STACK_POW2
    stacking = 2^n
@@ -139,11 +139,11 @@
 
 /* Maximum size of input file, in bytes (keep under 100MB): */
 
-#define MAX_FILE            (1 * 1024 * 1024)
+#define MAX_FILE            (10 * 1024 * 1024)
 
 /* The same, for the test case minimizer: */
 
-#define TMIN_MAX_FILE       (10 * 1024 * 1024)
+#define TMIN_MAX_FILE       (100 * 1024 * 1024)
 
 /* Block normalization steps for afl-tmin: */
 
@@ -313,7 +313,7 @@
    problems with complex programs). You need to recompile the target binary
    after changing this - otherwise, SEGVs may ensue. */
 
-#define MAP_SIZE_POW2       16
+#define MAP_SIZE_POW2       20
 #define MAP_SIZE            (1 << MAP_SIZE_POW2)
 
 /* Maximum allocator request size (keep well under INT_MAX): */
